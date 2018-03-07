@@ -259,7 +259,7 @@ Inception blokovi su postali popularni nakon što je Googleova tadašnja arhitek
 
 Inception moduli od kojih je građena mreža (A-C) obrađuju ulaze na sličan način. Zajednička karakteristika im je da izlazne dimenzije podatka ostanu jednake (npr. Inception-A na ulazu prima 35x35x384 a na izlazu daje 35x35x384), a razlikuju se po načinu obrade ulaznog podatka, točnije broja konvolucijskih slojeva u granama i njihovih parametara.
 
-Osim Inception modula mreža se sastoji i od Reduction blokova koji su, uz ekstrakciju značajk,i zaslužni za smanjivanje dimenzionalnosti ulaznog podtaka. Kao i Inception blokovi razlika između Reduction bloka A i Reduction bloka B je samo u parametrima grana i dizajnu grana, a oba bloka smanjuju širinu i visinu ulaznog podatka za faktor 2 kombinacijom globalnog sažimanja ili konvolucija s korakom 2 (Slika \ref{fg:inception_reduction_a}).
+Osim Inception modula mreža se sastoji i od Reduction blokova koji su, uz ekstrakciju značajki, zaslužni za smanjivanje dimenzionalnosti ulaznog podatka. Kao i Inception blokovi razlika između Reduction bloka A i Reduction bloka B je samo u parametrima grana i dizajnu grana, a oba bloka smanjuju širinu i visinu ulaznog podatka za faktor 2 kombinacijom globalnog sažimanja ili konvolucija s korakom 2 (Slika \ref{fg:inception_reduction_a}).
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -293,7 +293,7 @@ EuclideanDistance(x,y) = \sqrt{\sum_{i=1}^n (x_i-y_i)^2}
 	\end{center}
 \end{figure}
 
-Kosinusna udaljenost je definirana kao jedan - skalarni produkt dva vektora podijeljen sa umnoškom njihovih normi (\ref{eq:kosinusna_udaljenost}), a raspon vrijednosti je od 2 za vektore koji gledaju u suprotnim smjerovima do 0 za kolinearne vektore. Potencijalno negativna strana kosinusne udaljenosti je zanemarivanje duljine vektora. Primjer se može vidjeti na \ref{fg:kosinusna_udaljenost} gdje su točke B, C i D jednako udaljene od točke A jer zatvaraju jednak kut, no kada bi se promatrala njihova euklidska udaljenost dobili bi različite rezultate.
+Kosinusna udaljenost je definirana kao jedan - skalarni produkt dva vektora podijeljen s umnoškom njihovih normi (\ref{eq:kosinusna_udaljenost}), a raspon vrijednosti je od 2 za vektore koji gledaju u suprotnim smjerovima do 0 za kolinearne vektore. Potencijalno negativna strana kosinusne udaljenosti je zanemarivanje duljine vektora. Primjer se može vidjeti na \ref{fg:kosinusna_udaljenost} gdje su točke B, C i D jednako udaljene od točke A jer zatvaraju jednak kut, no kada bi se promatrala njihova euklidska udaljenost dobili bi različite rezultate.
 
 \begin{equation}
 \label{eq:kosinusna_udaljenost}
@@ -445,7 +445,7 @@ Rezultati su pokazali da je korištenjem dubokih modela moguće značajno reduci
 
 Budući da je u okviru ovog istraživanja korišten veliki i raznoliki skup podataka, kao i duboki modeli koji su trenirani na skupu podataka s drugačijom distribucijom od onoga na kojem je testiran to ostavlja prostor za dodatne eksperimente i naši rezultati određuju donju granicu performansi sustava. Razumno je pretpostaviti da bi se dodatna poboljšanja postigla kada bi se duboki model korišten za redukciju istrenirao na skupu podataka s istom distribucijom kao podaci koji će se koristiti u sustavu preporuke. Tako istrenirani model omogućio bi izbor manje dimenzije reprezentativnog vektora čime bi se ostvarile još bolje performanse sustava u vidu preciznosti i memorijskih/vremenskih zahtjeva pretrage.
 
-Daljnja istraživanja, kao i napretci u području dubokog učenja ostavljaju mnogo prostora za detaljnije istraživanje dodatnih mogućnosti ekstrahiranja značajki.
+Daljnja istraživanja, kao i napreci u području dubokog učenja ostavljaju mnogo prostora za detaljnije istraživanje dodatnih mogućnosti ekstrahiranja značajki.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% CHAPTER
