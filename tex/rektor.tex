@@ -27,7 +27,7 @@
 \begin{document}
 
 
-\title{Ekstrakcija značajki slika u svrhu poboljšanja sustava preporuke}
+\title{Ekstrahiranje značajki slika pomoću dubokog učenja u svrhu poboljšanja sustava preporuke slika}
 \author{Toni Vlaić, Viran Ribić}
 
 \maketitle
@@ -87,7 +87,7 @@ Aktivacijske funkcije su hiperparametri svake mreže i bitne su zbog unošenja n
 
 Konvolucijski sloj odrađuje većinu posla u konvolucijskoj mreži. Novost u konvolucijskoj mreži je povezivanje svakog neurona s malom regijom prethodnog sloja umjesto potpunog povezivanja svih neurona između slojeva kao u potpuno povezanoj unaprijednoj mreži. Svaki konvolucijski sloj ima tri dimenzije i neuroni svakog kanala dijele filtere s kojima računaju izlaze iz prethodnog sloja.
 
-Uzmimo za primjer jedan konvolucijski sloj koji obrađuje CIFAR skup podataka s dimenzijama slika 32x32x3. Ulaz takvog sloja su slike 32x32x3, a filteri mogu biti zadani kao 3x3x5. Dimenzije 3x3 označava receptivno polje prozora koje pomiče po svakom kanalu ulaznog podatka, a broj pet označava novu dubinu nakon svih izračuna (Slika \ref{fg:konvolucijski_sloj}). Broj parametara takvog sloja iznosi broj izlaznih kanala (5) * površina prozora koji se pomiče (3*3) * broj ulaznih kanala (3), odnosno 135 i dodatnih 5 vrijednosti za pristranost po svakom izlaznom kanalu.
+Uzmimo za primjer jedan konvolucijski sloj koji obrađuje CIFAR (\cite{CIFAR10}) skup podataka s dimenzijama slika 32x32x3. Ulaz takvog sloja su slike 32x32x3, a filteri mogu biti zadani kao 3x3x5. Dimenzije 3x3 označava receptivno polje prozora koje pomiče po svakom kanalu ulaznog podatka, a broj pet označava novu dubinu nakon svih izračuna (Slika \ref{fg:konvolucijski_sloj}). Broj parametara takvog sloja iznosi broj izlaznih kanala (5) * površina prozora koji se pomiče (3*3) * broj ulaznih kanala (3), odnosno 135 i dodatnih 5 vrijednosti za pristranost po svakom izlaznom kanalu.
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -461,5 +461,17 @@ Daljnja istraživanja, kao i napreci u području dubokog učenja ostavljaju mnog
 %% DONE
 \bibliography{references}
 \bibliographystyle{unsrtnat}
+\pagebreak
+\begin{sazetak}
+	sažetak
+	
+	\kljucnerijeci{ključne riječi}
+\end{sazetak}
 
+\engtitle{Extracting Image Features Using Deep Learning for Better Image Recommendation System Performance }
+\begin{abstract}
+	description
+	
+	\keywords{keywords}
+\end{abstract}
 \end{document}
