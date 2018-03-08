@@ -52,9 +52,9 @@
 
 \section{Opći i specifični ciljevi rada}
 
-Hipoteza ovog istraživanja bila je da se korištenjem dubokog učenja može razviti sustav koji uspješno stvara nisko dimenzionalne reprezentacije slika proizvoljnih veličina kako bi se iste mogle efikasnije grupirati i pretraživati po njihovim semantičkim značajkama te iskoristiti u sustavima za preporučivanje temeljenim na sadržaju ili kao dodatak sustavima preporuke temeljenim na kolaborativnom filtriranju.
+Hipoteza ovog istraživanja bila je da se korištenjem dubokog učenja može razviti sustav koji uspješno stvara nisko dimenzionalne reprezentacije slika proizvoljnih veličina kako bi se iste mogle efikasnije grupirati i pretraživati po njihovim semantičkim značajkama. Takve reprezentacije moguće je iskoristiti u sustavima za preporučivanje temeljenim na sadržaju ili kao dodatak sustavima preporuke temeljenim na kolaborativnom filtriranju kako bi se poboljšale njihove performanse.
 
-Cilj ovog istraživanja bila je ostvariti takav duboki model te ispitati različite načine ekstrakcije značajki iz dubokih modela te metrika kojima se ekstrahirane značajke mogu uspoređivati. Također za kraj potrebno je i razviti prototip jednostavnog sustava za preporučivanje temeljen na sadržaju koji koristi značajke ekstrahirane razvijenim modelom.
+Cilj ovog istraživanja bila je ostvariti takav duboki model, ispitati različite načine ekstrakcije značajki te ispitati metrike kojima se ekstrahirane značajke mogu uspoređivati. Također za kraj potrebno je i razviti prototip jednostavnog sustava za preporučivanje temeljen na sadržaju koji koristi značajke ekstrahirane razvijenim modelom.
 
 \section{Programska i hardverska podrška}
 \subsection{Programska podrška}
@@ -74,13 +74,28 @@ Implementacija rješenja i ispitivanje napravljeno je na računalu s operativnim
 
 \section{Konvolucijske mreže}
 
-Konvolucijske neuronske mreže su postale popularne kao sredstvo za obradu slika nakon pobjede Alexa Krizhevsky-og na natjecanju 2012 ILSVRC (ImageNet Large-Scale Visual Recognition Challenge \cite{ILSVRC15}) sa svojom konvolucijskom neuronskom mrežom danas poznatijom pod imenom AlexNet. Od tada je njihova popularnost kao sredstvo za obradu slika naglo porasla te su danas konvolucijske arhitekture najdominantnije na području obrade slika.
+Konvolucijske neuronske mreže su postale popularne kao sredstvo za obradu slika nakon pobjede Alexa Krizhevsky-og na natjecanju 2012 ILSVRC (ImageNet Large-Scale Visual Recognition Challenge \cite{ILSVRC15}) sa svojom konvolucijskom neuronskom mrežom danas poznatijom pod imenom AlexNet. Od tada je njihova popularnost kao sredstvo za obradu slika naglo porasla te su danas konvolucijske arhitekture najdominantnije u području obrade slika.
 
 Računalo promatra sliku kao trodimenzionalnu matricu dimenzija X*Y*Z gdje se dimenzija Z može smatrati brojem kanala promatrane slike (uobičajeno crveni-zeleni-plavi kanal, poznatije kao RGB). Uzimajući u obzir da su ulazni podaci modela konvolucijske mreže uobičajeno slike, odnosno trodimenzionalne matrice, ona svoje neurone kojima obrađuje primljene podatke također uređuje u tri dimenzije širina, visina i dubina koja se može smatrati i brojem kanala kao u slikama, no bez limitacija na broj istih.
 
 Jedna duboka konvolucijska mreža se uobičajeno gradi od konvolucijskih slojeva, slojeva sažimanja i potpuno povezanih slojeva unaprijedne neuronske mreže. Između svih slojeva u mreži nalazi se tzv. aktivacijska funkcija čiji je cilj uvesti nelinearnost u model.
 
-Aktivacijske funkcije su hiperparametri svake mreže i bitne su zbog unošenja nelinearnosti inače bi se mreža reducirala na afinu transformaciju koja preslikava ulazne vrijednosti u izlazne. Aktivacijska funkcija završnog sloja ovisi o tipu zadatka koji se mreža uči rješavati. Mreža trenirana za aproksimaciju funkcije neće raditi transformacije nad izlazom, već će aktivacijska funkcija izlaza biti funkcija identiteta. Drugi primjer bio bi zadatak klasifikacije za koji izlaz mora imati probabilističku interpretaciju, a ona se postiže sigmoidom u slučaju dvije klase ili softmax funkcijom za više klasa. 
+Aktivacijske funkcije su hiperparametri svake mreže i bitne su zbog unošenja nelinearnosti inače bi se mreža reducirala na afinu transformaciju koja preslikava ulazne vrijednosti u izlazne. Aktivacijska funkcija završnog sloja ovisi o tipu zadatka koji se mreža uči rješavati. Mreža trenirana za aproksimaciju funkcije neće raditi transformacije nad izlazom, već će aktivacijska funkcija izlaza biti funkcija identiteta (\ref{eq:f_identiteta}). Drugi primjer bio bi zadatak klasifikacije za koji izlaz mora imati probabilističku interpretaciju, a ona se postiže sigmoidom (\ref{eq:f_sigmoida})u slučaju dvije klase ili softmax funkcijom(\ref{eq:f_softmax}) za više klasa. 
+
+\begin{equation}
+\label{eq:f_identiteta}
+Identitet(x) = x   
+\end{equation}
+
+\begin{equation}
+\label{eq:f_sigmoida}
+Sigmoid(x) = \frac{1}{1+e^{-x}}    
+\end{equation}
+
+\begin{equation}
+\label{eq:f_softmax}
+Softmax(x)_i = \frac{e^{x_i}}{\sum_{j}^{N}e^{x}} \quad \text{for j = 1, ..., N}
+\end{equation}
 
 
 \subsection{Konvolucijski slojevi}
@@ -102,7 +117,6 @@ Intuitivno konvolucijski slojevi će naučiti filtere koji će reagirati na odre
 
 Svaki filter ima onoliko pomičnih prozora koliko prethodni sloj ima kanala, a svaki pomični prozor ima prethodno određenu površinu receptivnog polja, npr. 3 prozora površine 3x3 kao u gornjem primjeru koji se pomiču po svom zaduženom kanalu. Moguće je svakom konvolucijskom filteru definirati korak (engl. stride) kojim se prozor pomiče po kanalima prethodnog sloja. Jedan položaj filtera daje jednu vrijednost u jednom izlaznom kanalu. Izlaz filtera je suma svih izlaza pojedinačnih prozora po kanalu (Slika \ref{fg:konvolucija}). Svaki prozor sa slike množi određenom težinom element na odgovarajućem mjestu te sumira dobivene vrijednosti svih prozora dobivajući vrijednost krajnjeg izlaza. Nakon izračuna svih vrijednosti sloja one se šalju u aktivacijsku funkciju i koriste se kao ulaz u sljedeće slojeve. 
 
-\clearpage
 \begin{figure}[!ht]
 	\begin{center}
 		\captionsetup{justification=centering}
@@ -140,7 +154,7 @@ Dodavanjem slojeva receptivno polje novih neurona se povećava ovisno o receptiv
 
 Sloj sažimanja je vrlo jednostavan, ali vrlo bitan dio konvolucijske mreže. Sažimanje obično računa neku statističke vrijednost nad receptivnim poljem poput maksimalne vrijednosti ili srednje vrijednosti. Ideja sloja sažimanja je smanjiti dimenzionalnost (Slika \ref{fg:sazimanje}) i broj potrebnih parametara mreže. Dodatni pozitivan efekt smanjena broja parametara je i smanjenje vjerojatnosti da se takva mreža prenauči na ulazne podatke.
 
-Osim reduciranja dimenzionalnosti slojevi sažimanja unose invarijantnost na pomake u slici. Do intuitivnog objašnjenja prethodne tvrdnje možemo doći ako pretpostavimo da filter reagira na neki oblik u prethodnom sloju što prepoznajemo po većoj pozitivnoj vrijednosti izlaza od ostalih susjednih neurona (referenca na drugu sliku ispod). Budući da za klasifikaciju nije bitno znati gdje se oblik nalazi na slici nego nalazi li se na slici može se iskoristiti sažimanje maksimalnom vrijednosti. Takvo sažimanje će u sljedeće slojeve propustiti samo maksimalni odziv u promatranom prozoru (Slika \ref{fg:sazimanje2}).
+Osim reduciranja dimenzionalnosti slojevi sažimanja unose invarijantnost na pomake u slici. Do intuitivnog objašnjenja prethodne tvrdnje možemo doći ako pretpostavimo da filter reagira na neki oblik u prethodnom sloju što prepoznajemo po većoj pozitivnoj vrijednosti izlaza od ostalih susjednih neurona (Slika \ref{fg:sazimanje}). Budući da za klasifikaciju nije bitno znati gdje se oblik nalazi na slici nego nalazi li se na slici može se iskoristiti sažimanje maksimalnom vrijednosti. Takvo sažimanje će u sljedeće slojeve propustiti samo maksimalni odziv u promatranom prozoru (Slika \ref{fg:sazimanje2}).
 
 \begin{figure}[H]
 	\begin{center}
@@ -165,7 +179,7 @@ Osim reduciranja dimenzionalnosti slojevi sažimanja unose invarijantnost na pom
 
 Potpuno povezani slojevi dolaze iz najjednostavnijeg oblika neuronskih mreža, potpuno povezanih unaprijednih mreža, zbog čega će ovi slojevi biti objašnjeni direktno objašnjavanjem načina rada te vrste arhitekture mreža.
  
-Potpuno povezana unaprijedna neuronska mreža je građena od slojeva koji se razlikuju jedino po aktivacijskoj funkciji na izlazu, ulazni sloj na koji stižu podaci čija je aktivacija funkcija identiteta, skrivenih slojeva na čijem se izlazu nalazi neka derivabilna nelinearna funkcija te izlaznog sloja s konačnim rezultatom izračuna s aktivacijom prikladnom za problem koji se nastoji riješiti (Slika \ref{fg:potpuno_povezana}). Svaki ulaz u neuron ima svoju težinu koja množi ulaz te se svi ulazi na kraju sumiraju i šalju u aktivacijsku funkciju. Rezultat aktivacijske funkcije zatim postaje ulaz u sljedeće slojeve ili predstavlja završni rezultat iz zadnjeg sloja.
+Potpuno povezana unaprijedna neuronska mreža je građena od slojeva koji se razlikuju jedino po aktivacijskoj funkciji, ulazni sloj na koji stižu podaci čija je aktivacija funkcija identiteta, skrivenih slojeva na čijem se izlazu nalazi neka derivabilna nelinearna funkcija te izlaznog sloja s konačnim rezultatom izračuna s aktivacijom prikladnom za problem koji se nastoji riješiti (Slika \ref{fg:potpuno_povezana}). Svaki ulaz u neuron ima svoju težinu koja množi ulaz te se svi ulazi na kraju sumiraju i šalju u aktivacijsku funkciju. Rezultat aktivacijske funkcije zatim postaje ulaz u sljedeće slojeve ili predstavlja završni rezultat iz zadnjeg sloja.
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -191,9 +205,9 @@ Bez ulaženja u matematiku koja se može pronaći u radu \cite{PCA} PCA se može
 	\end{center}
 \end{figure}
 
-Nakon što je određen traženi broj glavnih komponenti (u slučaju sa slike njih dva) podatkovni skup se transformira u novi koordinatni sustav (Slika \ref{fg:pca_end}).
+Nakon što je određen traženi broj glavnih komponenti (u slučaju sa slike njih dva) podatkovni skup se transformira u novi koordinatni sustav (Slika \ref{fg:pca_end}) čije su koordinatne osi dekorelirane.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 	\begin{center}
 		\captionsetup{justification=centering}
 		\includegraphics[width=0.6\textwidth]{./imgs/pca_end.png}
@@ -206,10 +220,10 @@ Iako se u gore navedenom primjeru dimenzionalnost podataka ne reducira (2D podac
 
 Važno je naglasiti da je glavna motivacija iza PCA tehnike uklanjanje korelacije u podatkovnom skupu odnosno uklonjanje zavisnosti drugog reda između podataka [3]. Način na koji PCA nastoji ostvariti taj cilj je pretpostavkom su glavne komponente međusobno ortogonalne zbog čega neće biti primjerena za podatkovne skupove poput onog na slici \ref{fg:pca_problem}.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 	\begin{center}
 		\captionsetup{justification=centering}
-		\includegraphics[width=0.6\textwidth]{./imgs/pca_problem.png}
+		\includegraphics[width=0.4\textwidth]{./imgs/pca_problem.png}
 		\caption{Podatkovni skup i crveno odabrane glavne komponente \cite{PCA}}
 		\label{fg:pca_problem}
 	\end{center}
@@ -248,7 +262,7 @@ Inception v4 model je Googleova četvrta iteracija Inception arhitekture koja se
 
 Inception blokovi su postali popularni nakon što je Googleova tadašnja arhitektura GoogLeNet izgrađena od Inception blokova ostvarila dobre performanse na natjecanju ImageNet. Intuitivno njihova glavna prednost je rješavanje problem odabira dimenzija filtera pri izgradnji mreže jer se sastoje od više grana konvolucija koje ulazni podatak obrađuju s različitim dimenzijama filtera. Zbog stablaste razgranatosti Inception blok iz ulaza može prepoznati kompliciranije uzorke jer svaka grana ulazni podatak promatra s različitim receptivnim poljem (npr. Slika \ref{fg:inception_blok_a}).
 	
-\begin{figure}[!ht]
+\begin{figure}[H]
 	\begin{center}
 		\captionsetup{justification=centering}
 		\includegraphics[width=0.6\textwidth]{./imgs/inception_blok_a.png}
@@ -275,9 +289,9 @@ Osim Inception modula mreža se sastoji i od Reduction blokova koji su, uz ekstr
 
 \section{Metrike sličnosti}
 
-Prilikom uspoređivanja sličnosti vektora isprobali smo dvije metrike  euklidsku i kosinusnu udaljenost. 
+Prilikom uspoređivanja sličnosti vektora isprobali smo dvije metrike, euklidsku i kosinusnu udaljenost. 
 
-Euklidska udaljenost definirana je kao L2 udaljenost između dva vektora (\ref{eq:euklidska_udaljenost}), a raspon vrijednosti iznosi od nula za točke koje se nalaze na istom mjestu u prostoru do beskonačnosti. Potencijalno negativna strana euklidske udaljenosti je zanemarivanje informacija o kutu između dvije točke. Primjer te situacije se može vidjeti na slici \ref{fg:euklidska_udaljenost} gdje su točka P, Q i R jednako udaljene od točke M, no kada bi uzimali informaciju o kutu u obzir najsličnija bi nam bila točka P.
+Euklidska udaljenost definirana je kao L2 udaljenost između dva vektora (\ref{eq:euklidska_udaljenost}), a raspon vrijednosti iznosi od nula za točke koje se nalaze na istom mjestu u prostoru do beskonačnosti. Negativna strana euklidske udaljenosti je zanemarivanje informacija o kutu između dvije točke. Primjer te situacije se može vidjeti na slici \ref{fg:euklidska_udaljenost} gdje su točka P, Q i R jednako udaljene od točke M, no kada bi uzimali informaciju o kutu u obzir najsličnija bi nam bila točka P \cite{VectorSimilarity}.
 
 \begin{equation}
 \label{eq:euklidska_udaljenost}
@@ -293,7 +307,7 @@ EuclideanDistance(x,y) = \sqrt{\sum_{i=1}^n (x_i-y_i)^2}
 	\end{center}
 \end{figure}
 
-Kosinusna udaljenost je definirana kao jedan - skalarni produkt dva vektora podijeljen s umnoškom njihovih normi (\ref{eq:kosinusna_udaljenost}), a raspon vrijednosti je od 2 za vektore koji gledaju u suprotnim smjerovima do 0 za kolinearne vektore. Potencijalno negativna strana kosinusne udaljenosti je zanemarivanje duljine vektora. Primjer se može vidjeti na \ref{fg:kosinusna_udaljenost} gdje su točke B, C i D jednako udaljene od točke A jer zatvaraju jednak kut, no kada bi se promatrala njihova euklidska udaljenost dobili bi različite rezultate.
+Kosinusna udaljenost je definirana kao jedan minus skalarni produkt dva vektora podijeljen s umnoškom njihovih normi (\ref{eq:kosinusna_udaljenost}), a raspon vrijednosti je od 2 za vektore koji gledaju u suprotnim smjerovima do 0 za kolinearne vektore. Negativna strana kosinusne udaljenosti je zanemarivanje duljine vektora. Primjer se može vidjeti na \ref{fg:kosinusna_udaljenost} gdje su točke B, C i D jednako udaljene od točke A jer zatvaraju jednak kut, no kada bi se promatrala njihova euklidska udaljenost dobili bi različite rezultate \cite{VectorSimilarity}.
 
 \begin{equation}
 \label{eq:kosinusna_udaljenost}
@@ -346,7 +360,7 @@ Dobri rezultati sažimanja, kao i lažni pozitivi dobiveni korištenjem jednosta
 
 Sljedeća arhitektura sa značajno većim kapacitetom je Inception v4. Kao i u slučaju arhitekture VGG i za Inception v4 smo preuzeli težinske koeficijente iz arhitekture naučene na skupu ImageNet.
 
-Vođeni zaključcima koje smo dobili testirajući arhitekturu VGG za dohvaćanje sličnih slika prvi način ekstrakcije značajki, kao i u arhitekturi VGG, je bio uzimanjem izlaza zadnjeg sloja konvolucijske mreže. U ovom slučaju to je vektor od 1536 elemenata dobiven globalnim sažimanjem prosječnom vrijednošću. Dobivene vektore smo kasnije korištenjem PCA modela reducirali na 300 elemenata što je rezultiralo dosta lošim rezultatima unatoč velikom kapacitetu mreže (Slika \ref{fg:inception_zadnji_sloj_auti_greska}).
+Vođeni zaključcima koje smo dobili testirajući arhitekturu VGG za dohvaćanje sličnih slika prvi način ekstrakcije značajki, kao i u arhitekturi VGG, je bio uzimanjem izlaza zadnjeg sloja konvolucijske mreže. U ovom slučaju to je vektor od 1536 elemenata dobiven globalnim sažimanjem prosječnom vrijednošću. Dobiveni vektori se kasnije korištenjem PCA modela reduciraju na 300 elemenata što je dalo loše rezultate unatoč velikom kapacitetu mreže (Slika \ref{fg:inception_zadnji_sloj_auti_greska}).
 
 \begin{figure}[H]
 	\begin{center}
@@ -357,11 +371,11 @@ Vođeni zaključcima koje smo dobili testirajući arhitekturu VGG za dohvaćanje
 	\end{center}
 \end{figure}
 
-Razlog zašto redukcija predzadnjeg sloja dovodi do ovoliko loših rezultata djelomično se može objasniti time što mreža taj sloj koristi za završnu klasifikaciju i time nema neku semantičku interpretaciju. Budući da je krajnji cilj dobiti vektor koji se sastoji od 300 elemenata gdje je intenzitet svakog elementa u vektoru označava pojavljivanje određenog uzorka na ulaznoj slici vektor odlučili smo značajke ekstrahirati iz svih konvolucijskih slojeva mreže. 
+Razlog zašto redukcija predzadnjeg sloja dovodi do ovoliko loših rezultata djelomično se može objasniti time što mreža taj sloj koristi za završnu klasifikaciju i time nema neku semantičku interpretaciju. Budući da je krajnji cilj dobiti vektor koji se sastoji od 300 elemenata gdje je intenzitet svakog elementa u vektoru označava pojavljivanje određenog uzorka na ulaznoj slici, odlučili smo značajke ekstrahirati kao maksimalni odziv svakog konvolucijskog sloja. 
 
-Ekstrakcija značajki se vrši na sljedeći način, nad svakim konvolucijskim slojem u Inception mreži napravi se operacija globalnog sažimanja. Na primjer ako je izlaz konvolucijskog sloja 12 x 12 x 512 (visina, širina, broj kanala) globalnim sažimanjem svakog od kanala dobiti ćemo vektor 1x1x512. Dobiveni vektori svakog konvolucijskog sloja nakon globalnog sažimanja se izravnaju i konkateniraju u jedan veliki vektor s  \textasciitilde16000 elemenata.  Tako dobiveni elementi se zatim reduciraju na vektore od 300 elemenata korištenjem PCA modela. Kako bi nam rezultati bili što precizniji korišteni PCA model je prethodno istreniran korištenjem sto tisuća vektora od 16000 elemenata nasumično odabranih slika kako bi se što preciznije odredile glavne komponente podatkovnog skupa.
+Ekstrakcija značajki se vrši na sljedeći način, nad svakim konvolucijskim slojem u Inception mreži napravi se operacija globalnog sažimanja. Na primjer ako je izlaz konvolucijskog sloja 12 x 12 x 512 (visina, širina, broj kanala) globalnim sažimanjem svakog od kanala dobiti ćemo vektor 1x1x512. Dobiveni vektori svakog konvolucijskog sloja nakon globalnog sažimanja se izravnaju i konkateniraju u jedan veliki vektor s  \textasciitilde16000 elemenata.  Tako dobiveni elementi se zatim reduciraju na vektore od 300 elemenata korištenjem PCA modela. Kako bi rezultati bili što precizniji, korišteni PCA model je prethodno istreniran korištenjem sto tisuća ekstrahiranih vektora nasumično odabranih slika radi preciznijeg određivanja glavnih komponenti podatkovnog skupa.
 
-Primjer tako dobivenih rezultata može se vidjeti na sljedećim slikama \ref{fg:inception_globalno_sazimanje_auti}, \ref{fg:inception_globalno_sazimanje_ptice}, \ref{fg:inception_globalno_sazimanje_ptice}, a korišteni kod za generiranje i dodatne rezultate moguće je vidjeti na \cite{AVSP}.
+Primjer tako dobivenih rezultata može se vidjeti na sljedećim slikama \ref{fg:inception_globalno_sazimanje_auti}, \ref{fg:inception_globalno_sazimanje_ptice}, \ref{fg:inception_globalno_sazimanje_ptice}, a korišteni kod za generiranje kao i dodatne rezultate moguće je vidjeti na \cite{AVSP}.
 
 \begin{figure}[H]
 	\begin{center}
@@ -413,11 +427,11 @@ Kao što se vidi iz prikazanih slika unatoč reprezentiranja slike sa svega 300 
 
 \section{T-SNE prikaz smanjenog skupa podataka}
 
-Budući da korišteni podskup slika Googleov OpenImage \cite{openimages} podatkovnog skupa velik (\textasciitilde1 milijun slika) i anotacije klasa nisu nužno točne jer ih je većina generirana automatskom strojnom anotacijom korištenjem servisa poput Google Cloud Vision API za vizualizaciju smo odabrali manji skup podataka koji je anotiran ručno.
+Budući da korišteni podskup slika Googleov OpenImage \cite{openimages} podatkovnog skupa velik (\textasciitilde1 milijun slika) i anotacije klasa nisu nužno točne jer ih je većina generirana automatskom strojnom anotacijom korištenjem servisa poput Google Cloud Vision API za vizualizaciju smo odabrali manji skup podataka koji je anotiran ručno i precizno.
 
 Odabrani skup podataka je STL-10 \cite{STL10} čije slike imaju dimenziju 96x96x3, a nastao je po uzoru na podatkovni skup CIFAR-10 koji se obično koristi za vrednovanje modela.
 
-Korištenjem metode t-SNE, značajke dobivene iz najboljeg modela Inception v4 s globalnim sažimanjem kanala su prikazane u 2D prostoru. Na slici \ref{fg:stl_10_tsne} se vidi da su podaci grupirani u nakupine uz poneka miješanja grupa poput slika jelena i konja. Razlog tome može biti zbog vrlo slične pozadine slike i kuta snimanja gdje se značajke jelena (rogovi) ne vide jasno na slici zbog čega ih mreža lako može zamijeniti jer su obje životinje približno jednake boje.
+Korištenjem metode t-SNE, značajke dobivene iz najboljeg modela Inception v4 s globalnim sažimanjem kanala su prikazane u 2D prostoru. Na slici \ref{fg:stl_10_tsne} se vidi da su podaci grupirani u nakupine uz poneka miješanja grupa poput slika jelena i konja. Razlog tome može biti zbog vrlo slične pozadine slike i kuta snimanja gdje se značajke jelena (rogovi) ne vide jasno na slici zbog čega ih mreža lako može zamijeniti jer su obje životinje približno jednake boje i građe.
 
 Moguće je dodatno poboljšati performance mreže za određivanje sličnosti tako da se radi redukcija dimenzionalnosti modelom PCA na značajkama dobivenim iz klasa koje želimo preciznije razlikovati, u ovome slučaju klasa iz STL-10 podatkovnog skupa.
 
@@ -443,7 +457,7 @@ Moguće je dodatno poboljšati performance mreže za određivanje sličnosti tak
 
 Rezultati su pokazali da je korištenjem dubokih modela moguće značajno reducirati reprezentaciju slika na nisko dimenzionalan vektor koji čuva njenu semantiku. Takva redukcija ostvaruje veliku uštedu korištene radne memorije i zbog svoje male dimenzionalnosti omogućuje brzu usporedbu i dohvat sličnih slika preko njihovih reduciranih reprezentacija. 
 
-Budući da je u okviru ovog istraživanja korišten veliki i raznoliki skup podataka, kao i duboki modeli koji su trenirani na skupu podataka s drugačijom distribucijom od onoga na kojem je testiran to ostavlja prostor za dodatne eksperimente i naši rezultati određuju donju granicu performansi sustava. Razumno je pretpostaviti da bi se dodatna poboljšanja postigla kada bi se duboki model korišten za redukciju istrenirao na skupu podataka s istom distribucijom kao podaci koji će se koristiti u sustavu preporuke. Tako istrenirani model omogućio bi izbor manje dimenzije reprezentativnog vektora čime bi se ostvarile još bolje performanse sustava u vidu preciznosti i memorijskih/vremenskih zahtjeva pretrage.
+Budući da je u okviru ovog istraživanja korišten veliki i raznoliki skup podataka, kao i duboki modeli koji su trenirani na skupu podataka s drugačijom distribucijom od onoga na kojem su testirani, to ostavlja prostor za dodatne eksperimente za koje naši rezultati određuju donju granicu performansi. Razumno je pretpostaviti da bi se dodatna poboljšanja postigla kada bi se duboki model korišten za redukciju istrenirao na skupu podataka s istom distribucijom kao podaci koji će se koristiti u sustavu preporuke. Tako istrenirani model omogućio bi izbor manje dimenzije reprezentativnog vektora čime bi se ostvarile još bolje performanse sustava u vidu preciznosti i memorijskih/vremenskih zahtjeva pretrage.
 
 Daljnja istraživanja, kao i napreci u području dubokog učenja ostavljaju mnogo prostora za detaljnije istraživanje dodatnih mogućnosti ekstrahiranja značajki.
 
