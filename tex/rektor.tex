@@ -3,7 +3,7 @@
 \usepackage{booktabs}
 \usepackage{amsmath}
 \usepackage{nccmath}
-%\usepackage{hyperref}
+\usepackage{hyperref}
 \usepackage[section]{placeins}
 \usepackage{indentfirst}
 
@@ -12,7 +12,8 @@
 \usepackage{float}
 \usepackage{mathtools}
 \usepackage{makecell}
-\usepackage[hidelinks]{hyperref}
+%\usepackage[hidelinks]{hyperref}
+\usepackage{subcaption,graphicx}
 
 \renewcommand\theadalign{cb}
 \renewcommand\theadfont{\bfseries}
@@ -24,6 +25,19 @@
 
 \DeclareMathOperator*{\argmin}{\arg\!\min}
 \DeclareMathOperator*{\argmax}{\arg\!\max}
+
+\newcommand{\rulesep}{\unskip\ \vrule\ }
+
+% Hyperref setup
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,      
+	urlcolor=cyan,
+}
+\urlstyle{same}
+%
+
 \begin{document}
 
 
@@ -50,6 +64,22 @@
 \chapter{Uvod}
 
 
+Digitalne slike čine jedinstevni format kojim se može opisati veliki broj različitih informacija o stvarnom svijetu. Sadržaj slike može uključivati tekstualne dokumente, satelitske snimke, medicinske zapise, ljudske interakcije, promet na cestama ili u zraku. Navedeni su samo neke od kategorija od interesa koje možemo zabilježiti u digitalnom formatu, zajednički za sve interpretacije. Trodimenzionalni matrični zapis u računalu može opisati ogroman broj pojava koje susrečemo u stvarnom svijetu. Sve informacije koje čovjek razlučuje kroz vid mogu biti predstavljene u računalu u obliku informacije o intenzitetu svjetlosti i odnosu među susjednim pixelima. Reprodukcija ljudskog vizualnog sustava nije trivijalna, ali pruža alternativni pogled na računalne sustave inspirirane biološkim sustavima. Dva nova trenda u računarstvu su posljednjih godina potakla velik broj istraživanja na području analize slike: enormne količine podataka koje se generiraju u svijetu i napredak u oblikovanju inteligentnih sustava i umjetne inteligencije. 
+
+Danas slike čine veliki udio podataka na internetu. Dok je egzaktna informacija o postotku slika na webu intraktabilna, provedene analize iz 2016. godine \cite{img-analysis} predviđale su porast od trilijun slika u narednoj godini. Rast slikovnih podataka povezan je s brojem korisnika pametnih telefona u svijetu kao i brojem online usluga koje uključuju obradu i razmjenu fotografija. Rastući trendovi korisnika \cite{net-users} i napreci u telekomunikacijskim tehnologijama omogučuju lakšu i bržu distribuciju medijskih datoteka nego ikad prije. 
+
+Volumen i protok podataka u današnjim sustavima učinio je bilo kakvu ručnu obradu slika neadekvatnom što je potaknulo istraživače na razmatranje novih metoda pri analizi velikih količina podataka. Da bi se podacima moglo upravljati potrebno je prvo razviti efikasne metode pretrage. Novonastala situacija pronalazi sličnosti s ranim danima interneta dok još nisu formirane adekvatne metode pretraživanja stranica. Izmjena informacija bila je znatno teža zbog nedostatka prikladnih sučelja koja bi običnim korisnicima mogla pružiti jednostavno korištenje. Tek su se pojavom algoritama za indeksiranja otvorila sve mogučnosti izmjene podataka na webu. Izgradnjom adekvatnih algoritama za pretraživanje i ekstrakciju znanja postiči čemo bolje razumijevanje podataka i načine na koje se mogu koristiti. 
+
+Ben Silbermann, osnivač i direktor socijalne mreže Pinterest, izjavio je kako će budučnost web pretraživača biti upravo u efikasnoj interpretaciji slika na internetu. Za razliku od današnjih web tražilica koje se prvenstveno oslanjaju na ključne riječi unutar stranice, takvi bi pretraživači bili sposobni razumjeti semantiku slike i izvaditi ključne koncepte povezane s korisničkim upitima \cite{internet-trends}.
+
+Socijalne mreže samo su jedan od primjera gdje će razumijevanje semantike slika imati ključnu ulogu u narednim godinama. Potražnja za ekstrakcijom znanja iz slika primjetna je i u marketinškim \cite{electronic-commerce-application}, medicini \cite{medical-application} \cite{medical-diagnostics-application}, državnim \cite{smart-city-application}, sigurnosnim \cite{security-application} i forenzičkim \cite{forensics-application} primjenama. 
+
+Napredak hardwarea vratio je u fokus modele neuronskih mreža pošto su nove arhitekture grafičkih kartica bile dovoljno efikasne za ponovno eksperimentiranje s umjetnim neuronskim mrežama. Rezultat novog vala testiranja bile su dublje mreže sposobne uhvatiti kompleksnije odnose mežu pixelima slika čime je označen početak dubokog učenja. Prikupljeni podaci o slikama sada postaju predmet proučavanja ovih pametnih algoritama koji pronalaze nove primjene u akademiji i industriji. 
+
+Ovaj rad proučava postoječe arhitekture i modele dubokog učenja i istražuje njihove primjene u oblikovanju sustava preporuke slika ekstrakcijom njihovih značajki. U nastavku uvodnog poglavlja rada izlažu se opće i specifični ciljevi te programski paketi korišteni u implementaciji. Drugo poglavlje obrađuje modele za sažimanje opisujući arhitekturu dubokih konvolucijskih mreža i predtreniranih modela VGG i Inception v4. Također, u poglavlje je uključen opis algoritma analize glavnih komponenti korišten za efikasniju reprezentaciju značajki. Slijedi ih odjeljak s rezultatima i raspravom o ispitanim metrikama sličnosti, ponašanju predtreniranih arhitektura i metodama za inspekciju kvalitete modela na našem zadatku. Četvrto poglavlje pokriva demonstraciju rada sustava na primjeru web aplikacije. Opisani su tijek korištenja i informacije o implementaciji. U posljednjem, petom poglavlju dan je osvrt na ishode rada.
+ 
+
+
 \section{Opći i specifični ciljevi rada}
 
 Hipoteza ovog istraživanja bila je da se korištenjem dubokog učenja može razviti sustav koji uspješno stvara nisko dimenzionalne reprezentacije slika proizvoljnih veličina kako bi se iste mogle efikasnije grupirati i pretraživati po njihovim semantičkim značajkama. Takve reprezentacije moguće je iskoristiti u sustavima za preporučivanje temeljenim na sadržaju ili kao dodatak sustavima preporuke temeljenim na kolaborativnom filtriranju kako bi se poboljšale njihove performanse.
@@ -58,12 +88,39 @@ Cilj ovog istraživanja bila je ostvariti takav duboki model, ispitati različit
 
 \section{Programska i hardverska podrška}
 \subsection{Programska podrška}
-\noindent Python \\
-Tensorflow - u literaturi ti linkah rad pa mos nesto citirat cisto za reference dok ovo budes opisivao \cite{tensorflow2015-whitepaper}\\
-OpenCV - preprocessing i loadanje slikica (to mogu ja slozit) \cite{itseez2015opencv}\\
-NMSLIB - brza pretraga skalabilnost etc (ono sta napisah u literaturi isto) \cite{NMSLIB}\\
-TSNE - za vizualizaciju (to mogu ja opisat) \cite{TSNE}\\
-Django?\\
+
+Ovaj projekt implementiran je u dva programska jezika: Python i JavaScript. 
+Python je popularni programski jezik visoke razine apstrakcije. Zbog svoje jednostavnosti i velikog broja paketa otvorenog koda često je prvi izbor za efikasno provođenje eksperimenata i brzo prototipiranje novih sustava. Paketi korišteni pri razvoju jezgre sustava za preporučivanje su: Tensorflow, OpenCV, NMSLIB, TSNE. Za izradu demo prezentacije sustava posluđitelj je implementiran u Django razvojnom okviru s popratnim paketima za efikasnu konfiguraciju. 
+JavaScript je programski jezik ključan za programiranje klijenata kroz koje će korisnici isprobavati demo sustav za preporučivanje slika. Radni okvir za pisanje klijenta je Angular 4, dok se više informacija o implementaciji možete pronači u poglavlju 4.
+
+\subsubsection{Python paketi }
+
+Tensorflow \cite{tensorflow2015-whitepaper} - radni okvir za strojno učenje. Razvijen i podržavan od Googlea, Tensorflow je alat za izgradnju modela strojnog učenja s mnogo dodataka, poput automatske diferencijacije pri popularnim metodama optimizacije i akcelerirano učenje na grafičkim karticama. Velika fleksibilnost i dobra podrška učinili su ovaj alat popularnim izborom u akademiji i industriji. Visoka modularnost i fleksibilnost ostvarene su oblikovanjem modela grafom operacija.
+Tensorflow je centralna komponenta našeg projekta pošto se ekstrakcija značajki slike provodi kroz njega.
+
+OpenCV \cite{itseez2015opencv} - radni okvir za obradu slika. OpenCV sadrži veliki skup algoritama za obradu i manipulacije nad slikama. Ovaj se paket u našem projektu koristi za predobradu slika koje se kasnije prosljeđuju Tensorflow modelu.
+
+
+NMSLIB \cite{NMSLIB} - paket za efektivnu pretragu na temelju sličnosti. Paket je oblikovan bez ikakvih pretpostavki o matematičkim svojstvima prostora pretraživanja što je postignuto implementiranjem funkcija za generičke prostore bez metrike. Ovaj sveobuhvatni sustav razmatrao je i dimenzionalnost prostora koji su iznimno veliki, te podržava aproksimativne metode pri pretraživanju takvih prostora. 
+
+U našem projektu ovaj paket se pokazao korisnim pri provođenju eksperimenata nad različitim metodama ekstrakcije. 
+
+
+TSNE \cite{TSNE} - modul paketa sklearn za vizualizaciju visoko dimenzionalnih podataka. sklearn obuhvaća skup alata za razne zadatke potrebne pri izradi inteligentnih sustava. On sadrži algoritme i metrike za česte zadatke klasifikacije, regresije, klasteriranja kao i redukcije dimenzionalnosti, odabira modela i analize podataka. Jedan od modula uključenih u ovaj set alata je i tSNE modul koji služi za pretvorbu vektorskih podataka visokih dimenzija u zapis pogodan za iscrtavanje na grafu. Postupak odabira željenih dimenzija vrši se minimizacijom Kullback-Leiber divergencije između zajedničke vjerojatnosti sažetka i izvornog podatka.
+
+
+Django \cite{django}- radni okvir za izradu web poslužitelja. Django omogućava brzi razvoj projekta s nizom gotovih komponenti i mogućnošću proširivanja osnovnih funkcionalnosti kako bi se ostvarilo željeno ponašanje. Radni okvir uključuje autentifikaciju, posluživanje web stranica i REST zahtjeva. 
+
+U našem projektu Django se koristi isključivo za pohranu, obradu i posluživanje podataka te kao jedinstvena točka za pristup bazi podataka. 
+
+
+\subsubsection{JavaScript paketi}
+
+Angular 5 \cite{angular} - radni okvir za izradu web klijenata. Angular 5 oslanja se na Typescript paket pri oblikovanju svih komponenti. To Angular čini strogo tipiziranim i omogućava pisanje izoliranih komponenti koje se mogu povezivati. Posljedica je jasna paradigma koja pruža sve funkcionalnosti potrebne za razvoj web stranice uz najveću moguću fleksibilnost pri oblikovanju izgleda i ponašanja komponenti stranice. 
+
+U našem projektu Angular je korišten za dizajn web klijenta kojim korisnik može isprobati ponašanje sustava za različite korisničke odabire slika.
+
+
 
 \subsection{Hardverska podrška}
 Implementacija rješenja i ispitivanje napravljeno je na računalu s operativnim sustavom Ubuntu 16.04. Od važnijih komponenti koje utječu na brzinu i mogućnost reprodukcije rezultata bitno je naglasiti da računalo ima grafičku karticu GTX Titan Pascal s 12GB memorije, intelov i7 procesor sa šest jezgri i 32GB radne memorije što je omogućilo obradu velikog podatkovnog skupa u razumnom vremenu
@@ -76,11 +133,11 @@ Implementacija rješenja i ispitivanje napravljeno je na računalu s operativnim
 
 Konvolucijske neuronske mreže su postale popularne kao sredstvo za obradu slika nakon pobjede Alexa Krizhevsky-og na natjecanju 2012 ILSVRC (ImageNet Large-Scale Visual Recognition Challenge \cite{ILSVRC15}) sa svojom konvolucijskom neuronskom mrežom danas poznatijom pod imenom AlexNet. Od tada je njihova popularnost kao sredstvo za obradu slika naglo porasla te su danas konvolucijske arhitekture najdominantnije u području obrade slika.
 
-Računalo promatra sliku kao trodimenzionalnu matricu dimenzija X*Y*Z gdje se dimenzija Z može smatrati brojem kanala promatrane slike (uobičajeno crveni-zeleni-plavi kanal, poznatije kao RGB). Uzimajući u obzir da su ulazni podaci modela konvolucijske mreže uobičajeno slike, odnosno trodimenzionalne matrice, ona svoje neurone kojima obrađuje primljene podatke također uređuje u tri dimenzije širina, visina i dubina koja se može smatrati i brojem kanala kao u slikama, no bez limitacija na broj istih.
+Računalo promatra sliku kao trodimenzionalnu matricu dimenzija X*Y*Z gdje se dimenzija Z može smatrati brojem kanala promatrane slike (uobičajeno crveni-zeleni-plavi kanal, poznatije kao RGB). \textbf{Viran: Ja bi tu promijenio "gdje se dimenzija Z može se smatrati" u " gdje su X i Y visina i širina slike a dimenzija Z predstavlja broj kanala promatrane slike"} Uzimajući u obzir da su ulazni podaci modela konvolucijske mreže uobičajeno slike, odnosno trodimenzionalne matrice, ona svoje neurone kojima obrađuje primljene podatke također uređuje u tri dimenzije širina, visina i dubina koja se može smatrati i brojem kanala kao u slikama, no bez limitacija na broj istih. \textbf{Viran: Tu bi ostavio "može smatrati" jer se stvarno može smatrati, ali u slici je činjenica da su Z (u tom kontekstu) kanali. :) }
 
 Jedna duboka konvolucijska mreža se uobičajeno gradi od konvolucijskih slojeva, slojeva sažimanja i potpuno povezanih slojeva unaprijedne neuronske mreže. Između svih slojeva u mreži nalazi se tzv. aktivacijska funkcija čiji je cilj uvesti nelinearnost u model.
 
-Aktivacijske funkcije su hiperparametri svake mreže i bitne su zbog unošenja nelinearnosti inače bi se mreža reducirala na afinu transformaciju koja preslikava ulazne vrijednosti u izlazne. Aktivacijska funkcija završnog sloja ovisi o tipu zadatka koji se mreža uči rješavati. Mreža trenirana za aproksimaciju funkcije neće raditi transformacije nad izlazom, već će aktivacijska funkcija izlaza biti funkcija identiteta (\ref{eq:f_identiteta}). Drugi primjer bio bi zadatak klasifikacije za koji izlaz mora imati probabilističku interpretaciju, a ona se postiže sigmoidom (\ref{eq:f_sigmoida})u slučaju dvije klase ili softmax funkcijom(\ref{eq:f_softmax}) za više klasa. 
+Aktivacijske funkcije su hiperparametri svake mreže i bitne su zbog unošenja nelinearnosti inače bi se mreža reducirala na afinu transformaciju koja preslikava ulazne vrijednosti u izlazne.  Aktivacijska funkcija završnog sloja ovisi o tipu zadatka koji se mreža uči rješavati. Mreža trenirana za aproksimaciju funkcije neće raditi transformacije nad izlazom, već će aktivacijska funkcija izlaza biti funkcija identiteta (\ref{eq:f_identiteta}). Drugi primjer bio bi zadatak klasifikacije za koji izlaz mora imati probabilističku interpretaciju, a ona se postiže sigmoidom (\ref{eq:f_sigmoida})u slučaju dvije klase ili softmax funkcijom(\ref{eq:f_softmax}) za više klasa. 
 
 \begin{equation}
 \label{eq:f_identiteta}
@@ -99,6 +156,7 @@ Softmax(x)_i = \frac{e^{x_i}}{\sum_{j}^{N}e^{x}} \quad \text{for j = 1, ..., N}
 
 
 \subsection{Konvolucijski slojevi}
+
 
 Konvolucijski sloj odrađuje većinu posla u konvolucijskoj mreži. Novost u konvolucijskoj mreži je povezivanje svakog neurona s malom regijom prethodnog sloja umjesto potpunog povezivanja svih neurona između slojeva kao u potpuno povezanoj unaprijednoj mreži. Svaki konvolucijski sloj ima tri dimenzije i neuroni svakog kanala dijele filtere s kojima računaju izlaze iz prethodnog sloja.
 
@@ -152,7 +210,7 @@ Dodavanjem slojeva receptivno polje novih neurona se povećava ovisno o receptiv
 
 \subsection{Slojevi sažimanja}
 
-Sloj sažimanja je vrlo jednostavan, ali vrlo bitan dio konvolucijske mreže. Sažimanje obično računa neku statističke vrijednost nad receptivnim poljem poput maksimalne vrijednosti ili srednje vrijednosti. Ideja sloja sažimanja je smanjiti dimenzionalnost (Slika \ref{fg:sazimanje}) i broj potrebnih parametara mreže. Dodatni pozitivan efekt smanjena broja parametara je i smanjenje vjerojatnosti da se takva mreža prenauči na ulazne podatke.
+Sloj sažimanja je vrlo jednostavan, ali i vrlo bitan dio konvolucijske mreže. Sažimanje obično računa neku statističke vrijednost nad receptivnim poljem poput maksimalne vrijednosti ili srednje vrijednosti. Ideja sloja sažimanja je smanjiti dimenzionalnost (Slika \ref{fg:sazimanje}) i broj potrebnih parametara mreže. Dodatni pozitivan efekt smanjena broja parametara je i smanjenje vjerojatnosti da se takva mreža prenauči na ulazne podatke.
 
 Osim reduciranja dimenzionalnosti slojevi sažimanja unose invarijantnost na pomake u slici. Do intuitivnog objašnjenja prethodne tvrdnje možemo doći ako pretpostavimo da filter reagira na neki oblik u prethodnom sloju što prepoznajemo po većoj pozitivnoj vrijednosti izlaza od ostalih susjednih neurona (Slika \ref{fg:sazimanje}). Budući da za klasifikaciju nije bitno znati gdje se oblik nalazi na slici nego nalazi li se na slici može se iskoristiti sažimanje maksimalnom vrijednosti. Takvo sažimanje će u sljedeće slojeve propustiti samo maksimalni odziv u promatranom prozoru (Slika \ref{fg:sazimanje2}).
 
@@ -218,7 +276,7 @@ Nakon što je određen traženi broj glavnih komponenti (u slučaju sa slike nji
 
 Iako se u gore navedenom primjeru dimenzionalnost podataka ne reducira (2D podaci ostaju u 2D prostoru) glavno područje primjene PCA tehnike je upravo redukcija dimenzionalnosti koja funkcionira na skoro identičan način. Razlikuje se po tome što se nakon određenih smjerova raspršenja oni poredaju silazno po svojstvenim vrijednostima te se odabere njih n (željena dimenzija na koju se reducira) nakon čega se podaci transformiraju u taj koordinatni prostor čime se gube ostale dimenzije s manjim svojstvenim vrijednostima. 
 
-Važno je naglasiti da je glavna motivacija iza PCA tehnike uklanjanje korelacije u podatkovnom skupu odnosno uklonjanje zavisnosti drugog reda između podataka [3]. Način na koji PCA nastoji ostvariti taj cilj je pretpostavkom su glavne komponente međusobno ortogonalne zbog čega neće biti primjerena za podatkovne skupove poput onog na slici \ref{fg:pca_problem}.
+Važno je naglasiti da je glavna motivacija iza PCA tehnike uklanjanje korelacije u podatkovnom skupu odnosno uklanjanje zavisnosti drugog reda između podataka [3]. Način na koji PCA nastoji ostvariti taj cilj je pretpostavkom su glavne komponente međusobno ortogonalne zbog čega neće biti primjerena za podatkovne skupove poput onog na slici \ref{fg:pca_problem}.
 
 \begin{figure}[H]
 	\begin{center}
@@ -448,7 +506,156 @@ Moguće je dodatno poboljšati performance mreže za određivanje sličnosti tak
 %% CHAPTER
 \chapter{Demo preporučitelj po sadržaju}
 
-\section{Neki tvoj section?}
+Kako bi demonstrirali ponašanje razvijanog sustava za pronalaženje sličnih slika u sklopu projekta implementirana je i jednostavna web aplikacija. 
+
+Aplikacija je inspirirana sličnim proizvodom, socijalnom mrežom temeljena na dijeljenju slika pod nazivom Pinterest, koja organizira podatke poput slika i video zapisa s cijelog interneta \cite{wiki-pintrest}. 
+
+Naš sustav karakterizira puno manji volumen podataka s kojim rukujemo, ali koncept ostaje isti: prepoznati preference korisnika na temelju njegovih interakcija sa sustavom i pronaći relevantne podatke kako bi se poboljšalo korisničko iskustvo.
+
+Aplikacija omogućuje pregledavanje STL-10 skupa podataka gdje korisnik može izdvojiti skup slika od interesa na temelju kojih će sustav isfiltrirati sve slike sličnog konteksta.
+
+Demo je implementiran kao web aplikacija kako bi sustav učinili što pristupačniji novim korisnicima i postavljen na Heroku platformu \footnote{Izvršnoj verziji aplikacije moguće je pristupiti na linku \url{https://recommender-demo.herokuapp.com}.} .
+
+
+\section{Tijek rada}
+
+Ovaj odjeljak opisuje ponašanje sustava iz korisničke perspektive i kroz niz instrukcija daje pregled mogućnosti preporučitelja. Posječivanjem prethodno navedene web stranice aplikacije korisnik se usmjerava na obrazac za prijavu. Uz pretpostavku da korisnik nema profil za pristup stranici potrebno je napraviti registraciju putem gumba 'Register' koji se nalazi u gornjem desnom kutu stranice. Pri dolasku na stranicu od korisnika se traži unos korisničkog imena, emaila i lozinke te se po pritisku na 'Sign Up' gumb (Slika \ref{fg:demo_register}). Ukoliko su podaci ispravno uneseni korisnik će biti vraćen na početnu stranicu gdje može iskoristiti kreirani načun za prijavu(Slika \ref{fg:demo_login}). 
+ 
+\begin{figure}[!ht]
+	\begin{center}
+		\captionsetup{justification=centering}
+		\includegraphics[width=1.0\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/demo-regi.png}
+		\caption{Stranica za registraciju novog korisnika}
+		\label{fg:demo_register}
+	\end{center}
+\end{figure}
+
+\begin{figure}[!ht]
+	\begin{center}
+		\captionsetup{justification=centering}
+		\includegraphics[width=1.0\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/demo-login.png}
+		\caption{Stranica za unos korisničkih podataka}
+		\label{fg:demo_login}
+	\end{center}
+\end{figure}
+
+Nakon što se uneseni podaci verificiraju korisnik se usmjeruje na početnu stranicu, gdje može pročitati kratke upute o korištenju aplikacije. Iste se upute u više detalja opisuju u nastavku.
+
+Zajednička komponenta svim stranicama je navigacijski izbornik na vrhu stranice na kojem se nalaze poveznice: "Recommender demo", "Random Images", "Liked Images", "Recommended Images" linkovi te "Manage" izbornik s opcijom odjave "Log Out". "Recommender demo" link poveznica je početnu stranicu, "Random Images" vodi na galeriju svih slika u sustavu, "Liked Images" poveznica je na galeriju koje je korisnik označio kao favorite dok je "Recommended Images" poveznica na galeriju koje sustav preporučuje na temelju korisničkih preferenci.
+
+Prvi korak u korištenju aplikacije je odabir slika u galeriji nasumičnih slika korištenjem poveznice "Random Images"(Slika \ref{fg:demo_rand}). Ako korisnik odluči posjetiti neku od preostalih galerija prije nego što je označio ikakvu sliku dobit će poruku upozorenja da sustav nije mogao obraditi njegov zahtjev. Jednom kad se galerija učitala korisnik može početi pregledavati i označivati ponuđene slike. Sučelje se sastoji od dvije glavne komponente: trenutno razmatrane slike i podskupa slika galerije u obliku albuma. Album trenutnog pogleda na slike sustava pruža brzi pregled trenutne stranice slika. Gumbima "Previous Page" i "Next Page" korisnik može dohvačati preostale stranice i postepeno pretražiti cijelu bazu slika. Gumbom "Refresh" korisnik može zatražiti osvježavanje trenutne stranice slika. Pritiskom na bilo koju od slika u albumu slika se fokusira u gornjem pregledniku. Ispod fokusirane slike nalaze se tri gumba za pomak na prethodnu sliku albuma, dodavanje trenutne u favorite pritiskom na gumb 'Like' i pomak na iduću sliku albuma. Od korisnika se očekuje odabir najmanje jedne slike i pritisak na gumb 'Like' prije prelaska u iduću fazu aplikacije.
+
+\begin{figure}[!ht]
+	\begin{center}
+		\captionsetup{justification=centering}
+		\includegraphics[width=1.0\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/demo-rand.png}
+		\caption{Galerija svih slika}
+		\label{fg:demo_rand}
+	\end{center}
+\end{figure}
+
+
+Nakon što je korisnik odabrao slike od interesa može ih još jednom pregledati pritiskom na poveznicu "Liked Images"(Slika \ref{fg:demo_liked}). Kroz ovaj pogled korisnik također može izbrisati neke od slika iz svojih favorita kako bi promotrio drugačije preporuke koje sustav nudi.
+
+\begin{figure}[!ht]
+	\begin{center}
+		\captionsetup{justification=centering}
+		\includegraphics[width=1.0\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/demo-liked.png}
+		\caption{Galerija odabranih korisničkih slika}
+		\label{fg:demo_liked}
+	\end{center}
+\end{figure}
+
+
+Posljednja faza korištenja je pregledavanje preporučenih slika (Slika \ref{fg:demo_recommended}). Slično kao i u prethodnim pogledima korisnik može dodavati slike u favorite samo sada pritiskom na 'Refresh' gumb može brže zatražiti novi set preporuka prilagođen ažuriranom stanju preferenci. 
+
+\begin{figure}[!ht]
+	\begin{center}
+		\captionsetup{justification=centering}
+		\includegraphics[width=1.0\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/demo-reco.png}
+		\caption{Galerija preporučenih slika}
+		\label{fg:demo_recommended}
+	\end{center}
+\end{figure}
+
+
+U nastavku slijedi par primjera odabranih ulaza i rezultirajućih preporuka. Sve rezultate moguće je reproducirati kroz web stranicu. 
+
+Odabirom prve slike ptice koja se nudi u albumu i odlaskom na pregled preporučeniih slika možemo se uvjeriti da su dohvačene slike uglavnom manjih ptica, ptica sličnih šara ili kombinacije navedenih svojstava (Slika \ref{fg:demo_bird}). 
+
+\begin{figure*}[ht!]
+	\begin{subfigure}[t]{0.24\textwidth}
+		\includegraphics[width=\textwidth,height=\textwidth ]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/id@0.png}
+	\end{subfigure}
+	\rulesep
+	\begin{subfigure}[t]{0.24\textwidth}
+		\includegraphics[width=\textwidth,height=\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/id@182.png}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.24\textwidth}
+		\includegraphics[width=\textwidth,height=\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/id@1745.png}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.24\textwidth}
+		\includegraphics[width=\textwidth,height=\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/id@2530.png}
+	\end{subfigure}
+	\caption{Primjer preporuka za sliku ptice}
+	\label{fg:demo_bird}			
+\end{figure*}
+
+
+Ako sada izbrišemo preference i odaberemo drugačiju sliku poput purana na slika \ref{fg:demo_bird_v2}, preporuke se mijenjaju u slike večih ptica dugački vratova i nogu ili slika ptica slične posture našeg referentnog primjera. 
+
+\begin{figure*}[ht!]
+	\begin{subfigure}[t]{0.24\textwidth}
+		\includegraphics[width=\textwidth,height=\textwidth ]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/id@2.png}
+	\end{subfigure}
+	\rulesep
+	\begin{subfigure}[t]{0.24\textwidth}
+		\includegraphics[width=\textwidth,height=\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/id@148.png}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.24\textwidth}
+		\includegraphics[width=\textwidth,height=\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/id@4710.png}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.24\textwidth}
+		\includegraphics[width=\textwidth,height=\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/id@3359.png}
+	\end{subfigure}
+	\caption{Primjer preporuka za sliku purana}
+	\label{fg:demo_bird_v2}
+		
+\end{figure*}
+
+\newpage
+
+Provedimo još jedno testiranje ponovno uključujući sliku iz prvog eksperimenta(Slika \ref{fg:demo_bird_v3}). Sada možemo pronači primjere koji su se pojavili i u prijašnjim upitima ali i neke nove rezultate. Po završetku korištenja korisnik je dužan odjaviti se pritiskom na "Manage" te "Log Out" gumb u gornjem desnom uglu.
+
+
+\begin{figure*}[ht!]
+	\begin{subfigure}[t]{0.19\textwidth}
+		\includegraphics[width=\textwidth,height=\textwidth ]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/id@0.png}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.19\textwidth}
+		\includegraphics[width=\textwidth,height=\textwidth ]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/id@2.png}
+	\end{subfigure}
+	\rulesep
+	\begin{subfigure}[t]{0.19\textwidth}
+		\includegraphics[width=\textwidth,height=\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/id@4391.png}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.19\textwidth}
+		\includegraphics[width=\textwidth,height=\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/id@3995.png}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.19\textwidth}
+		\includegraphics[width=\textwidth,height=\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/id@182.png}
+	\end{subfigure}
+	\caption{Primjer preporuka za kombinaciju slika ptice i purana}
+	\label{fg:demo_bird_v3}
+		
+\end{figure*}
+
+
+
+\section{Implementacijski detalji}
+
+Kao što je bilo naznačeno u poglavlju o paketima implementacija web poslužitelja oslanja se na dva programska jezika: Python i JavaScript. Poslužitelj \footnote{Kod poslužitelja dostupan je na Github repozitoriju kojem možete pristupiti na linku \url{https://github.com/vribic/recommender-demo-api}.} je pisan u čistom Pythonu, oslanjajući se na Django radno okruženje kako bi se podaci mogli dostavljati korisniku. Podaci aplikacije pohranjeni su u PostgreSQL bazi podataka na samom serveru dok se slike poslužuju sa Amazon S3 servisa. Klijent \footnote{Kod klijenta dostupan je na Github repozitoriju kojem možete pristupiti na linku \url{https://github.com/vribic/recommender-demo}.} je razvijan u standardnim web tehnologijama HTML, CSS, JavaScript jezika. Kako bi kod bio čim jednostavniji za razumijevanje i implementaciju odabran je Angular 5 radni okvir za lakše oblikovanje komponenti klijenta. Po završetku razvoja aplikacija je postavljena na Heroku platformu koja omogučuje izgradnju, pokretanje i upravljanje aplikacijama kroz cloud. Kako sama web aplikacija nije bila u fokusu rada, zainteresirani čitatelji mogu dobiti više informacija posječivanjem poveznica u podnožju stranice koji vode na repozitorije koda aplikacije.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
