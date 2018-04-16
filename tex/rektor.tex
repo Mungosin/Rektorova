@@ -31,7 +31,7 @@
 % Hyperref setup
 \hypersetup{
 	colorlinks=true,
-	linkcolor=blue,
+	linkcolor=black,
 	filecolor=magenta,      
 	urlcolor=cyan,
 }
@@ -60,6 +60,8 @@
 \listoffigures
 \thispagestyle{empty}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 %% CHAPTER
 \chapter{Uvod}
 
@@ -91,7 +93,7 @@ Cilj ovog istraživanja bila je ostvariti takav duboki model, ispitati različit
 
 Ovaj projekt implementiran je u dva programska jezika: Python i JavaScript. 
 Python je popularni programski jezik visoke razine apstrakcije. Zbog svoje jednostavnosti i velikog broja paketa otvorenog koda često je prvi izbor za efikasno provođenje eksperimenata i brzo prototipiranje novih sustava. Paketi korišteni pri razvoju jezgre sustava za preporučivanje su: Tensorflow, OpenCV, NMSLIB, TSNE. Za izradu demo prezentacije sustava posluđitelj je implementiran u Django razvojnom okviru s popratnim paketima za efikasnu konfiguraciju. 
-JavaScript je programski jezik ključan za programiranje klijenata kroz koje će korisnici isprobavati demo sustav za preporučivanje slika. Radni okvir za pisanje klijenta je Angular 4, dok se više informacija o implementaciji možete pronači u poglavlju 4.
+JavaScript je programski jezik ključan za programiranje klijenata kroz koje će korisnici isprobavati demo sustav za preporučivanje slika. Radni okvir za pisanje klijenta je Angular 5, dok se više informacija o implementaciji možete pronači u poglavlju 4.
 
 \subsubsection{Python paketi }
 
@@ -101,24 +103,18 @@ Tensorflow je centralna komponenta našeg projekta pošto se ekstrakcija značaj
 OpenCV \cite{itseez2015opencv} - radni okvir za obradu slika. OpenCV sadrži veliki skup algoritama za obradu i manipulacije nad slikama. Ovaj se paket u našem projektu koristi za predobradu slika koje se kasnije prosljeđuju Tensorflow modelu.
 
 
-NMSLIB \cite{NMSLIB} - paket za efektivnu pretragu na temelju sličnosti. Paket je oblikovan bez ikakvih pretpostavki o matematičkim svojstvima prostora pretraživanja što je postignuto implementiranjem funkcija za generičke prostore bez metrike. Ovaj sveobuhvatni sustav razmatrao je i dimenzionalnost prostora koji su iznimno veliki, te podržava aproksimativne metode pri pretraživanju takvih prostora. 
-
-U našem projektu ovaj paket se pokazao korisnim pri provođenju eksperimenata nad različitim metodama ekstrakcije. 
+NMSLIB \cite{NMSLIB} - paket za efektivnu pretragu na temelju sličnosti. Paket je oblikovan bez ikakvih pretpostavki o matematičkim svojstvima prostora pretraživanja što je postignuto implementiranjem funkcija za generičke prostore bez metrike. Ovaj sveobuhvatni sustav razmatrao je i dimenzionalnost prostora koji su iznimno veliki, te podržava aproksimativne metode pri pretraživanju takvih prostora. U našem projektu ovaj paket se pokazao korisnim pri provođenju eksperimenata nad različitim metodama ekstrakcije. 
 
 
 TSNE \cite{TSNE} - modul paketa sklearn za vizualizaciju visoko dimenzionalnih podataka. sklearn obuhvaća skup alata za razne zadatke potrebne pri izradi inteligentnih sustava. On sadrži algoritme i metrike za česte zadatke klasifikacije, regresije, klasteriranja kao i redukcije dimenzionalnosti, odabira modela i analize podataka. Jedan od modula uključenih u ovaj set alata je i tSNE modul koji služi za pretvorbu vektorskih podataka visokih dimenzija u zapis pogodan za iscrtavanje na grafu. Postupak odabira željenih dimenzija vrši se minimizacijom Kullback-Leiber divergencije između zajedničke vjerojatnosti sažetka i izvornog podatka.
 
 
-Django \cite{django}- radni okvir za izradu web poslužitelja. Django omogućava brzi razvoj projekta s nizom gotovih komponenti i mogućnošću proširivanja osnovnih funkcionalnosti kako bi se ostvarilo željeno ponašanje. Radni okvir uključuje autentifikaciju, posluživanje web stranica i REST zahtjeva. 
-
-U našem projektu Django se koristi isključivo za pohranu, obradu i posluživanje podataka te kao jedinstvena točka za pristup bazi podataka. 
+Django \cite{django}- radni okvir za izradu web poslužitelja. Django omogućava brzi razvoj projekta s nizom gotovih komponenti i mogućnošću proširivanja osnovnih funkcionalnosti kako bi se ostvarilo željeno ponašanje. Radni okvir uključuje autentifikaciju, posluživanje web stranica i REST zahtjeva. U našem projektu Django se koristi isključivo za pohranu, obradu i posluživanje podataka te kao jedinstvena točka za pristup bazi podataka. 
 
 
 \subsubsection{JavaScript paketi}
 
-Angular 5 \cite{angular} - radni okvir za izradu web klijenata. Angular 5 oslanja se na Typescript paket pri oblikovanju svih komponenti. To Angular čini strogo tipiziranim i omogućava pisanje izoliranih komponenti koje se mogu povezivati. Posljedica je jasna paradigma koja pruža sve funkcionalnosti potrebne za razvoj web stranice uz najveću moguću fleksibilnost pri oblikovanju izgleda i ponašanja komponenti stranice. 
-
-U našem projektu Angular je korišten za dizajn web klijenta kojim korisnik može isprobati ponašanje sustava za različite korisničke odabire slika.
+Angular 5 \cite{angular} - radni okvir za izradu web klijenata. Angular 5 oslanja se na Typescript paket pri oblikovanju svih komponenti. To Angular čini strogo tipiziranim i omogućava pisanje izoliranih komponenti koje se mogu povezivati. Posljedica je jasna paradigma koja pruža sve funkcionalnosti potrebne za razvoj web stranice uz najveću moguću fleksibilnost pri oblikovanju izgleda i ponašanja komponenti stranice. U našem projektu Angular je korišten za dizajn web klijenta kojim korisnik može isprobati ponašanje sustava za različite korisničke odabire slika.
 
 
 
@@ -133,7 +129,7 @@ Implementacija rješenja i ispitivanje napravljeno je na računalu s operativnim
 
 Konvolucijske neuronske mreže su postale popularne kao sredstvo za obradu slika nakon pobjede Alexa Krizhevsky-og na natjecanju 2012 ILSVRC (ImageNet Large-Scale Visual Recognition Challenge \cite{ILSVRC15}) sa svojom konvolucijskom neuronskom mrežom danas poznatijom pod imenom AlexNet. Od tada je njihova popularnost kao sredstvo za obradu slika naglo porasla te su danas konvolucijske arhitekture najdominantnije u području obrade slika.
 
-Računalo promatra sliku kao trodimenzionalnu matricu dimenzija X*Y*Z gdje se dimenzija Z može smatrati brojem kanala promatrane slike (uobičajeno crveni-zeleni-plavi kanal, poznatije kao RGB). \textbf{Viran: Ja bi tu promijenio "gdje se dimenzija Z može se smatrati" u " gdje su X i Y visina i širina slike a dimenzija Z predstavlja broj kanala promatrane slike"} Uzimajući u obzir da su ulazni podaci modela konvolucijske mreže uobičajeno slike, odnosno trodimenzionalne matrice, ona svoje neurone kojima obrađuje primljene podatke također uređuje u tri dimenzije širina, visina i dubina koja se može smatrati i brojem kanala kao u slikama, no bez limitacija na broj istih. \textbf{Viran: Tu bi ostavio "može smatrati" jer se stvarno može smatrati, ali u slici je činjenica da su Z (u tom kontekstu) kanali. :) }
+Računalo promatra sliku kao trodimenzionalnu matricu dimenzija X*Y*Z gdje su X i Y visina i širina slike a dimenzija Z predstavlja broj kanala promatrane slike (uobičajeno crveni-zeleni-plavi kanal, poznatije kao RGB). Uzimajući u obzir da su ulazni podaci modela konvolucijske mreže uobičajeno slike, odnosno trodimenzionalne matrice, ona svoje neurone kojima obrađuje primljene podatke također uređuje u tri dimenzije širina, visina i dubina koja se može smatrati i brojem kanala kao u slikama, no bez limitacija na broj istih.
 
 Jedna duboka konvolucijska mreža se uobičajeno gradi od konvolucijskih slojeva, slojeva sažimanja i potpuno povezanih slojeva unaprijedne neuronske mreže. Između svih slojeva u mreži nalazi se tzv. aktivacijska funkcija čiji je cilj uvesti nelinearnost u model.
 
@@ -557,7 +553,7 @@ Prvi korak u korištenju aplikacije je odabir slika u galeriji nasumičnih slika
 
 Nakon što je korisnik odabrao slike od interesa može ih još jednom pregledati pritiskom na poveznicu "Liked Images"(Slika \ref{fg:demo_liked}). Kroz ovaj pogled korisnik također može izbrisati neke od slika iz svojih favorita kako bi promotrio drugačije preporuke koje sustav nudi.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 	\begin{center}
 		\captionsetup{justification=centering}
 		\includegraphics[width=1.0\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/demo-liked.png}
@@ -569,7 +565,7 @@ Nakon što je korisnik odabrao slike od interesa može ih još jednom pregledati
 
 Posljednja faza korištenja je pregledavanje preporučenih slika (Slika \ref{fg:demo_recommended}). Slično kao i u prethodnim pogledima korisnik može dodavati slike u favorite samo sada pritiskom na 'Refresh' gumb može brže zatražiti novi set preporuka prilagođen ažuriranom stanju preferenci. 
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 	\begin{center}
 		\captionsetup{justification=centering}
 		\includegraphics[width=1.0\textwidth]{./imgs/demo-preporucitelja-po-sadrzaju/tijek-rada/demo-reco.png}
