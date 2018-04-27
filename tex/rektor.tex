@@ -70,15 +70,15 @@ Digitalne slike čine jedinstveni format kojim se može opisati veliki broj razl
 
 Danas slike čine veliki udio podataka na internetu. Dok je egzaktna informacija o postotku slika na webu intraktabilna, provedene analize iz 2016. godine \cite{img-analysis} predviđale su porast od trilijun slika u narednoj godini. Rast slikovnih podataka povezan je s brojem korisnika pametnih telefona u svijetu kao i brojem online usluga koje uključuju obradu i razmjenu fotografija. Rastući trendovi korisnika \cite{net-users} i napreci u telekomunikacijskim tehnologijama omogućuju lakšu i bržu distribuciju medijskih datoteka nego ikad prije. 
 
-Volumen i protok podataka u današnjim sustavima učinio je bilo kakvu ručnu obradu slika neadekvatnom što je potaknulo istraživače na razmatranje novih metoda pri analizi velikih količina podataka. Da bi se podacima moglo upravljati potrebno je prvo razviti efikasne metode pretrage. Novonastala situacija pronalazi sličnosti s ranim danima interneta dok još nisu formirane adekvatne metode pretraživanja stranica. Izmjena informacija bila je znatno teža zbog nedostatka prikladnih sučelja koja bi običnim korisnicima mogla pružiti jednostavno korištenje. Tek su se pojavom algoritama za indeksiranja otvorila sve mogućnosti izmjene podataka na webu. Izgradnjom adekvatnih algoritama za pretraživanje i ekstrakciju znanja postići ćemo bolje razumijevanje podataka i načine na koje se mogu koristiti. 
+Volumen i protok podataka u današnjim sustavima učinio je bilo kakvu ručnu obradu slika neadekvatnom što je potaknulo istraživače na razmatranje novih metoda pri analizi velikih količina podataka. Da bi se podacima moglo upravljati potrebno je prvo razviti efikasne metode pretrage. Novonastala situacija pronalazi sličnosti s ranim danima interneta dok još nisu formirane adekvatne metode pretraživanja stranica. Izmjena informacija bila je znatno teža zbog nedostatka prikladnih sučelja koja bi običnim korisnicima mogla pružiti jednostavno korištenje. Tek su se pojavom algoritama za indeksiranja otvorile sve mogućnosti izmjene podataka na webu. Izgradnjom adekvatnih algoritama za pretraživanje i ekstrakciju znanja postići ćemo bolje razumijevanje podataka i načina na koje se mogu iskoristiti. 
 
 Ben Silbermann, osnivač i direktor socijalne mreže Pinterest, izjavio je kako će budućnost web pretraživača biti upravo u efikasnoj interpretaciji slika na internetu. Za razliku od današnjih web tražilica koje se prvenstveno oslanjaju na ključne riječi unutar stranice, takvi bi pretraživači bili sposobni razumjeti semantiku slike i izvaditi ključne koncepte povezane s korisničkim upitima \cite{internet-trends}.
 
-Socijalne mreže samo su jedan od primjera gdje će razumijevanje semantike slika imati ključnu ulogu u narednim godinama. Potražnja za ekstrakcijom znanja iz slika primjetna je i u marketinškim \cite{electronic-commerce-application}, medicini \cite{medical-application} \cite{medical-diagnostics-application}, državnim \cite{smart-city-application}, sigurnosnim \cite{security-application} i forenzičkim \cite{forensics-application} primjenama. 
+Društvene mreže samo su jedan od primjera gdje će razumijevanje semantike slika imati ključnu ulogu u narednim godinama. Potražnja za ekstrakcijom znanja iz slika primjetna je i u marketinškim \cite{electronic-commerce-application}, medicinskim \cite{medical-application} \cite{medical-diagnostics-application}, državnim \cite{smart-city-application}, sigurnosnim \cite{security-application} i forenzičkim \cite{forensics-application} primjenama. 
 
 Napredak hardwarea vratio je u fokus modele neuronskih mreža pošto su nove arhitekture grafičkih kartica bile dovoljno efikasne za ponovno eksperimentiranje s umjetnim neuronskim mrežama. Rezultat novog vala testiranja bile su dublje mreže sposobne uhvatiti kompleksnije odnose među pixelima slika čime je označen početak dubokog učenja. Prikupljeni podaci o slikama sada postaju predmet proučavanja ovih pametnih algoritama koji pronalaze nove primjene u akademiji i industriji. 
 
-Ovaj rad proučava postojeće arhitekture i modele dubokog učenja i istražuje njihove primjene u oblikovanju sustava preporuke slika ekstrakcijom njihovih značajki. U nastavku uvodnog poglavlja rada izlažu se opće i specifični ciljevi te programski paketi korišteni u implementaciji. Drugo poglavlje obrađuje modele za sažimanje opisujući arhitekturu dubokih konvolucijskih mreža i predtreniranih modela VGG i Inception v4. Također, u poglavlje je uključen opis algoritma analize glavnih komponenti korišten za efikasniju reprezentaciju značajki. Slijedi ih odjeljak s rezultatima i raspravom o ispitanim metrikama sličnosti, ponašanju predtreniranih arhitektura i metodama za inspekciju kvalitete modela na našem zadatku. Četvrto poglavlje pokriva demonstraciju rada sustava na primjeru web aplikacije. Opisani su tijek korištenja i informacije o implementaciji. U posljednjem, petom poglavlju dan je osvrt na ishode rada.
+Ovaj rad proučava postojeće arhitekture i modele dubokog učenja i istražuje njihove primjene u oblikovanju sustava preporuke slika ekstrakcijom njihovih značajki. U nastavku uvodnog poglavlja rada izlažu se opći i specifični ciljevi te programski paketi korišteni u implementaciji. Drugo poglavlje obrađuje modele za sažimanje opisujući arhitekturu dubokih konvolucijskih mreža i predtreniranih modela VGG i Inception v4. Također, u poglavlje je uključen opis algoritma analize glavnih komponenti koji je korišten za efikasniju reprezentaciju značajki. Slijedi ih odjeljak s rezultatima i raspravom o ispitanim metrikama sličnosti, ponašanju predtreniranih arhitektura i metodama za inspekciju kvalitete modela na našem zadatku. Četvrto poglavlje pokriva demonstraciju rada sustava na primjeru web aplikacije. Opisani su tijek korištenja i informacije o implementaciji. U posljednjem, petom poglavlju dan je osvrt na ishode rada.
  
 
 
@@ -86,7 +86,7 @@ Ovaj rad proučava postojeće arhitekture i modele dubokog učenja i istražuje 
 
 Hipoteza ovog istraživanja bila je da se korištenjem dubokog učenja može razviti sustav koji uspješno stvara nisko dimenzionalne reprezentacije slika proizvoljnih veličina kako bi se iste mogle efikasnije grupirati i pretraživati po njihovim semantičkim značajkama. Takve reprezentacije moguće je iskoristiti u sustavima za preporučivanje temeljenim na sadržaju ili kao dodatak sustavima preporuke temeljenim na kolaborativnom filtriranju kako bi se poboljšale njihove performanse.
 
-Cilj ovog istraživanja bila je ostvariti takav duboki model, ispitati različite načine ekstrakcije značajki te ispitati metrike kojima se ekstrahirane značajke mogu uspoređivati. Također za kraj potrebno je i razviti prototip jednostavnog sustava za preporučivanje temeljen na sadržaju koji koristi značajke ekstrahirane razvijenim modelom.
+Cilj ovog istraživanja bio je ostvariti takav duboki model, ispitati različite načine ekstrakcije značajki te ispitati metrike kojima se ekstrahirane značajke mogu uspoređivati. Također za kraj potrebno je i razviti prototip jednostavnog sustava za preporučivanje temeljen na sadržaju koji koristi značajke ekstrahirane razvijenim modelom.
 
 \section{Programska i hardverska podrška}
 \subsection{Programska podrška}
@@ -98,7 +98,7 @@ JavaScript je programski jezik ključan za programiranje klijenata kroz koje će
 \subsubsection{Python paketi }
 
 Tensorflow \cite{tensorflow2015-whitepaper} - radni okvir za strojno učenje. Razvijen i podržavan od Googlea, Tensorflow je alat za izgradnju modela strojnog učenja s mnogo dodataka, poput automatske diferencijacije pri popularnim metodama optimizacije i akcelerirano učenje na grafičkim karticama. Velika fleksibilnost i dobra podrška učinili su ovaj alat popularnim izborom u akademiji i industriji. Visoka modularnost i fleksibilnost ostvarene su oblikovanjem modela grafom operacija.
-Tensorflow je centralna komponenta našeg projekta pošto se ekstrakcija značajki slike provodi kroz njega.
+Tensorflow je centralna komponenta našeg projekta pomoću kojeg se provodi ekstrakcija značajki slike.
 
 OpenCV \cite{itseez2015opencv} - radni okvir za obradu slika. OpenCV sadrži veliki skup algoritama za obradu i manipulacije nad slikama. Ovaj se paket u našem projektu koristi za predobradu slika koje se kasnije prosljeđuju Tensorflow modelu.
 
@@ -459,7 +459,7 @@ Primjer tako dobivenih rezultata može se vidjeti na sljedećim slikama \ref{fg:
 	\end{center}
 \end{figure}
 
-Kao što se vidi iz prikazanih slika unatoč reprezentiranja slike sa svega 300 elemenata što predstavlja višestruku uštedu prostora (\ref{tbl:usteda_prostora}) vektor i dalje dobro ekstrahira suštinu slike te slične slike grupira u bliske nakupine što je posebno vidljivo u sljedećem poglavlju.
+Kao što se vidi iz prikazanih slika moguće je reprezentirati sliku sa svega 300 elemenata što predstavlja višestruku uštedu prostora (\ref{tbl:usteda_prostora}) pri ćemu on i dalje dobro ekstrahira suštinu slike te slične grupira u bliske nakupine, to svojstvo je posebno vidljivo u sljedećem poglavlju.
 
 
 \begin{table}[htb]
@@ -504,9 +504,9 @@ Moguće je dodatno poboljšati performance mreže za određivanje sličnosti tak
 
 Kako bi demonstrirali ponašanje razvijanog sustava za pronalaženje sličnih slika u sklopu projekta implementirana je i jednostavna web aplikacija. 
 
-Aplikacija je inspirirana sličnim proizvodom, socijalnom mrežom temeljena na dijeljenju slika pod nazivom Pinterest, koja organizira podatke poput slika i video zapisa s cijelog interneta \cite{wiki-pintrest}. 
+Aplikacija je inspirirana sličnim proizvodom, društvenom mrežom temeljenom na dijeljenju slika pod nazivom Pinterest, koja organizira podatke poput slika i video zapisa s cijelog interneta \cite{wiki-pintrest}. 
 
-Naš sustav karakterizira puno manji volumen podataka s kojim rukujemo, ali koncept ostaje isti: prepoznati preference korisnika na temelju njegovih interakcija sa sustavom i pronaći relevantne podatke kako bi se poboljšalo korisničko iskustvo.
+Naš sustav karakterizira puno manji volumen podataka s kojim rukujemo, ali koncept ostaje isti: prepoznati preference korisnika na temelju njegovih interakcija sa sustavom i pronalazak relevantnih podataka kako bi se poboljšalo korisničko iskustvo.
 
 Aplikacija omogućuje pregledavanje STL-10 skupa podataka gdje korisnik može izdvojiti skup slika od interesa na temelju kojih će sustav isfiltrirati sve slike sličnog konteksta.
 
@@ -515,7 +515,7 @@ Demo je implementiran kao web aplikacija kako bi sustav učinili što pristupač
 
 \section{Tijek rada}
 
-Ovaj odjeljak opisuje ponašanje sustava iz korisničke perspektive i kroz niz instrukcija daje pregled mogućnosti preporučitelja. Posjećivanjem navedene web stranice aplikacije korisnik se usmjerava na obrazac za prijavu. Uz pretpostavku da korisnik nema profil za pristup stranici potrebno je napraviti registraciju putem gumba 'Register' koji se nalazi u gornjem desnom kutu stranice. Pri dolasku na stranicu od korisnika se traži unos korisničkog imena, emaila i lozinke te se po pritisku na 'Sign Up' gumb (Slika \ref{fg:demo_register}). Ako su podaci ispravno uneseni korisnik će biti vraćen na početnu stranicu gdje može iskoristiti kreirani račun za prijavu(Slika \ref{fg:demo_login}). 
+Ovaj odjeljak opisuje ponašanje sustava iz korisničke perspektive i kroz niz instrukcija daje pregled mogućnosti preporučitelja. Posjećivanjem navedene web stranice aplikacije korisnik se usmjerava na obrazac za prijavu. Uz pretpostavku da korisnik nema profil za pristup stranici potrebno je napraviti registraciju putem gumba 'Register' koji se nalazi u gornjem desnom kutu stranice. Pri dolasku na stranicu od korisnika se traži unos korisničkog imena, emaila i lozinke te se po pritisku na 'Sign Up' gumb završava proces registracije (Slika \ref{fg:demo_register}). Ako su podaci ispravno uneseni korisnik će biti vraćen na početnu stranicu gdje može iskoristiti kreirani račun za prijavu (Slika \ref{fg:demo_login}). 
  
 \begin{figure}[!ht]
 	\begin{center}
@@ -535,11 +535,11 @@ Ovaj odjeljak opisuje ponašanje sustava iz korisničke perspektive i kroz niz i
 	\end{center}
 \end{figure}
 
-Nakon što se uneseni podaci verificiraju korisnik se usmjeruje na početnu stranicu, gdje može pročitati kratke upute o korištenju aplikacije. Iste se upute u više detalja opisuju u nastavku.
+Nakon što se uneseni podaci verificiraju korisnik se usmjerava na početnu stranicu, gdje može pročitati kratke upute o korištenju aplikacije. Iste se upute u više detalja opisuju u nastavku.
 
-Zajednička komponenta svim stranicama je navigacijski izbornik na vrhu stranice na kojem se nalaze poveznice: "Recommender demo", "Random Images", "Liked Images", "Recommended Images" linkovi te "Manage" izbornik s opcijom odjave "Log Out". "Recommender demo" link poveznica je početnu stranicu, "Random Images" vodi na galeriju svih slika u sustavu, "Liked Images" poveznica je na galeriju koje je korisnik označio kao favorite dok je "Recommended Images" poveznica na galeriju koje sustav preporučuje na temelju korisničkih preferencija.
+Zajednička komponenta svim stranicama je navigacijski izbornik na vrhu stranice na kojem se nalaze poveznice: "Recommender demo", "Random Images", "Liked Images", "Recommended Images" te "Manage" izbornik s opcijom odjave "Log Out". "Recommender demo" poveznica je početnu stranicu, "Random Images" vodi na galeriju svih slika u sustavu, "Liked Images" poveznica je na galeriju koje je korisnik označio kao favorite dok je "Recommended Images" poveznica na galeriju koje sustav preporučuje na temelju korisničkih preferencija.
 
-Prvi korak u korištenju aplikacije je odabir slika u galeriji nasumičnih slika korištenjem poveznice "Random Images"(Slika \ref{fg:demo_rand}). Ako korisnik odluči posjetiti neku od preostalih galerija prije nego što je označio ikakvu sliku dobit će poruku upozorenja da sustav nije mogao obraditi njegov zahtjev. Jednom kad se galerija učitala korisnik može početi pregledavati i označivati ponuđene slike. Sučelje se sastoji od dvije glavne komponente: trenutno razmatrane slike i podskupa slika galerije u obliku albuma. Album trenutnog pogleda na slike sustava pruža brzi pregled trenutne stranice slika. Gumbima "Previous Page" i "Next Page" korisnik može dohvaćati preostale stranice i postepeno pretražiti cijelu bazu slika. Gumbom "Refresh" korisnik može zatražiti osvježavanje trenutne stranice slika. Pritiskom na bilo koju od slika u albumu slika se fokusira u gornjem pregledniku. Ispod fokusirane slike nalaze se tri gumba za pomak na prethodnu sliku albuma, dodavanje trenutne u favorite pritiskom na gumb 'Like' i pomak na iduću sliku albuma. Od korisnika se očekuje odabir najmanje jedne slike i pritisak na gumb 'Like' prije prelaska u iduću fazu aplikacije.
+Prvi korak u korištenju aplikacije je odabir slika u galeriji nasumičnih slika korištenjem poveznice "Random Images"(Slika \ref{fg:demo_rand}). Ako korisnik odluči posjetiti neku od preostalih galerija prije nego što je označio ikakvu sliku dobit će poruku upozorenja da sustav nije mogao obraditi njegov zahtjev. Jednom kad se galerija učitala korisnik može početi pregledavati i označavati ponuđene slike. Sučelje se sastoji od dvije glavne komponente: trenutno razmatrane slike i podskupa slika galerije u obliku albuma. Album trenutnog pogleda na slike sustava pruža brzi pregled trenutne stranice slika. Gumbima "Previous Page" i "Next Page" korisnik može dohvaćati preostale stranice i postepeno pretražiti cijelu bazu slika. Gumbom "Refresh" korisnik može zatražiti osvježavanje trenutne stranice slika. Pritiskom na bilo koju od slika u albumu slika se fokusira u gornjem pregledniku. Ispod fokusirane slike nalaze se tri gumba za pomak na prethodnu sliku albuma, dodavanje trenutne u favorite pritiskom na gumb "Like" i pomak na iduću sliku albuma. Od korisnika se očekuje odabir najmanje jedne slike i pritisak na gumb "Like" prije prelaska u iduću fazu aplikacije.
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -551,7 +551,7 @@ Prvi korak u korištenju aplikacije je odabir slika u galeriji nasumičnih slika
 \end{figure}
 
 
-Nakon što je korisnik odabrao slike od interesa može ih još jednom pregledati pritiskom na poveznicu "Liked Images"(Slika \ref{fg:demo_liked}). Kroz ovaj pogled korisnik također može izbrisati neke od slika iz svojih favorita kako bi promotrio drugačije preporuke koje sustav nudi.
+Nakon što je korisnik odabrao njemu interesantne slike može ih još jednom pregledati pritiskom na poveznicu "Liked Images" (Slika \ref{fg:demo_liked}). Kroz ovaj pogled korisnik također može izbrisati neke od slika iz svojih favorita kako bi promotrio kako će to utjecati na preporuke sustava.
 
 \begin{figure}[H]
 	\begin{center}
@@ -563,7 +563,7 @@ Nakon što je korisnik odabrao slike od interesa može ih još jednom pregledati
 \end{figure}
 
 
-Posljednja faza korištenja je pregledavanje preporučenih slika (Slika \ref{fg:demo_recommended}). Slično kao i u prethodnim pogledima korisnik može dodavati slike u favorite samo sada pritiskom na 'Refresh' gumb može brže zatražiti novi set preporuka prilagođen ažuriranom stanju preferencija. 
+Posljednja faza korištenja je pregledavanje preporučenih slika (Slika \ref{fg:demo_recommended}). Slično kao i u prethodnim pogledima korisnik može dodavati slike u favorite samo sada pritiskom na "Refresh" gumb može brže zatražiti novi set preporuka prilagođen ažuriranom stanju preferencija. 
 
 \begin{figure}[H]
 	\begin{center}
@@ -650,7 +650,7 @@ Provedimo još jedno testiranje ponovno uključujući sliku iz prvog eksperiment
 
 \section{Implementacijski detalji}
 
-Kao što je bilo naznačeno u poglavlju o paketima implementacija web poslužitelja oslanja se na dva programska jezika: Python i JavaScript. Poslužitelj \footnote{Kod poslužitelja dostupan je na Github repozitoriju kojem možete pristupiti na linku \url{https://github.com/vribic/recommender-demo-api}.} je pisan u čistom Pythonu, oslanjajući se na Django radno okruženje kako bi se podaci mogli dostavljati korisniku. Podaci aplikacije pohranjeni su u PostgreSQL bazi podataka na samom serveru dok se slike poslužuju s Amazon S3 servisa. Klijent \footnote{Kod klijenta dostupan je na Github repozitoriju kojem možete pristupiti na linku \url{https://github.com/vribic/recommender-demo}.} je razvijan u standardnim web tehnologijama HTML, CSS, JavaScript jezika. Kako bi kod bio čim jednostavniji za razumijevanje i implementaciju odabran je Angular 5 radni okvir za lakše oblikovanje komponenti klijenta. Po završetku razvoja aplikacija je postavljena na Heroku platformu koja omogućuje izgradnju, pokretanje i upravljanje aplikacijama kroz cloud. Kako sama web aplikacija nije bila u fokusu rada, zainteresirani čitatelji mogu dobiti više informacija posjećivanjem poveznica u podnožju stranice koji vode na repozitorije koda aplikacije.
+Kao što je bilo naznačeno u poglavlju o paketima implementacija web poslužitelja oslanja se na dva programska jezika: Python i JavaScript. Poslužitelj \footnote{Kod poslužitelja dostupan je na Github repozitoriju kojem možete pristupiti na linku \url{https://github.com/vribic/recommender-demo-api}.}, a pisan je u Pythonu, oslanjajući se na Django radno okruženje kako bi se podaci mogli dostavljati korisniku. Podaci aplikacije pohranjeni su u PostgreSQL bazi podataka na samom serveru dok se slike poslužuju s Amazon S3 servisa. Klijent \footnote{Kod klijenta dostupan je na Github repozitoriju kojem možete pristupiti na linku \url{https://github.com/vribic/recommender-demo}.}, a razvijen je u standardnim web tehnologijama HTML, CSS i JavaScript-u. Kako bi kod bio čim jednostavniji za razumijevanje i implementaciju odabran je Angular 5 radni okvir za lakše oblikovanje komponenti klijenta. Po završetku razvoja aplikacija je postavljena na Heroku platformu koja omogućuje izgradnju, pokretanje i upravljanje aplikacijama. Budući da implementacija same web aplikacija nije bila u fokusu rada zainteresirani čitatelji mogu dobiti više informacija posjećivanjem poveznica u podnožju stranice koje vode na repozitorije koda aplikacije.
 
 
 
