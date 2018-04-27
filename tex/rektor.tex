@@ -133,7 +133,7 @@ Računalo promatra sliku kao trodimenzionalnu matricu dimenzija X*Y*Z gdje su X 
 
 Jedna duboka konvolucijska mreža se uobičajeno gradi od konvolucijskih slojeva, slojeva sažimanja i potpuno povezanih slojeva unaprijedne neuronske mreže. Između svih slojeva u mreži nalazi se tzv. aktivacijska funkcija čiji je cilj uvesti nelinearnost u model.
 
-Aktivacijske funkcije su hiperparametri svake mreže i bitne su zbog unošenja nelinearnosti inače bi se mreža reducirala na afinu transformaciju koja preslikava ulazne vrijednosti u izlazne.  Aktivacijska funkcija završnog sloja ovisi o tipu zadatka koji se mreža uči rješavati. Mreža trenirana za aproksimaciju funkcije neće raditi transformacije nad izlazom, već će aktivacijska funkcija izlaza biti funkcija identiteta (\ref{eq:f_identiteta}). Drugi primjer bio bi zadatak klasifikacije za koji izlaz mora imati probabilističku interpretaciju, a ona se postiže sigmoidom (\ref{eq:f_sigmoida})u slučaju dvije klase ili softmax funkcijom(\ref{eq:f_softmax}) za više klasa. 
+Aktivacijske funkcije su hiperparametri svake mreže i bitne su zbog unošenja nelinearnosti inače bi se mreža reducirala na afinu transformaciju koja preslikava ulazne vrijednosti u izlazne.  Aktivacijska funkcija završnog sloja ovisi o tipu zadatka koji se mreža uči rješavati. Mreža trenirana za aproksimaciju funkcije neće raditi transformacije nad izlazom, već će aktivacijska funkcija izlaza biti funkcija identiteta (\ref{eq:f_identiteta}). Drugi primjer bio bi zadatak klasifikacije za koji izlaz mora imati probabilističku interpretaciju, a ona se postiže sigmoidom (\ref{eq:f_sigmoida}) u slučaju dvije klase ili softmax funkcijom (\ref{eq:f_softmax}) za više klasa. 
 
 \begin{equation}
 \label{eq:f_identiteta}
@@ -146,7 +146,7 @@ Sigmoid(x) = \frac{1}{1+e^{-x}}
 \end{equation}
 
 \begin{equation}
-\label{eq:f_softmax}
+\label{eq:f_softmax}je
 Softmax(x)_i = \frac{e^{x_i}}{\sum_{j}^{N}e^{x}} \quad \text{for j = 1, ..., N}
 \end{equation}
 
@@ -272,7 +272,7 @@ Nakon što je određen traženi broj glavnih komponenti (u slučaju sa slike nji
 
 Iako se u gore navedenom primjeru dimenzionalnost podataka ne reducira (2D podaci ostaju u 2D prostoru) glavno područje primjene PCA tehnike je upravo redukcija dimenzionalnosti koja funkcionira na skoro identičan način. Razlikuje se po tome što se nakon određenih smjerova raspršenja oni poredaju silazno po svojstvenim vrijednostima te se odabere njih n (željena dimenzija na koju se reducira) nakon čega se podaci transformiraju u taj koordinatni prostor čime se gube ostale dimenzije s manjim svojstvenim vrijednostima. 
 
-Važno je naglasiti da je glavna motivacija iza PCA tehnike uklanjanje korelacije u podatkovnom skupu odnosno uklanjanje zavisnosti drugog reda između podataka [3]. Način na koji PCA nastoji ostvariti taj cilj je pretpostavkom su glavne komponente međusobno ortogonalne zbog čega neće biti primjerena za podatkovne skupove poput onog na slici \ref{fg:pca_problem}.
+Važno je naglasiti da je glavna motivacija iza PCA tehnike uklanjanje korelacije u podatkovnom skupu odnosno uklanjanje zavisnosti drugog reda između podataka [3]. Način na koji PCA nastoji ostvariti taj cilj je pretpostavkom da su glavne komponente međusobno ortogonalne zbog čega PCA neće biti primjerena za podatkovne skupove poput onog na slici \ref{fg:pca_problem}.
 
 \begin{figure}[H]
 	\begin{center}
@@ -327,7 +327,7 @@ Inception blokovi su postali popularni nakon što je Googleova tadašnja arhitek
 
 Inception moduli od kojih je građena mreža (A-C) obrađuju ulaze na sličan način. Zajednička karakteristika im je da izlazne dimenzije podatka ostanu jednake (npr. Inception-A na ulazu prima 35x35x384 a na izlazu daje 35x35x384), a razlikuju se po načinu obrade ulaznog podatka, točnije broja konvolucijskih slojeva u granama i njihovih parametara.
 
-Osim Inception modula mreža se sastoji i od Reduction blokova koji su, uz ekstrakciju značajki, zaslužni za smanjivanje dimenzionalnosti ulaznog podatka. Kao i Inception blokovi razlika između Reduction bloka A i Reduction bloka B je samo u parametrima grana i dizajnu grana, a oba bloka smanjuju širinu i visinu ulaznog podatka za faktor 2 kombinacijom globalnog sažimanja ili konvolucija s korakom 2 (Slika \ref{fg:inception_reduction_a}).
+Osim Inception modula mreža se sastoji i od Reduction blokova koji su, uz ekstrakciju značajki, zaslužni za smanjivanje dimenzionalnosti ulaznog podatka. Kao i Inception blokovi razlika između Reduction bloka A i Reduction bloka B je samo u parametrima grana i dizajnu grana, a oba bloka smanjuju širinu i visinu ulaznog podatka za faktor 2 korištenjem slojeva sažimanja ili konvolucija s korakom 2 (Slika \ref{fg:inception_reduction_a}).
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -379,7 +379,7 @@ CosineDistance(x,y) = 1- cos(\pmb x, \pmb y) = 1 - \frac {\pmb x \cdot \pmb y}{|
 
 Obje metrike su davale skoro identične rezultate uz male promjene poretka između vraćenih slika. Jedan od razloga zašto smo dobili takve rezultate je velika dimenzionalnost prostora koji vektori razapinju. Posljedica toga je da dvije točke koje se nalaze blizu u prostoru ujedno zatvaraju i maleni kut zbog čega se smatraju sličnima u obje metrike.	
 
-Nakon ispitivanja rezultata metrika odabrali smo kosinusnu udaljenost koja je davala zadovoljavajuće rezultate. Potencijalni problemi koji se mogu pojaviti kod te metrike u našem slučaju nisu pretjerano bitni budući da nam nije bitna duljina vektora već njegovo usmjerenje, odnosno relativan iznos aktivacija koje taj vektor opisuje. Primjerice ako našem sustavu predamo sliku mačke i tražimo ostale slične slike želimo vratiti sve vektore kojima su dominantni elementi koji detektiraju oči, njušku, uši mačke. Zbog toga nam je kosinusna udaljenost zadovoljavajuća jer vraća slike čiji reprezentativni vektori imaju jednake dominantne elemente unutar vektora.
+Nakon ispitivanja rezultata metrika odabrali smo kosinusnu udaljenost koja je davala zadovoljavajuće rezultate. Potencijalni problemi koji se mogu pojaviti kod te metrike u našem slučaju nisu pretjerano bitni budući da nam nije bitna duljina vektora već njegovo usmjerenje, odnosno relativan iznos aktivacija koje taj vektor opisuje. Primjerice ako našem sustavu predamo sliku mačke i tražimo ostale slične slike želimo vratiti sve vektore kojima su dominantni elementi koji detektiraju oči, njušku, uši mačke. Zbog toga nam je kosinusna udaljenost zadovoljavajuća jer vraća slike čiji reprezentativni vektori imaju jednak odnos dominantnih elemenata unutar vektora.
 
 
 \section{Predtrenirana arhitektura VGG}
@@ -427,7 +427,7 @@ Vođeni zaključcima koje smo dobili testirajući arhitekturu VGG za dohvaćanje
 
 Razlog zašto redukcija predzadnjeg sloja dovodi do ovoliko loših rezultata djelomično se može objasniti time što mreža taj sloj koristi za završnu klasifikaciju i time nema neku semantičku interpretaciju. Budući da je krajnji cilj dobiti vektor koji se sastoji od 300 elemenata gdje je intenzitet svakog elementa u vektoru označava pojavljivanje određenog uzorka na ulaznoj slici, odlučili smo značajke ekstrahirati kao maksimalni odziv svakog konvolucijskog sloja. 
 
-Ekstrakcija značajki se vrši na sljedeći način, nad svakim konvolucijskim slojem u Inception mreži napravi se operacija globalnog sažimanja. Na primjer ako je izlaz konvolucijskog sloja 12 x 12 x 512 (visina, širina, broj kanala) globalnim sažimanjem svakog od kanala dobiti ćemo vektor 1x1x512. Dobiveni vektori svakog konvolucijskog sloja nakon globalnog sažimanja se izravnaju i konkateniraju u jedan veliki vektor s  \textasciitilde16000 elemenata.  Tako dobiveni elementi se zatim reduciraju na vektore od 300 elemenata korištenjem PCA modela. Kako bi rezultati bili što precizniji, korišteni PCA model je prethodno istreniran korištenjem sto tisuća ekstrahiranih vektora nasumično odabranih slika radi preciznijeg određivanja glavnih komponenti podatkovnog skupa.
+Ekstrakcija značajki se vrši na sljedeći način, nad svakim konvolucijskim slojem u Inception mreži napravi se operacija globalnog sažimanja. Na primjer ako je izlaz konvolucijskog sloja 12 x 12 x 512 (visina, širina, broj kanala) globalnim sažimanjem svakog od kanala dobiti ćemo vektor 1x1x512. Dobiveni vektori svakog konvolucijskog sloja nakon globalnog sažimanja se izravnaju i konkateniraju u jedan veliki vektor s  \textasciitilde16000 elemenata.  Tako dobiveni elementi se zatim reduciraju na vektore od 300 elemenata korištenjem PCA modela. Kako bi rezultati bili što precizniji, korišteni PCA model je prethodno istreniran korištenjem 100.000 ekstrahiranih vektora nasumično odabranih slika radi preciznijeg određivanja glavnih komponenti podatkovnog skupa.
 
 Primjer tako dobivenih rezultata može se vidjeti na sljedećim slikama \ref{fg:inception_globalno_sazimanje_auti}, \ref{fg:inception_globalno_sazimanje_ptice}, \ref{fg:inception_globalno_sazimanje_ptice}, a korišteni kod za generiranje kao i dodatne rezultate moguće je vidjeti na \cite{AVSP}.
 
@@ -487,7 +487,7 @@ Odabrani skup podataka je STL-10 \cite{STL10} čije slike imaju dimenziju 96x96x
 
 Korištenjem metode t-SNE, značajke dobivene iz najboljeg modela Inception v4 s globalnim sažimanjem kanala su prikazane u 2D prostoru. Na slici \ref{fg:stl_10_tsne} se vidi da su podaci grupirani u nakupine uz poneka miješanja grupa poput slika jelena i konja. Razlog tome može biti zbog vrlo slične pozadine slike i kuta snimanja gdje se značajke jelena (rogovi) ne vide jasno na slici zbog čega ih mreža lako može zamijeniti jer su obje životinje približno jednake boje i građe.
 
-Moguće je dodatno poboljšati performance mreže za određivanje sličnosti tako da se radi redukcija dimenzionalnosti modelom PCA na značajkama dobivenim iz klasa koje želimo preciznije razlikovati, u ovome slučaju klasa iz STL-10 podatkovnog skupa.
+Moguće je dodatno poboljšati performance predtrenirane mreže za određivanje sličnosti tako da se radi redukcija dimenzionalnosti modelom PCA na značajkama dobivenim iz klasa koje želimo preciznije razlikovati, u ovome slučaju klasa iz STL-10 podatkovnog skupa.
 
 \begin{figure}[!ht]
 	\begin{center}
