@@ -78,7 +78,7 @@ Društvene mreže samo su jedan od primjera gdje će razumijevanje semantike sli
 
 Napredak sklopovlja vratio je u fokus modele neuronskih mreža pošto su nove arhitekture grafičkih kartica bile dovoljno efikasne za ponovno eksperimentiranje s umjetnim neuronskim mrežama. Rezultat novog vala testiranja bile su dublje mreže, sposobne uhvatiti kompleksnije odnose među pikselima slika čime je označen početak dubokog učenja. Prikupljeni podaci o slikama sada postaju predmet proučavanja ovih pametnih algoritama koji pronalaze nove primjene u akademiji i industriji. 
 
-Ovaj rad proučava postojeće arhitekture i modele dubokog učenja i istražuje njihove primjene u oblikovanju sustava preporuke slika ekstrakcijom njihovih značajki. U nastavku uvodnog poglavlja rada izlažu se opći i specifični ciljevi te programski paketi korišteni u implementaciji. Drugo poglavlje obrađuje modele za sažimanje opisujući arhitekturu dubokih konvolucijskih mreža i predtreniranih modela VGG i Inception v4. Također, u poglavlje je uključen opis algoritma analize glavnih komponenti koji je korišten za efikasniju reprezentaciju značajki. Slijedi ih odjeljak s rezultatima i raspravom o ispitanim metrikama sličnosti, ponašanju predtreniranih arhitektura i metodama za inspekciju kvalitete modela na našem zadatku. Četvrto poglavlje pokriva demonstraciju rada sustava na primjeru web aplikacije. Opisani su tijek korištenja i informacije o implementaciji. U posljednjem, petom poglavlju, dan je osvrt na ishode rada.
+Ovaj rad proučava postojeće arhitekture i modele dubokog učenja i istražuje njihove primjene u oblikovanju sustava preporuke slika ekstrakcijom njihovih značajki. U nastavku uvodnog poglavlja rada izlažu se opći i specifični ciljevi te programski paketi korišteni u implementaciji. Drugo poglavlje obrađuje modele za sažimanje opisujući arhitekturu dubokih konvolucijskih mreža i predtreniranih modela \textit{VGG} i \textit{Inception v4}. Također, u poglavlje je uključen opis algoritma analize glavnih komponenti koji je korišten za efikasniju reprezentaciju značajki. Slijedi ih odjeljak s rezultatima i raspravom o ispitanim metrikama sličnosti, ponašanju predtreniranih arhitektura i metodama za inspekciju kvalitete modela na našem zadatku. Četvrto poglavlje pokriva demonstraciju rada sustava na primjeru \textit{web} aplikacije. Opisani su tijek korištenja i informacije o implementaciji. U posljednjem, petom poglavlju, dan je osvrt na ishode rada.
  
 
 
@@ -91,35 +91,35 @@ Cilj ovog istraživanja bio je ostvariti takav duboki model, ispitati različite
 \section{Programska i hardverska podrška}
 \subsection{Programska podrška}
 
-Ovaj projekt implementiran je u dva programska jezika: Python i JavaScript. 
-Python je popularni programski jezik visoke razine apstrakcije. Zbog svoje jednostavnosti i velikog broja paketa otvorenog koda, često je prvi izbor za efikasno provođenje eksperimenata i brzo prototipiranje novih sustava. Paketi korišteni pri razvoju jezgre sustava za preporučivanje su: Tensorflow, OpenCV, NMSLIB, TSNE. Za izradu demo prezentacije sustava, poslužitelj je implementiran u Django razvojnom okviru s popratnim paketima za efikasnu konfiguraciju. 
-JavaScript je programski jezik ključan za programiranje klijenata kroz koje će korisnici isprobavati demo sustav za preporučivanje slika. Radni okvir za pisanje klijenta je Angular 5, dok se više informacija o implementaciji možete pronaći u poglavlju 4.
+Ovaj projekt implementiran je u dva programska jezika: \textit{Python} i \textit{Javascript}. 
+\textit{Python} je popularni programski jezik visoke razine apstrakcije. Zbog svoje jednostavnosti i velikog broja paketa otvorenog koda, često je prvi izbor za efikasno provođenje eksperimenata i brzo prototipiranje novih sustava. Paketi korišteni pri razvoju jezgre sustava za preporučivanje su: \textit{Tensorflow}, \textit{OpenCV}, \textit{NMSLIB}, \textit{t-SNE}. Za izradu demo prezentacije sustava, poslužitelj je implementiran u \textit{Django} razvojnom okviru s popratnim paketima za efikasnu konfiguraciju. 
+\textit{Javascript} je programski jezik ključan za programiranje klijenata kroz koje će korisnici isprobavati demo sustav za preporučivanje slika. Radni okvir za pisanje klijenta je \textit{Angular 5}, dok se više informacija o implementaciji možete pronaći u poglavlju 4.
 
 \subsubsection{Python paketi }
 
-Tensorflow \cite{tensorflow2015-whitepaper} - radni okvir za strojno učenje. Razvijen i podržavan od Googlea, Tensorflow je alat za izgradnju modela strojnog učenja s mnogo dodataka, poput automatske diferencijacije pri popularnim metodama optimizacije i akcelerirano učenje na grafičkim karticama. Velika fleksibilnost i dobra podrška učinili su ovaj alat popularnim izborom u akademiji i industriji. Visoka modularnost i fleksibilnost ostvarene su oblikovanjem modela grafom operacija.
-Tensorflow je centralna komponenta našeg projekta pomoću koje se provodi ekstrakcija značajki slike.
+\textit{Tensorflow} \cite{tensorflow2015-whitepaper} - radni okvir za strojno učenje. Razvijen i podržavan od \textit{Google}-a, \textit{Tensorflow} je alat za izgradnju modela strojnog učenja s mnogo dodataka, poput automatske diferencijacije pri popularnim metodama optimizacije i akcelerirano učenje na grafičkim karticama. Velika fleksibilnost i dobra podrška učinili su ovaj alat popularnim izborom u akademiji i industriji. Visoka modularnost i fleksibilnost ostvarene su oblikovanjem modela grafom operacija.
+\textit{Tensorflow} je centralna komponenta našeg projekta pomoću koje se provodi ekstrakcija značajki slike.
 
-OpenCV \cite{itseez2015opencv} - radni okvir za obradu slika. OpenCV sadrži veliki skup algoritama za obradu i manipulaciju nad slikama. Ovaj se paket u našem projektu koristi za predobradu slika koje se kasnije prosljeđuju Tensorflow modelu.
-
-
-NMSLIB \cite{NMSLIB} - paket za efektivnu pretragu na temelju sličnosti. Paket je oblikovan bez ikakvih pretpostavki o matematičkim svojstvima prostora pretraživanja što je postignuto implementiranjem funkcija za generičke prostore bez metrike. Ovaj sveobuhvatni sustav razmatrao je i dimenzionalnost prostora koji su iznimno veliki te podržava aproksimativne metode pri pretraživanju takvih prostora. U našem projektu ovaj se paket pokazao korisnim pri provođenju eksperimenata nad različitim metodama ekstrakcije. 
+\textit{OpenCV} (engl. \textit{Open Source Computer Vision Library}) \cite{itseez2015opencv} - radni okvir za obradu slika. \textit{OpenCV} sadrži veliki skup algoritama za obradu i manipulaciju nad slikama. Ovaj se paket u našem projektu koristi za predobradu slika koje se kasnije prosljeđuju \textit{Tensorflow} modelu.
 
 
-TSNE \cite{TSNE} - modul paketa sklearn za vizualizaciju visoko dimenzionalnih podataka. sklearn obuhvaća skup alata za razne zadatke potrebne pri izradi inteligentnih sustava. On sadrži algoritme i metrike za česte zadatke klasifikacije, regresije, klasteriranja kao i redukcije dimenzionalnosti, odabira modela i analize podataka. Jedan od modula uključenih u ovaj set alata je i tSNE modul koji služi za pretvorbu vektorskih podataka visokih dimenzija u zapis pogodan za iscrtavanje na grafu. Postupak odabira željenih dimenzija vrši se minimizacijom Kullback-Leiber divergencije između zajedničke vjerojatnosti sažetka i izvornog podatka.
+\textit{NMSLIB} (engl. \textit{Non-Metric Space Library})\cite{NMSLIB} - paket za efektivnu pretragu na temelju sličnosti. Paket je oblikovan bez ikakvih pretpostavki o matematičkim svojstvima prostora pretraživanja što je postignuto implementiranjem funkcija za generičke prostore bez metrike. Ovaj sveobuhvatni sustav razmatrao je i dimenzionalnost prostora koji su iznimno veliki te podržava aproksimativne metode pri pretraživanju takvih prostora. U našem projektu ovaj se paket pokazao korisnim pri provođenju eksperimenata nad različitim metodama ekstrakcije. 
 
 
-Django \cite{django}- radni okvir za izradu web poslužitelja. Django omogućava brzi razvoj projekta s nizom gotovih komponenti i mogućnošću proširivanja osnovnih funkcionalnosti kako bi se ostvarilo željeno ponašanje. Radni okvir uključuje autentifikaciju, posluživanje web stranica i REST zahtjeva. Django se, u našem projektu, koristi isključivo za pohranu, obradu i posluživanje podataka te kao jedinstvena točka za pristup bazi podataka. 
+\textit{t-SNE} (engl. \textit{t-distributed Stochastic Neighbor Embedding}) \cite{TSNE} - modul paketa \textit{sklearn} za vizualizaciju visoko dimenzionalnih podataka. \textit{sklearn} obuhvaća skup alata za razne zadatke potrebne pri izradi inteligentnih sustava. On sadrži algoritme i metrike za česte zadatke klasifikacije, regresije, klasteriranja kao i redukcije dimenzionalnosti, odabira modela i analize podataka. Jedan od modula uključenih u ovaj set alata je i \textit{t-SNE} modul koji služi za pretvorbu vektorskih podataka visokih dimenzija u zapis pogodan za iscrtavanje na grafu. Postupak odabira željenih dimenzija vrši se minimizacijom Kullback-Leiber divergencije između zajedničke vjerojatnosti sažetka i izvornog podatka.
+
+
+\textit{Django} \cite{django}- radni okvir za izradu \textit{web} poslužitelja. \textit{Django} omogućava brzi razvoj projekta s nizom gotovih komponenti i mogućnošću proširivanja osnovnih funkcionalnosti kako bi se ostvarilo željeno ponašanje. Radni okvir uključuje autentifikaciju, posluživanje \textit{web} stranica i \textit{REST} (engl. \textit{REpresentational State Transfer}) zahtjeva. \textit{Django} se, u našem projektu, koristi isključivo za pohranu, obradu i posluživanje podataka te kao jedinstvena točka za pristup bazi podataka. 
 
 
 \subsubsection{JavaScript paketi}
 
-Angular 5 \cite{angular} - radni okvir za izradu web klijenata. Angular 5 oslanja se na Typescript paket pri oblikovanju svih komponenti. To Angular čini strogo tipiziranim i omogućava pisanje izoliranih komponenti koje se mogu povezivati. Posljedica je jasna paradigma koja pruža sve funkcionalnosti potrebne za razvoj web stranice uz najveću moguću fleksibilnost pri oblikovanju izgleda i ponašanja komponenti stranice. U našem projektu Angular je korišten za dizajn web klijenta kojim korisnik može isprobati ponašanje sustava za različite korisničke odabire slika.
+\textit{Angular 5} \cite{angular} - radni okvir za izradu \textit{web} klijenata. \textit{Angular 5} oslanja se na \textit{Typescript} paket pri oblikovanju svih komponenti. To Angular čini strogo tipiziranim i omogućava pisanje izoliranih komponenti koje se mogu povezivati. Posljedica je jasna paradigma koja pruža sve funkcionalnosti potrebne za razvoj \textit{web} stranice uz najveću moguću fleksibilnost pri oblikovanju izgleda i ponašanja komponenti stranice. U našem projektu Angular je korišten za dizajn \textit{web} klijenta kojim korisnik može isprobati ponašanje sustava za različite korisničke odabire slika.
 
 
 
 \subsection{Hardverska podrška}
-Implementacija rješenja i ispitivanje napravljeno je na računalu s operativnim sustavom Ubuntu 16.04. Od važnijih komponenti koje utječu na brzinu i mogućnost reprodukcije rezultata bitno je naglasiti da računalo ima grafičku karticu GTX Titan Pascal s 12GB memorije, Intelov i7 procesor sa šest jezgri i 32GB radne memorije što je omogućilo obradu velikog podatkovnog skupa u razumnom vremenu.
+Implementacija rješenja i ispitivanje napravljeno je na računalu s operativnim sustavom \textit{Ubuntu 16.04}. Od važnijih komponenti koje utječu na brzinu i mogućnost reprodukcije rezultata bitno je naglasiti da računalo ima grafičku karticu \textit{GTX Titan Pascal} s 12GB memorije, \textit{Intel}ov i7 procesor sa šest jezgri i 32GB radne memorije što je omogućilo obradu velikog podatkovnog skupa u razumnom vremenu.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% CHAPTER
@@ -127,7 +127,7 @@ Implementacija rješenja i ispitivanje napravljeno je na računalu s operativnim
 
 \section{Konvolucijske mreže}
 
-Konvolucijske neuronske mreže su postale popularne kao sredstvo za obradu slika nakon pobjede Alexa Krizhevsky-og na natjecanju 2012 ILSVRC (ImageNet Large-Scale Visual Recognition Challenge \cite{ILSVRC15}) sa svojom konvolucijskom neuronskom mrežom danas poznatijom pod imenom AlexNet. Od tada je njihova popularnost kao sredstvo za obradu slika naglo porasla te su danas konvolucijske arhitekture najdominantnije u području obrade slika.
+Konvolucijske neuronske mreže su postale popularne kao sredstvo za obradu slika nakon pobjede Alexa Krizhevsky-og na natjecanju 2012 \textit{ILSVRC} (engl. \textit{ImageNet Large-Scale Visual Recognition Challenge} \cite{ILSVRC15}) sa svojom konvolucijskom neuronskom mrežom danas poznatijom pod imenom \textit{AlexNet}. Od tada je njihova popularnost kao sredstvo za obradu slika naglo porasla te su danas konvolucijske arhitekture najdominantnije u području obrade slika.
 
 Računalo promatra sliku kao trodimenzionalnu matricu dimenzija X*Y*Z gdje su X i Y visina i širina slike, a dimenzija Z predstavlja broj kanala promatrane slike (uobičajeno crveni-zeleni-plavi kanal, poznatije kao RGB). Uzimajući u obzir da su ulazni podaci modela konvolucijske mreže uobičajeno slike, odnosno trodimenzionalne matrice, ona svoje neurone kojima obrađuje primljene podatke također uređuje u tri dimenzije, širina, visina i dubina koja se može smatrati i brojem kanala kao u slikama, no bez limitacija na broj istih.
 
@@ -246,9 +246,9 @@ Potpuno povezana unaprijedna neuronska mreža je građena od slojeva koji se raz
 
 \section{Analiza glavnih komponenti}
 
-Analiza glavnih komponenti (engl. Principal component analysis - PCA) standardni je alat u modernoj analizi podataka - u različitim područjima od neuroznanosti do računalne grafike zbog toga što je jednostavna, neparametarska metoda za ekstrahiranje relevantnih informacija iz podatkovnog skupa \cite{PCA}.
+Analiza glavnih komponenti (engl. \textit{Principal component analysis - PCA}) standardni je alat u modernoj analizi podataka - u različitim područjima od neuroznanosti do računalne grafike zbog toga što je jednostavna, neparametarska metoda za ekstrahiranje relevantnih informacija iz podatkovnog skupa \cite{PCA}.
 
-Bez ulaženja u matematiku koja se može pronaći u radu \cite{PCA}, PCA se može objasniti laičkim terminima kao tehnika koja pronalazi temeljne varijable koje najbolje diferenciraju podatkovni skup (poznatije kao glavne komponente - engl. principal components). Glavne komponente skupa su dimenzije po kojima je naš podatkovni skup najviše raspršen (Slika \ref{fg:pca_start}).
+Bez ulaženja u matematiku koja se može pronaći u radu \cite{PCA}, \textit{PCA} se može objasniti laičkim terminima kao tehnika koja pronalazi temeljne varijable koje najbolje diferenciraju podatkovni skup (poznatije kao glavne komponente - engl. principal components). Glavne komponente skupa su dimenzije po kojima je naš podatkovni skup najviše raspršen (Slika \ref{fg:pca_start}).
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -270,9 +270,9 @@ Nakon što je određen traženi broj glavnih komponenti, u slučaju sa slike nji
 	\end{center}
 \end{figure}
 
-Iako se u gore navedenom primjeru dimenzionalnost podataka ne reducira (2D podaci ostaju u 2D prostoru), već se oni samo dekoreliraju, glavno područje primjene PCA tehnike je upravo redukcija dimenzionalnosti koja funkcionira na skoro identičan način. Upotreba PCA metode za redukciju dimenzionalnosti razlikuje se po tome što se nakon određenih smjerova raspršenja oni poredaju silazno po svojstvenim vrijednostima te se odabere željena dimenzija na koju se podaci žele transformirati. Nakon što se završi transformacija na manji broj dimenzija ostale glavne komponente s nižim svojstvenim vrijednostima se gube. 
+Iako se u gore navedenom primjeru dimenzionalnost podataka ne reducira (2D podaci ostaju u 2D prostoru), već se oni samo dekoreliraju, glavno područje primjene \textit{PCA} tehnike je upravo redukcija dimenzionalnosti koja funkcionira na skoro identičan način. Upotreba \textit{PCA} metode za redukciju dimenzionalnosti razlikuje se po tome što se nakon određenih smjerova raspršenja oni poredaju silazno po svojstvenim vrijednostima te se odabere željena dimenzija na koju se podaci žele transformirati. Nakon što se završi transformacija na manji broj dimenzija ostale glavne komponente s nižim svojstvenim vrijednostima se gube. 
 
-Važno je naglasiti da je glavna motivacija iza PCA tehnike uklanjanje korelacije u podatkovnom skupu, odnosno uklanjanje zavisnosti drugog reda između podataka [3]. Način na koji PCA nastoji ostvariti taj cilj je pretpostavkom da su glavne komponente međusobno ortogonalne zbog čega PCA neće biti primjerena za podatkovne skupove poput onog na slici \ref{fg:pca_problem}.
+Važno je naglasiti da je glavna motivacija iza \textit{PCA} tehnike uklanjanje korelacije u podatkovnom skupu, odnosno uklanjanje zavisnosti drugog reda između podataka [3]. Način na koji \textit{PCA} nastoji ostvariti taj cilj je pretpostavkom da su glavne komponente međusobno ortogonalne zbog čega \textit{PCA} neće biti primjerena za podatkovne skupove poput onog na slici \ref{fg:pca_problem}.
 
 \begin{figure}[H]
 	\begin{center}
@@ -286,11 +286,11 @@ Važno je naglasiti da je glavna motivacija iza PCA tehnike uklanjanje korelacij
 
 \section{VGG}
 
-Arhitektura prvog isprobanog modela datira iz 2014. godine, a dolazi sa sveučilišta Oxford čiji ju je tim koristio u ImageNet Large Scale Visual Recognition Challenge natjecanju. VGG tim (Visual Geometry Group), po kojem je mreža dobila ime, ostvario je prvo mjesto iz zadatka lokalizacije objekata i drugo mjesto iz zadatka klasifikacije.
+Arhitektura prvog isprobanog modela datira iz 2014. godine, a dolazi sa sveučilišta Oxford čiji ju je tim koristio u \textit{ImageNet} natjecanju.\textit{VGG} tim (engl. \textit{Visual Geometry Group}), po kojem je mreža dobila ime, ostvario je prvo mjesto iz zadatka lokalizacije objekata i drugo mjesto iz zadatka klasifikacije.
 
 Njihov glavni doprinos je temeljita evaluacija arhitektura dubokih mreža koje koriste konvolucijske filtere malih dimenzija (3x3), čime su pokazali da se značajno poboljšanje u odnosu na tadašnje najbolje arhitekture može postići povećanjem dubine mreže na 16-19 slojeva dubine \cite{VGG}. 
 
-Nakon evaluiranja više konfiguracija mreža VGG tim je pokazao da dublja konvolucijska mreža nadmašuje rezultate mreža s manje slojeva, zbog čega smo u našim ispitivanjima koristili njihovu najdublju mrežu u stupcu E sa slike \ref{fg:vgg}.
+Nakon evaluiranja više konfiguracija mreža, \textit{VGG} tim je pokazao da dublja konvolucijska mreža nadmašuje rezultate mreža s manje slojeva, zbog čega smo u našim ispitivanjima koristili njihovu najdublju mrežu u stupcu E sa slike \ref{fg:vgg}.
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -303,7 +303,7 @@ Nakon evaluiranja više konfiguracija mreža VGG tim je pokazao da dublja konvol
 
 \section{Inception v4}
 
-Inception v4 model je Google-ova četvrta iteracija Inception arhitekture koja se od VGG arhitekture najviše razlikuje po svojoj “širini”.  Arhitektura mreže u skraćenom prikazu Inception blokova se može vidjeti na slici (Slika \ref{fg:inceptionv4}). 
+\textit{Inception v4} model je \textit{Google}-ova četvrta iteracija \textit{Inception} arhitekture koja se od \textit{VGG} arhitekture najviše razlikuje po svojoj “širini”.  Arhitektura mreže u skraćenom prikazu \textit{Inception} blokova se može vidjeti na slici (Slika \ref{fg:inceptionv4}). 
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -314,7 +314,7 @@ Inception v4 model je Google-ova četvrta iteracija Inception arhitekture koja s
 	\end{center}
 \end{figure}
 
-Inception blokovi su postali popularni nakon što je Google-ova tadašnja arhitektura GoogLeNet izgrađena od Inception blokova ostvarila dobre performanse na natjecanju ImageNet. Njihova glavna prednost je rješavanje problema odabira dimenzija filtera pri izgradnji mreže jer se sastoje od više grana konvolucija koje ulazni podatak obrađuju s različitim dimenzijama filtera. Zbog stablaste razgranatosti, Inception blok iz ulaza može prepoznati kompliciranije uzorke jer svaka grana ulazni podatak promatra s različitim receptivnim poljem (Slika \ref{fg:inception_blok_a}).
+\textit{Inception} blokovi su postali popularni nakon što je \textit{Google}-ova tadašnja arhitektura \textit{GoogLeNet} izgrađena od \textit{Inception} blokova ostvarila dobre performanse na natjecanju ImageNet. Njihova glavna prednost je rješavanje problema odabira dimenzija filtera pri izgradnji mreže jer se sastoje od više grana konvolucija koje ulazni podatak obrađuju s različitim dimenzijama filtera. Zbog stablaste razgranatosti, \textit{Inception} blok iz ulaza može prepoznati kompliciranije uzorke jer svaka grana ulazni podatak promatra s različitim receptivnim poljem (Slika \ref{fg:inception_blok_a}).
 	
 \begin{figure}[H]
 	\begin{center}
@@ -325,9 +325,9 @@ Inception blokovi su postali popularni nakon što je Google-ova tadašnja arhite
 	\end{center}
 \end{figure}
 
-Inception moduli, od kojih je građena mreža (A-C), obrađuju ulaze na sličan način. Zajednička karakteristika im je da izlazne dimenzije podatka ostaju jednake (npr. Inception-A na ulazu prima 35x35x384 a na izlazu daje 35x35x384), a razlikuju se po načinu obrade ulaznog podatka, točnije broja konvolucijskih slojeva u granama i njihovih parametara.
+\textit{Inception} moduli, od kojih je građena mreža (A-C), obrađuju ulaze na sličan način. Zajednička karakteristika im je da izlazne dimenzije podatka ostaju jednake (npr. \textit{Inception-A} na ulazu prima 35x35x384 a na izlazu daje 35x35x384), a razlikuju se po načinu obrade ulaznog podatka, točnije broja konvolucijskih slojeva u granama i njihovih parametara.
 
-Osim Inception modula, mreža se sastoji i od Reduction blokova koji su, uz ekstrakciju značajki, zaslužni za smanjivanje dimenzionalnosti ulaznog podatka. Kao i Inception blokovi razlika između Reduction bloka A i Reduction bloka B je samo u parametrima grana i dizajnu grana, a oba bloka smanjuju širinu i visinu ulaznog podatka za faktor 2 korištenjem slojeva sažimanja ili konvolucija s korakom 2 (Slika \ref{fg:inception_reduction_a}).
+Osim \textit{Inception} modula, mreža se sastoji i od \textit{Reduction} blokova koji su, uz ekstrakciju značajki, zaslužni za smanjivanje dimenzionalnosti ulaznog podatka. Kao i \textit{Inception} blokovi razlika između \textit{Reduction-A} bloka i \textit{Reduction-B} bloka je samo u parametrima grana i dizajnu grana, a oba bloka smanjuju širinu i visinu ulaznog podatka za faktor 2 korištenjem slojeva sažimanja ili konvolucija s korakom 2 (Slika \ref{fg:inception_reduction_a}).
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -384,9 +384,9 @@ Nakon ispitivanja rezultata metrika, odabrali smo kosinusnu udaljenost koja je d
 
 \section{Predtrenirana arhitektura VGG}
 
-VGG arhitektura je prva isprobana mreža za ekstrakciju značajki, točnije njezin posljednji sloj konvolucijskog dijela mreže. Težinski koeficijenti mreže preuzeti su iz pobjedničke arhitekture ImageNet natjecanja čiji su filteri već naučeni prepoznavati komplicirane uzorke na ulaznim slikama.
+\textit{VGG} arhitektura je prva isprobana mreža za ekstrakciju značajki, točnije njezin posljednji sloj konvolucijskog dijela mreže. Težinski koeficijenti mreže preuzeti su iz pobjedničke arhitekture ImageNet natjecanja čiji su filteri već naučeni prepoznavati komplicirane uzorke na ulaznim slikama.
 
-Ulazna slika u mrežu je dimenzija 224x224x3, a finalni rezultat sloja kojeg koristimo je vektor od 25.000 elemenata. Budući da je krajnji cilj ostvariti reprezentaciju slike vektorom manjih dimenzija, što bi omogućilo brže pretraživanje, rezultat konvolucijske mreže se PCA modelom dalje reducira na 3000 dimenzija. Za treniranje PCA modela nasumično je izabrano 50.000 slika kako bismo dobili što bolju procjenu glavnih komponenti.
+Ulazna slika u mrežu je dimenzija 224x224x3, a finalni rezultat sloja kojeg koristimo je vektor od 25.000 elemenata. Budući da je krajnji cilj ostvariti reprezentaciju slike vektorom manjih dimenzija, što bi omogućilo brže pretraživanje, rezultat konvolucijske mreže se \textit{PCA} modelom dalje reducira na 3000 dimenzija. Za treniranje \textit{PCA} modela nasumično je izabrano 50.000 slika kako bismo dobili što bolju procjenu glavnih komponenti.
 
 Rezultati dobiveni na ovaj način za pojedine slike daju očekivane rezultate  (Slika \ref{fg:auti_vgg}), dok za druge već u top 5 najsličnijih slika vidimo nepovezanost rezultata (Slika \ref{fg:greske_vgg}). 
 
@@ -408,13 +408,13 @@ Rezultati dobiveni na ovaj način za pojedine slike daju očekivane rezultate  (
 \end{center}
 \end{figure}
 
-Dobri rezultati sažimanja, kao i lažni pozitivi dobiveni korištenjem jednostavnog VGG modela, u daljnjim testiranjima koristili smo kao referencu uspješnosti ekstrakcije značajki iz ulazne slike kod kompliciranijih modela.
+Dobri rezultati sažimanja, kao i lažni pozitivi dobiveni korištenjem jednostavnog \textit{VGG} modela, u daljnjim testiranjima koristili smo kao referencu uspješnosti ekstrakcije značajki iz ulazne slike kod kompliciranijih modela.
 
 \section{Predtrenirana arhitektura Inceptionv4}
 
-Sljedeća arhitektura sa značajno većim kapacitetom je Inception v4. Kao i u slučaju arhitekture VGG i za Inception v4 smo preuzeli težinske koeficijente iz arhitekture naučene na skupu ImageNet.
+Sljedeća arhitektura sa značajno većim kapacitetom je \textit{Inception v4}. Kao i u slučaju arhitekture \textit{VGG} i za \textit{Inception v4} smo preuzeli težinske koeficijente iz arhitekture naučene na skupu ImageNet.
 
-Vođeni zaključcima koje smo dobili testirajući arhitekturu VGG za dohvaćanje sličnih slika, prvi način ekstrakcije značajki, kao i u arhitekturi VGG, bio je uzimanje izlaza zadnjeg sloja konvolucijske mreže. U ovom slučaju to je vektor od 1536 elemenata dobiven globalnim sažimanjem prosječnom vrijednošću. Dobiveni vektori su se kasnije, korištenjem PCA modela, reducirali na 300 elemenata što je dalo loše rezultate unatoč velikom kapacitetu mreže (Slika \ref{fg:inception_zadnji_sloj_auti_greska}).
+Vođeni zaključcima koje smo dobili testirajući arhitekturu \textit{VGG} za dohvaćanje sličnih slika, prvi način ekstrakcije značajki, kao i u arhitekturi \textit{VGG}, bio je uzimanje izlaza zadnjeg sloja konvolucijske mreže. U ovom slučaju to je vektor od 1536 elemenata dobiven globalnim sažimanjem prosječnom vrijednošću. Dobiveni vektori su se kasnije, korištenjem \textit{PCA} modela, reducirali na 300 elemenata što je dalo loše rezultate unatoč velikom kapacitetu mreže (Slika \ref{fg:inception_zadnji_sloj_auti_greska}).
 
 \begin{figure}[H]
 	\begin{center}
@@ -427,7 +427,7 @@ Vođeni zaključcima koje smo dobili testirajući arhitekturu VGG za dohvaćanje
 
 Razlog zašto redukcija predzadnjeg sloja dovodi do ovoliko loših rezultata djelomično se može objasniti time što mreža taj sloj koristi za završnu klasifikaciju i time nema neku semantičku interpretaciju. Budući da je krajnji cilj dobiti vektor koji se sastoji od 300 elemenata gdje je intenzitet svakog elementa u vektoru označava pojavljivanje određenog uzorka na ulaznoj slici, odlučili smo značajke ekstrahirati kao maksimalni odziv svakog konvolucijskog sloja. 
 
-Ekstrakcija značajki se vrši se na način da se nad svakim konvolucijskim slojem u Inception mreži napravi operacija globalnog sažimanja. Na primjer, ako je izlaz konvolucijskog sloja 12 x 12 x 512 (visina, širina, broj kanala), globalnim sažimanjem svakog od kanala dobiti ćemo vektor 1x1x512. Dobiveni vektori svakog konvolucijskog sloja nakon globalnog sažimanja se izravnaju i konkateniraju u jedan veliki vektor s  \textasciitilde16000 elemenata.  Tako dobiveni elementi se zatim reduciraju na vektore od 300 elemenata korištenjem PCA modela. Kako bi rezultati bili što precizniji, korišteni PCA model je prethodno istreniran korištenjem 100.000 ekstrahiranih vektora nasumično odabranih slika radi preciznijeg određivanja glavnih komponenti podatkovnog skupa.
+Ekstrakcija značajki se vrši se na način da se nad svakim konvolucijskim slojem u \textit{Inception} mreži napravi operacija globalnog sažimanja. Na primjer, ako je izlaz konvolucijskog sloja 12 x 12 x 512 (visina, širina, broj kanala), globalnim sažimanjem svakog od kanala dobiti ćemo vektor 1x1x512. Dobiveni vektori svakog konvolucijskog sloja nakon globalnog sažimanja se izravnaju i konkateniraju u jedan veliki vektor s  \textasciitilde16000 elemenata.  Tako dobiveni elementi se zatim reduciraju na vektore od 300 elemenata korištenjem \textit{PCA} modela. Kako bi rezultati bili što precizniji, korišteni \textit{PCA} model je prethodno istreniran korištenjem 100.000 ekstrahiranih vektora nasumično odabranih slika radi preciznijeg određivanja glavnih komponenti podatkovnog skupa.
 
 Primjer tako dobivenih rezultata može se vidjeti na sljedećim slikama \ref{fg:inception_globalno_sazimanje_auti}, \ref{fg:inception_globalno_sazimanje_ptice}, \ref{fg:inception_globalno_sazimanje_ptice}, a korišteni kod za generiranje kao i dodatne rezultate moguće je vidjeti na \cite{AVSP}.
 
@@ -481,13 +481,13 @@ Kao što se vidi iz prikazanih slika moguće je reprezentirati sliku sa svega 30
 
 \section{T-SNE prikaz smanjenog skupa podataka}
 
-Budući da je korišteni podskup slika Google-ovog OpenImage \cite{openimages} podatkovnog skupa velik (\textasciitilde1 milijun slika) i anotacije klasa nisu nužno točne jer ih je većina generirana automatskom strojnom anotacijom korištenjem servisa poput Google Cloud Vision API, za vizualizaciju smo odabrali manji skup podataka koji je anotiran ručno i precizno.
+Budući da je korišteni podskup slika \textit{Google}-ovog \textit{OpenImage} \cite{openimages} podatkovnog skupa velik (\textasciitilde1 milijun slika) i anotacije klasa nisu nužno točne jer ih je većina generirana automatskom strojnom anotacijom korištenjem servisa poput \textit{Google Cloud Vision API}, za vizualizaciju smo odabrali manji skup podataka koji je anotiran ručno i precizno.
 
-Odabrani skup podataka je STL-10 \cite{STL10} čije slike imaju dimenziju 96x96x3, a nastao je po uzoru na podatkovni skup CIFAR-10 koji se obično koristi za vrednovanje modela.
+Odabrani skup podataka je \textit{STL-10} \cite{STL10} čije slike imaju dimenziju 96x96x3, a nastao je po uzoru na podatkovni skup CIFAR-10 koji se obično koristi za vrednovanje modela.
 
-Ekstrahirane značajke, dobivene korištenjem najboljeg modela Inception v4 s globalnim sažimanjem kanala, su pomoću metode t-SNE prikazane u 2D prostoru. Na slici \ref{fg:stl_10_tsne} se vidi da su podaci grupirani u nakupine uz poneka miješanja grupa poput slika jelena i konja. Razlog tome može biti vrlo slična pozadine slike i kut snimanja gdje se značajke jelena (rogovi) ne vide jasno na slici zbog čega ih mreža lako može zamijeniti zbog približno jednake boje i građe.
+Ekstrahirane značajke, dobivene korištenjem najboljeg modela \textit{Inception v4} s globalnim sažimanjem kanala, su pomoću metode \textit{t-SNE} prikazane u 2D prostoru. Na slici \ref{fg:stl_10_tsne} se vidi da su podaci grupirani u nakupine uz poneka miješanja grupa poput slika jelena i konja. Razlog tome može biti vrlo slična pozadine slike i kut snimanja gdje se značajke jelena (rogovi) ne vide jasno na slici zbog čega ih mreža lako može zamijeniti zbog približno jednake boje i građe.
 
-Moguće je dodatno poboljšati performanse predtrenirane mreže za određivanje sličnosti tako da se glavne komponente PCA modela biraju samo na značajkama dobivenim iz klasa koje se žele preciznije razlikovati, u ovome slučaju klasa iz STL-10 podatkovnog skupa.
+Moguće je dodatno poboljšati performanse predtrenirane mreže za određivanje sličnosti tako da se glavne komponente \textit{PCA} modela biraju samo na značajkama dobivenim iz klasa koje se žele preciznije razlikovati, u ovome slučaju klasa iz \textit{STL-10} podatkovnog skupa.
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -502,20 +502,20 @@ Moguće je dodatno poboljšati performanse predtrenirane mreže za određivanje 
 %% CHAPTER
 \chapter{Demo preporučitelj po sadržaju}
 
-Kako bismo demonstrirali ponašanje razvijanog sustava za pronalaženje sličnih slika u sklopu projekta implementirana je i jednostavna web aplikacija. 
+Kako bismo demonstrirali ponašanje razvijanog sustava za pronalaženje sličnih slika u sklopu projekta implementirana je i jednostavna \textit{web} aplikacija. 
 
 Aplikacija je inspirirana sličnim proizvodom, društvenom mrežom temeljenom na dijeljenju slika pod nazivom Pinterest, koja organizira podatke poput slika i video zapisa s cijelog interneta \cite{wiki-pintrest}. 
 
 Naš sustav karakterizira puno manji volumen podataka s kojim rukujemo, ali koncept ostaje isti: prepoznati preference korisnika na temelju njegovih interakcija sa sustavom i pronalazak relevantnih podataka kako bi se poboljšalo korisničko iskustvo.
 
-Aplikacija omogućuje pregledavanje STL-10 skupa podataka gdje korisnik može izdvojiti skup slika od interesa na temelju kojih će sustav isfiltrirati sve slike sličnog konteksta.
+Aplikacija omogućuje pregledavanje \textit{STL-10} skupa podataka gdje korisnik može izdvojiti skup slika od interesa na temelju kojih će sustav isfiltrirati sve slike sličnog konteksta.
 
-Demo je implementiran kao web aplikacija kako bismo sustav učinili što pristupačnijim novim korisnicima i postavljen je na Heroku platformu \footnote{Izvršnoj verziji aplikacije moguće je pristupiti na linku \url{https://recommender-demo.herokuapp.com}.} .
+Demo je implementiran kao \textit{web} aplikacija kako bismo sustav učinili što pristupačnijim novim korisnicima i postavljen je na \textit{Heroku} platformu \footnote{Izvršnoj verziji aplikacije moguće je pristupiti na linku \url{https://recommender-demo.herokuapp.com}.} .
 
 
 \section{Tijek rada}
 
-Ovaj odjeljak opisuje ponašanje sustava iz korisničke perspektive i kroz niz instrukcija daje pregled mogućnosti preporučitelja. Posjećivanjem navedene web stranice aplikacije korisnik se usmjerava na obrazac za prijavu. Uz pretpostavku da korisnik nema profil za pristup stranici, potrebno je napraviti registraciju putem gumba 'Register' koji se nalazi u gornjem desnom kutu stranice. Pri dolasku na stranicu od korisnika se traži unos korisničkog imena, e-maila i lozinke te se po pritisku na 'Sign Up' gumb završava proces registracije (Slika \ref{fg:demo_register}). Ako su podaci ispravno uneseni, korisnik će biti vraćen na početnu stranicu gdje može iskoristiti kreirani račun za prijavu (Slika \ref{fg:demo_login}). 
+Ovaj odjeljak opisuje ponašanje sustava iz korisničke perspektive i kroz niz instrukcija daje pregled mogućnosti preporučitelja. Posjećivanjem navedene \textit{web} stranice aplikacije korisnik se usmjerava na obrazac za prijavu. Uz pretpostavku da korisnik nema profil za pristup stranici, potrebno je napraviti registraciju putem gumba 'Register' koji se nalazi u gornjem desnom kutu stranice. Pri dolasku na stranicu od korisnika se traži unos korisničkog imena, e-maila i lozinke te se po pritisku na 'Sign Up' gumb završava proces registracije (Slika \ref{fg:demo_register}). Ako su podaci ispravno uneseni, korisnik će biti vraćen na početnu stranicu gdje može iskoristiti kreirani račun za prijavu (Slika \ref{fg:demo_login}). 
  
 \begin{figure}[!ht]
 	\begin{center}
@@ -575,7 +575,7 @@ Posljednja faza korištenja je pregledavanje preporučenih slika (Slika \ref{fg:
 \end{figure}
 
 
-U nastavku slijedi par primjera odabranih ulaza i rezultirajućih preporuka. Sve rezultate moguće je reproducirati kroz web stranicu. 
+U nastavku slijedi par primjera odabranih ulaza i rezultirajućih preporuka. Sve rezultate moguće je reproducirati kroz \textit{web} stranicu. 
 
 Odabirom prve slike ptice koja se nudi u albumu i odlaskom na pregled preporučenih slika možemo se uvjeriti da su dohvaćene slike uglavnom manjih ptica, ptica sličnih šara ili kombinacije navedenih svojstava (Slika \ref{fg:demo_bird}). 
 
@@ -650,7 +650,7 @@ Provedimo još jedno testiranje ponovno uključujući sliku iz prvog eksperiment
 
 \section{Implementacijski detalji}
 
-Kao što je bilo naznačeno u poglavlju o paketima, implementacija web poslužitelja oslanja se na dva programska jezika: Python i JavaScript. Poslužitelj \footnote{Kod poslužitelja dostupan je na Github repozitoriju kojem možete pristupiti na linku \url{https://github.com/vribic/recommender-demo-api}.} je pisan u Pythonu, oslanjajući se na Django radno okruženje kako bi se podaci mogli dostavljati korisniku. Podaci aplikacije pohranjeni su u PostgreSQL bazi podataka na samom serveru, dok se slike poslužuju s Amazon S3 servisa. Klijent \footnote{Kod klijenta dostupan je na Github repozitoriju kojem možete pristupiti na linku \url{https://github.com/vribic/recommender-demo}.} je razvijen u standardnim web tehnologijama HTML, CSS i JavaScript-u. Kako bi kod bio čim jednostavniji za razumijevanje i implementaciju, odabran je Angular 5 radni okvir za lakše oblikovanje komponenti klijenta. Po završetku razvoja aplikacija je postavljena na Heroku platformu koja omogućuje izgradnju, pokretanje i upravljanje aplikacijama. Budući da implementacija same web aplikacije nije bila predmet ovog rada zainteresirani čitatelji mogu dobiti više informacija posjećivanjem poveznica u podnožju stranice koje vode na repozitorije koda aplikacije.
+Kao što je bilo naznačeno u poglavlju o paketima, implementacija \textit{web} poslužitelja oslanja se na dva programska jezika: \textit{Python} i JavaScript. Poslužitelj \footnote{Kod poslužitelja dostupan je na \textit{Github} repozitoriju kojem možete pristupiti na linku \url{https://github.com/vribic/recommender-demo-api}.} je pisan u \textit{Python}-u, oslanjajući se na \textit{Django} radno okruženje kako bi se podaci mogli dostavljati korisniku. Podaci aplikacije pohranjeni su u \textit{PostgreSQL} bazi podataka na samom serveru, dok se slike poslužuju s \textit{Amazon S3} servisa. Klijent \footnote{Kod klijenta dostupan je na \textit{Github} repozitoriju kojem možete pristupiti na linku \url{https://github.com/vribic/recommender-demo}.} je razvijen u standardnim \textit{web} tehnologijama \textit{HTML} (engl. \textit{HyperText Markup Language}), \textit{CSS} (engl. \textit{Cascading Style Sheets}) i \textit{Javascript}-u. Kako bi kod bio čim jednostavniji za razumijevanje i implementaciju, odabran je \textit{Angular 5} radni okvir za lakše oblikovanje komponenti klijenta. Po završetku razvoja aplikacija je postavljena na \textit{Heroku} platformu koja omogućuje izgradnju, pokretanje i upravljanje aplikacijama. Budući da implementacija same \textit{web} aplikacije nije bila predmet ovog rada zainteresirani čitatelji mogu dobiti više informacija posjećivanjem poveznica u podnožju stranice koje vode na repozitorije koda aplikacije.
 
 
 
