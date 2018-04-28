@@ -92,21 +92,21 @@ Cilj ovog istraživanja bio je ostvariti takav duboki model, ispitati različite
 \subsection{Programska podrška}
 
 Ovaj projekt implementiran je u dva programska jezika: \textit{Python} i \textit{Javascript}. 
-\textit{Python} je popularni programski jezik visoke razine apstrakcije. Zbog svoje jednostavnosti i velikog broja paketa otvorenog koda, često je prvi izbor za efikasno provođenje eksperimenata i brzo prototipiranje novih sustava. Paketi korišteni pri razvoju jezgre sustava za preporučivanje su: \textit{Tensorflow}, \textit{OpenCV}, \textit{NMSLIB}, \textit{t-SNE}. Za izradu demo prezentacije sustava, poslužitelj je implementiran u \textit{Django} razvojnom okviru s popratnim paketima za efikasnu konfiguraciju. 
+\textit{Python} je popularni programski jezik visoke razine apstrakcije. Zbog svoje jednostavnosti i velikog broja paketa otvorenog koda, često je prvi izbor za efikasno provođenje eksperimenata i brzo prototipiranje novih sustava. Paketi korišteni pri razvoju jezgre sustava za preporučivanje su: \textit{Tensorflow}, \textit{OpenCV} (engl. \textit{Open Source Computer Vision Library}), \textit{NMSLIB}  (engl. \textit{Non-Metric Space Library}), \textit{t-SNE}  (engl. \textit{t-distributed Stochastic Neighbor Embedding}) . Za izradu demo prezentacije sustava, poslužitelj je implementiran u \textit{Django} razvojnom okviru s popratnim paketima za efikasnu konfiguraciju. 
 \textit{Javascript} je programski jezik ključan za programiranje klijenata kroz koje će korisnici isprobavati demo sustav za preporučivanje slika. Radni okvir za pisanje klijenta je \textit{Angular 5}, dok se više informacija o implementaciji možete pronaći u poglavlju 4.
 
 \subsubsection{Python paketi }
 
-\textit{Tensorflow} \cite{tensorflow2015-whitepaper} - radni okvir za strojno učenje. Razvijen i podržavan od \textit{Google}-a, \textit{Tensorflow} je alat za izgradnju modela strojnog učenja s mnogo dodataka, poput automatske diferencijacije pri popularnim metodama optimizacije i akcelerirano učenje na grafičkim karticama. Velika fleksibilnost i dobra podrška učinili su ovaj alat popularnim izborom u akademiji i industriji. Visoka modularnost i fleksibilnost ostvarene su oblikovanjem modela grafom operacija.
+\textit{Tensorflow} \cite{tensorflow2015-whitepaper} - radni okvir za strojno učenje. Razvijen i podržavan od Google-a, \textit{Tensorflow} je alat za izgradnju modela strojnog učenja s mnogo dodataka, poput automatske diferencijacije pri popularnim metodama optimizacije i akcelerirano učenje na grafičkim karticama. Velika fleksibilnost i dobra podrška učinili su ovaj alat popularnim izborom u akademiji i industriji. Visoka modularnost i fleksibilnost ostvarene su oblikovanjem modela grafom operacija.
 \textit{Tensorflow} je centralna komponenta našeg projekta pomoću koje se provodi ekstrakcija značajki slike.
 
-\textit{OpenCV} (engl. \textit{Open Source Computer Vision Library}) \cite{itseez2015opencv} - radni okvir za obradu slika. \textit{OpenCV} sadrži veliki skup algoritama za obradu i manipulaciju nad slikama. Ovaj se paket u našem projektu koristi za predobradu slika koje se kasnije prosljeđuju \textit{Tensorflow} modelu.
+\textit{OpenCV} \cite{itseez2015opencv} - radni okvir za obradu slika. \textit{OpenCV} sadrži veliki skup algoritama za obradu i manipulaciju nad slikama. Ovaj se paket u našem projektu koristi za predobradu slika koje se kasnije prosljeđuju \textit{Tensorflow} modelu.
 
 
-\textit{NMSLIB} (engl. \textit{Non-Metric Space Library})\cite{NMSLIB} - paket za efektivnu pretragu na temelju sličnosti. Paket je oblikovan bez ikakvih pretpostavki o matematičkim svojstvima prostora pretraživanja što je postignuto implementiranjem funkcija za generičke prostore bez metrike. Ovaj sveobuhvatni sustav razmatrao je i dimenzionalnost prostora koji su iznimno veliki te podržava aproksimativne metode pri pretraživanju takvih prostora. U našem projektu ovaj se paket pokazao korisnim pri provođenju eksperimenata nad različitim metodama ekstrakcije. 
+\textit{NMSLIB} \cite{NMSLIB} - paket za efektivnu pretragu na temelju sličnosti. Paket je oblikovan bez ikakvih pretpostavki o matematičkim svojstvima prostora pretraživanja što je postignuto implementiranjem funkcija za generičke prostore bez metrike. Ovaj sveobuhvatni sustav razmatrao je i dimenzionalnost prostora koji su iznimno veliki te podržava aproksimativne metode pri pretraživanju takvih prostora. U našem projektu ovaj se paket pokazao korisnim pri provođenju eksperimenata nad različitim metodama ekstrakcije. 
 
 
-\textit{t-SNE} (engl. \textit{t-distributed Stochastic Neighbor Embedding}) \cite{TSNE} - modul paketa \textit{sklearn} za vizualizaciju visoko dimenzionalnih podataka. \textit{sklearn} obuhvaća skup alata za razne zadatke potrebne pri izradi inteligentnih sustava. On sadrži algoritme i metrike za česte zadatke klasifikacije, regresije, klasteriranja kao i redukcije dimenzionalnosti, odabira modela i analize podataka. Jedan od modula uključenih u ovaj set alata je i \textit{t-SNE} modul koji služi za pretvorbu vektorskih podataka visokih dimenzija u zapis pogodan za iscrtavanje na grafu. Postupak odabira željenih dimenzija vrši se minimizacijom Kullback-Leiber divergencije između zajedničke vjerojatnosti sažetka i izvornog podatka.
+\textit{t-SNE}\cite{TSNE} - modul paketa \textit{sklearn} za vizualizaciju visoko dimenzionalnih podataka. \textit{sklearn} obuhvaća skup alata za razne zadatke potrebne pri izradi inteligentnih sustava. On sadrži algoritme i metrike za česte zadatke klasifikacije, regresije, klasteriranja kao i redukcije dimenzionalnosti, odabira modela i analize podataka. Jedan od modula uključenih u ovaj set alata je i \textit{t-SNE} modul koji služi za pretvorbu vektorskih podataka visokih dimenzija u zapis pogodan za iscrtavanje na grafu. Postupak odabira željenih dimenzija vrši se minimizacijom Kullback-Leiber divergencije između zajedničke vjerojatnosti sažetka i izvornog podatka.
 
 
 \textit{Django} \cite{django}- radni okvir za izradu \textit{web} poslužitelja. \textit{Django} omogućava brzi razvoj projekta s nizom gotovih komponenti i mogućnošću proširivanja osnovnih funkcionalnosti kako bi se ostvarilo željeno ponašanje. Radni okvir uključuje autentifikaciju, posluživanje \textit{web} stranica i \textit{REST} (engl. \textit{REpresentational State Transfer}) zahtjeva. \textit{Django} se, u našem projektu, koristi isključivo za pohranu, obradu i posluživanje podataka te kao jedinstvena točka za pristup bazi podataka. 
@@ -303,7 +303,7 @@ Nakon evaluiranja više konfiguracija mreža, \textit{VGG} tim je pokazao da dub
 
 \section{Inception v4}
 
-\textit{Inception v4} model je \textit{Google}-ova četvrta iteracija \textit{Inception} arhitekture koja se od \textit{VGG} arhitekture najviše razlikuje po svojoj “širini”.  Arhitektura mreže u skraćenom prikazu \textit{Inception} blokova se može vidjeti na slici (Slika \ref{fg:inceptionv4}). 
+\textit{Inception v4} model je Google-ova četvrta iteracija \textit{Inception} arhitekture koja se od \textit{VGG} arhitekture najviše razlikuje po svojoj “širini”.  Arhitektura mreže u skraćenom prikazu \textit{Inception} blokova se može vidjeti na slici (Slika \ref{fg:inceptionv4}). 
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -314,7 +314,7 @@ Nakon evaluiranja više konfiguracija mreža, \textit{VGG} tim je pokazao da dub
 	\end{center}
 \end{figure}
 
-\textit{Inception} blokovi su postali popularni nakon što je \textit{Google}-ova tadašnja arhitektura \textit{GoogLeNet} izgrađena od \textit{Inception} blokova ostvarila dobre performanse na natjecanju ImageNet. Njihova glavna prednost je rješavanje problema odabira dimenzija filtera pri izgradnji mreže jer se sastoje od više grana konvolucija koje ulazni podatak obrađuju s različitim dimenzijama filtera. Zbog stablaste razgranatosti, \textit{Inception} blok iz ulaza može prepoznati kompliciranije uzorke jer svaka grana ulazni podatak promatra s različitim receptivnim poljem (Slika \ref{fg:inception_blok_a}).
+\textit{Inception} blokovi su postali popularni nakon što je Google-ova tadašnja arhitektura \textit{GoogLeNet} izgrađena od \textit{Inception} blokova ostvarila dobre performanse na natjecanju ImageNet. Njihova glavna prednost je rješavanje problema odabira dimenzija filtera pri izgradnji mreže jer se sastoje od više grana konvolucija koje ulazni podatak obrađuju s različitim dimenzijama filtera. Zbog stablaste razgranatosti, \textit{Inception} blok iz ulaza može prepoznati kompliciranije uzorke jer svaka grana ulazni podatak promatra s različitim receptivnim poljem (Slika \ref{fg:inception_blok_a}).
 	
 \begin{figure}[H]
 	\begin{center}
@@ -481,7 +481,7 @@ Kao što se vidi iz prikazanih slika moguće je reprezentirati sliku sa svega 30
 
 \section{T-SNE prikaz smanjenog skupa podataka}
 
-Budući da je korišteni podskup slika \textit{Google}-ovog \textit{OpenImage} \cite{openimages} podatkovnog skupa velik (\textasciitilde1 milijun slika) i anotacije klasa nisu nužno točne jer ih je većina generirana automatskom strojnom anotacijom korištenjem servisa poput \textit{Google Cloud Vision API}, za vizualizaciju smo odabrali manji skup podataka koji je anotiran ručno i precizno.
+Budući da je korišteni podskup slika Google-ovog \textit{OpenImage} \cite{openimages} podatkovnog skupa velik (\textasciitilde1 milijun slika) i anotacije klasa nisu nužno točne jer ih je većina generirana automatskom strojnom anotacijom korištenjem servisa poput Google Cloud Vision API, za vizualizaciju smo odabrali manji skup podataka koji je anotiran ručno i precizno.
 
 Odabrani skup podataka je \textit{STL-10} \cite{STL10} čije slike imaju dimenziju 96x96x3, a nastao je po uzoru na podatkovni skup CIFAR-10 koji se obično koristi za vrednovanje modela.
 
