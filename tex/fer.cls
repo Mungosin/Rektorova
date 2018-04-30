@@ -352,6 +352,16 @@
       \end{center}
       \vfill
       \begin{center}
+       {\large\lineskip .75em
+        \begin{tabular}[t]{c}
+              \if@radseminar
+                {\itshape \@author} \\
+                \strvoditelj{}: {\itshape \@voditelj}
+              \else
+              \@author
+          \fi
+        \end{tabular}\par}
+ 
         \if@radzavrsni
           {\large \strzavrsni{}.~\@thesisnumber \par}
         \else \if@raddiplomski
@@ -365,25 +375,11 @@
         \else \vskip 1em
         \fi
         {\huge \bfseries \@title \par}
-        \vskip 1em
-        {\large\lineskip .75em
-        \begin{tabular}[t]{c}
-              \if@radseminar
-                {\itshape \@author} \\
-                \strvoditelj{}: {\itshape \@voditelj}
-              \else
-              \@author
-          \fi
-        \end{tabular}\par}
+
       \end{center}\par
       \vfill
       \begin{center}
-        {\large Zagreb,
-        \ifcase\month\or
-          \strsijecanj\or \strveljaca\or \strozujak\or \strtravanj\or
-          \strsvibanj\or \strlipanj\or \strsrpanj\or \strkolovoz\or
-          \strrujan\or \strlistopad\or \strstudeni\or
-          \strprosinac\fi \space \number\year.%
+        {\large Zagreb, \number\year.%
         }
       \end{center}
     \end{titlepage}%

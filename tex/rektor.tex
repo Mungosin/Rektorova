@@ -1,4 +1,6 @@
 \documentclass[times, utf8, proizvoljni, numeric]{fer}
+% font formatting: fer documentclass is setup to 12pt alerady, current fonr resembles Word's TNR
+%\usepackage{mathptmx}
 
 \usepackage{booktabs}
 \usepackage{amsmath}
@@ -14,6 +16,8 @@
 \usepackage{makecell}
 %\usepackage[hidelinks]{hyperref}
 \usepackage{subcaption,graphicx}
+
+\usepackage{adjustbox}
 
 \renewcommand\theadalign{cb}
 \renewcommand\theadfont{\bfseries}
@@ -38,18 +42,20 @@
 \urlstyle{same}
 %
 
+% Equivalent to MS Word 1.5 line spacing: according to (https://tex.stackexchange.com/questions/65849/confusion-onehalfspacing-vs-spacing-vs-word-vs-the-world)
+\linespread{1.25}
+
 \begin{document}
 
-
-\title{Ekstrahiranje značajki slika pomoću dubokog učenja u svrhu poboljšanja sustava preporuke slika}
 \author{Toni Vlaić, Viran Ribić}
+\title{Ekstrahiranje značajki slika pomoću dubokog učenja u svrhu poboljšanja sustava preporuke slika}
 
 \maketitle
 
 % Ispis stranice s napomenom o umetanju izvornika rada. Uklonite naredbu \izvornik ako želite izbaciti tu stranicu.
 % Dodavanje zahvale ili prazne stranice. Ako ne želite dodati zahvalu, naredbu ostavite radi prazne stranice.
 \thispagestyle{empty}
-\zahvala{\begin{center}Ovaj rad izrađen je na Zavodu za elektroniku, mikroelektroniku, računalne i inteligentne sustave Fakulteta elektrotehnike i računarstva Sveučilišta u Zagrebu pod vodstvom doc. dr. sc. Marina Šilića i predan je na natječaj za dodjelu Rektorove nagrade u akademskoj godini 2017./2018.
+\zahvala{\begin{center}Ovaj rad izrađen je u Zavodu za elektroniku, mikroelektroniku, računalne i inteligentne sustave Fakulteta elektrotehnike i računarstva Sveučilišta u Zagrebu pod vodstvom doc. dr. sc. Marina Šilića i predan je na natječaj za dodjelu Rektorove nagrade u akademskoj godini 2017./2018.
 		\end{center}
 }
 
@@ -70,15 +76,15 @@ Digitalne slike čine jedinstveni format kojim se može opisati veliki broj razl
 
 Danas slike čine veliki udio podataka na internetu. Dok je egzaktna informacija o postotku slika na internetu intraktabilna, provedene analize iz 2016. godine \cite{img-analysis} predviđale su porast od trilijun slika u narednoj godini. Rast slikovnih podataka povezan je s brojem korisnika pametnih telefona u svijetu, kao i brojem online usluga koje uključuju obradu i razmjenu fotografija. Rastući trendovi korisnika \cite{net-users} i napreci u telekomunikacijskim tehnologijama omogućuju lakšu i bržu distribuciju medijskih datoteka nego ikad prije. 
 
-Volumen i protok podataka u današnjim sustavima učinio je bilo kakvu ručnu obradu slika neadekvatnom, što je potaknulo istraživače na razmatranje novih metoda pri analizi velikih količina podataka. Da bi se podacima moglo upravljati potrebno je prvo razviti efikasne metode pretrage. Novonastala situacija pronalazi sličnosti s ranim danima interneta dok još nisu formirane adekvatne metode pretraživanja stranica. Izmjena informacija bila je znatno teža zbog nedostatka prikladnih sučelja koja bi običnim korisnicima mogla pružiti jednostavno korištenje. Tek su se pojavom algoritama za indeksiranje otvorile sve mogućnosti izmjene podataka na internetu. Izgradnja adekvatnih algoritama za pretraživanje i ekstrakciju znanja moguće je postići bolje razumijevanje podataka i omogućava njihovu efikasniju upotrebu. 
+Volumen i protok podataka u današnjim sustavima učinio je bilo kakvu ručnu obradu slika neadekvatnom, što je potaknulo istraživače na razmatranje novih metoda pri analizi velikih količina podataka. Da bi se podacima moglo upravljati, potrebno je prvo razviti efikasne metode pretrage. Novonastala situacija pronalazi sličnosti s ranim danima interneta dok još nisu formirane adekvatne metode pretraživanja stranica. Izmjena informacija bila je znatno teža zbog nedostatka prikladnih sučelja koja bi običnim korisnicima mogla pružiti jednostavno korištenje. Tek su se pojavom algoritama za indeksiranje otvorile sve mogućnosti izmjene podataka na internetu. Izgradnja adekvatnih algoritama za pretraživanje i ekstrakciju znanja moguće je postići bolje razumijevanje podataka i omogućava njihovu efikasniju upotrebu. 
 
-Ben Silbermann, osnivač i direktor društvene mreže Pinterest, izjavio je kako će budućnost internet pretraživača biti upravo u efikasnoj interpretaciji slika. Za razliku od današnjih internetskih pretraživača koje se prvenstveno oslanjaju na ključne riječi unutar stranice, takvi bi pretraživači bili sposobni razumjeti semantiku slike i izvaditi ključne koncepte povezane s upitima korisnika \cite{internet-trends}.
+Ben Silbermann, osnivač i direktor društvene mreže Pinterest, izjavio je kako će budućnost internet pretraživača biti upravo u efikasnoj interpretaciji slika. Za razliku od današnjih internetskih pretraživača koji se prvenstveno oslanjaju na ključne riječi unutar stranice, takvi bi pretraživači bili sposobni razumjeti semantiku slike i izvaditi ključne koncepte povezane s upitima korisnika \cite{internet-trends}.
 
 Društvene mreže samo su jedan od primjera gdje će razumijevanje semantike slika imati ključnu ulogu u narednim godinama. Potražnja za ekstrakcijom znanja iz slika primjetna je i u marketinškim \cite{electronic-commerce-application}, medicinskim \cite{medical-application} \cite{medical-diagnostics-application}, državnim \cite{smart-city-application}, sigurnosnim \cite{security-application} i forenzičkim \cite{forensics-application} primjenama. 
 
 Napredak sklopovlja vratio je u fokus modele neuronskih mreža pošto su nove arhitekture grafičkih kartica bile dovoljno efikasne za ponovno eksperimentiranje s umjetnim neuronskim mrežama. Rezultat novog vala testiranja bile su dublje mreže, sposobne uhvatiti kompleksnije odnose među pikselima slika, čime je označen početak dubokog učenja. Prikupljeni podaci o slikama sada postaju predmet proučavanja pametnih algoritama koji pronalaze nove primjene u akademiji i industriji. 
 
-Ovaj rad proučava postojeće arhitekture i modele dubokog učenja i istražuje njihove primjene u oblikovanju sustava preporuke slika ekstrakcijom njihovih značajki. U nastavku uvodnog poglavlja rada izlažu se opći i specifični ciljevi te programski paketi korišteni u implementaciji. Drugo poglavlje obrađuje modele za sažimanje opisujući arhitekturu dubokih konvolucijskih mreža i predtreniranih modela \textit{VGG} i \textit{Inception v4}. Također, u poglavlje je uključen opis algoritma analize glavnih komponenti koji je korišten za efikasniju reprezentaciju značajki. Slijedi ih poglavlje s rezultatima i raspravom o ispitanim metrikama sličnosti, ponašanju predtreniranih arhitektura i metodama za inspekciju kvalitete modela na zadatku rada. Četvrto poglavlje pokriva demonstraciju rada sustava na primjeru \textit{web} aplikacije. Opisani su tijek korištenja i informacije o implementaciji. U posljednjem, petom poglavlju, dan je osvrt na ishode rada.
+Ovaj rad proučava postojeće arhitekture i modele dubokog učenja i istražuje njihove primjene u oblikovanju sustava preporuke slika ekstrakcijom njihovih značajki. U nastavku uvodnog poglavlja rada izlažu se opći i specifični ciljevi te programski paketi korišteni u implementaciji. Drugo poglavlje obrađuje modele za sažimanje opisujući arhitekturu dubokih konvolucijskih mreža i predtreniranih modela \textit{VGG} i \textit{Inception v4}. Također, u poglavlje je uključen opis algoritma analize glavnih komponenti koji je korišten za efikasniju reprezentaciju značajki. Slijedi ih poglavlje s rezultatima i raspravom o ispitanim metrikama sličnosti, ponašanju predtreniranih arhitektura i metodama za inspekciju kvalitete modela na zadatku rada. Četvrto poglavlje obrađuje demonstraciju rada sustava na primjeru \textit{web} aplikacije. Opisani su tijek korištenja i informacije o implementaciji. U posljednjem, petom poglavlju, dan je osvrt na ishode rada.
  
 
 
@@ -290,16 +296,76 @@ Arhitektura prvog isprobanog modela datira iz 2014. godine, a dolazi sa sveučil
 
 Njihov glavni doprinos je temeljita evaluacija arhitektura dubokih mreža koje koriste konvolucijske filtere malih dimenzija (3x3), čime su pokazali da se značajno poboljšanje u odnosu na tadašnje najbolje arhitekture može postići povećanjem dubine mreže na 16-19 slojeva dubine \cite{VGG}. 
 
-Nakon evaluiranja više konfiguracija mreža, \textit{VGG} tim je pokazao da dublja konvolucijska mreža nadmašuje rezultate mreža s manje slojeva, zbog čega je za ispitivanja odabrana najdublja mreža u stupcu E sa slike \ref{fg:vgg}.
+Nakon evaluiranja više konfiguracija mreža, \textit{VGG} tim je pokazao da dublja konvolucijska mreža nadmašuje rezultate mreža s manje slojeva, zbog čega je za ispitivanja odabrana najdublja mreža u stupcu E sa tablice \ref{tbl:vgg}.
 
-\begin{figure}[!ht]
-	\begin{center}
-		\captionsetup{justification=centering}
-		\includegraphics[width=0.6\textwidth]{./imgs/vgg.png}
-		\caption{Konfiguracije VGG tima \cite{VGG}. Parametri konvolucije su prikazani kao conv<dimenzije filtera>-<broj kanala>, a nakon svake se nalazi ReLU aktivacija koja nije prikazana}
-		\label{fg:vgg}
-	\end{center}
-\end{figure}
+\begin{table}[!htb]
+	\captionsetup{justification=centering}
+	\caption{Konfiguracije VGG tima \cite{VGG}. Parametri konvolucije su prikazani kao conv<dimenzije filtera>-<broj kanala>, a nakon svake se nalazi ReLU aktivacija koja nije prikazana}
+	\label{tbl:vgg}
+	\centering
+	
+	
+	 \begin{adjustbox}{max width=.6\textwidth}
+		\setlength\doublerulesep{1pt}   %%<-- sep between consecutive rules, begin group
+		\begin{tabular}{|*{6}{c|}}  % repeats {c|} 18 times
+			\hline
+			\multicolumn{6}{|c|}{ConvNet Configuration} \\ \hline
+			
+			\multicolumn{1}{|c}{A} & \multicolumn{1}{|c}{A-LRN} & \multicolumn{1}{|c}{B} & \multicolumn{1}{|c}{C} & \multicolumn{1}{|c}{D} & \multicolumn{1}{|c|}{E} \\ \hline
+			
+			\multicolumn{1}{|c}{\makecell{11 weight \\ layers}} & \multicolumn{1}{|c}{\makecell{11 weight \\ layers}} & \multicolumn{1}{|c}{\makecell{13 weight \\ layers}} & \multicolumn{1}{|c}{\makecell{16 weight \\ layers}} & \multicolumn{1}{|c}{\makecell{16 weight \\ layers}} & \multicolumn{1}{|c|}{\makecell{19 weight \\ layers}} \\ 
+			\toprule[2pt]\midrule[0.5pt]
+	
+			\hline
+			\multicolumn{6}{|c|}{input($224 \times 224$ RGB image)} \\ \hline
+			
+			\multicolumn{1}{|c}{\makecell{conv3-64}} & \multicolumn{1}{|c}{\makecell{conv3-64 \\ \textbf{LRN}}} & \multicolumn{1}{|c}{\makecell{conv3-64 \\ \textbf{conv3-64}}} & \multicolumn{1}{|c}{\makecell{conv3-64  \\ conv3-64 }} & \multicolumn{1}{|c}{\makecell{conv3-64 \\ conv3-64 }} & \multicolumn{1}{|c|}{\makecell{conv3-64 \\ conv3-64 }} \\ 
+			
+	
+			\hline
+			\multicolumn{6}{|c|}{maxpool} \\ \hline
+			
+			\multicolumn{1}{|c}{\makecell{conv3-128}} & \multicolumn{1}{|c}{\makecell{conv3-128}} & \multicolumn{1}{|c}{\makecell{conv3-128 \\ \textbf{conv3-128}}} & \multicolumn{1}{|c}{\makecell{conv3-128  \\ conv3-128 }} & \multicolumn{1}{|c}{\makecell{conv3-128 \\ conv3-128 }} & \multicolumn{1}{|c|}{\makecell{conv3-128 \\ conv3-128 }} \\
+			 
+			\hline
+			\multicolumn{6}{|c|}{maxpool} \\ \hline
+			
+			\multicolumn{1}{|c}{\makecell{conv3-256 \\ conv3-256}} & \multicolumn{1}{|c}{\makecell{conv3-256 \\ conv3-256 }} & \multicolumn{1}{|c}{\makecell{conv3-256\\ conv3-256}} & \multicolumn{1}{|c}{\makecell{conv3-256 \\ conv3-256 \\ \textbf{conv1-256} }} & \multicolumn{1}{|c}{\makecell{conv3-256 \\ conv3-256 \\ \textbf{conv3-256} }} & \multicolumn{1}{|c|}{\makecell{conv3-256 \\ conv3-256 \\ conv3-256 \\ \textbf{conv3-256}}} \\ 
+			
+			%%%%%%%%%%%%%%%%%%%%%%%%	
+			
+			\hline
+			\multicolumn{6}{|c|}{maxpool} \\ \hline
+			
+			\multicolumn{1}{|c}{\makecell{conv3-512 \\ conv3-512 }} & \multicolumn{1}{|c}{\makecell{conv3-512 \\ conv3-512 }} & \multicolumn{1}{|c}{\makecell{conv3-512 \\ conv3-512 }} & \multicolumn{1}{|c}{\makecell{conv3-512 \\ conv3-512 \\ \textbf{conv1-512} }} & \multicolumn{1}{|c}{\makecell{conv3-512 \\ conv3-512 \\ \textbf{conv3-512} }} & \multicolumn{1}{|c|}{\makecell{conv3-512 \\ conv3-512 \\ conv3-512 \\ \textbf{conv3-512}}} \\ 
+			
+			
+			\hline
+			\multicolumn{6}{|c|}{maxpool} \\ \hline
+			
+			\multicolumn{1}{|c}{\makecell{conv3-512 \\ conv3-512 }} & \multicolumn{1}{|c}{\makecell{conv3-512 \\ conv3-512 }} & \multicolumn{1}{|c}{\makecell{conv3-512 \\ conv3-512 }} & \multicolumn{1}{|c}{\makecell{conv3-512 \\ conv3-512 \\ \textbf{conv1-512} }} & \multicolumn{1}{|c}{\makecell{conv3-512 \\ conv3-512 \\ \textbf{conv3-512} }} & \multicolumn{1}{|c|}{\makecell{conv3-512 \\ conv3-512 \\ conv3-512 \\ \textbf{conv3-512}}} \\ 
+			
+			%%%%%%%%%%%%%%%%%%%%%%%%		
+			\hline
+			\multicolumn{6}{|c|}{maxpool} \\ \hline
+	
+			\hline
+			\multicolumn{6}{|c|}{FC-4096} \\ \hline
+	
+			\hline
+			\multicolumn{6}{|c|}{FC-4096} \\ \hline
+	
+			\hline
+			\multicolumn{6}{|c|}{FC-1000} \\ \hline
+	
+			\hline
+			\multicolumn{6}{|c|}{softmax} \\ \hline
+	
+			\hline
+							
+		\end{tabular}		
+	\end{adjustbox}
+\end{table}
 
 \section{Inception v4}
 
@@ -379,7 +445,7 @@ CosineDistance(x,y) = 1- cos(\pmb x, \pmb y) = 1 - \frac {\pmb x \cdot \pmb y}{|
 
 Obje metrike su davale skoro identične rezultate uz male promjene poretka između vraćenih slika. Jedan od razloga zašto su dobiveni takvi rezultati je velika dimenzionalnost prostora kojeg vektori razapinju. Posljedica toga je da dvije točke koje se nalaze blizu u prostoru ujedno zatvaraju i maleni kut zbog čega se smatraju sličnima u obje metrike.	
 
-Nakon ispitivanja rezultata metrika, odabrana je kosinusna udaljenost koja je davala zadovoljavajuće rezultate. Potencijalni problemi koji se mogu pojaviti kod te metrike nisu pretjerano bitni za područje rada, budući da duljina vektora nije bitna već samo njegovo usmjerenje, odnosno relativan iznos aktivacija koje taj vektor opisuje. Primjerice, ako se sustavu preda slika mačke u svrhu pretrage ostalih sličnih slika, željeni rezultati sustava bile bi slike čiji vektori značajki imaju jednako dominantne elemente koji detektiraju oči, njušku, uši mačke. Zbog toga je kosinusna udaljenost zadovoljavajuća jer vraća slike čiji reprezentativni vektori imaju jednak odnos dominantnih elemenata unutar vektora.
+Nakon ispitivanja rezultata metrika, odabrana je kosinusna udaljenost koja je davala zadovoljavajuće rezultate. Potencijalni problemi koji se mogu pojaviti kod te metrike nisu pretjerano bitni za područje rada, budući da duljina vektora nije bitna, već samo njegovo usmjerenje, odnosno relativan iznos aktivacija koje taj vektor opisuje. Primjerice, ako se sustavu preda slika mačke u svrhu pretrage ostalih sličnih slika, željeni rezultati sustava bile bi slike čiji vektori značajki imaju jednako dominantne elemente koji detektiraju oči, njušku, uši mačke. Zbog toga je kosinusna udaljenost zadovoljavajuća jer vraća slike čiji reprezentativni vektori imaju jednak odnos dominantnih elemenata unutar vektora.
 
 
 \section{Predtrenirana arhitektura VGG}
@@ -485,7 +551,7 @@ Budući da je korišteni podskup slika Googleovog \textit{OpenImage} \cite{openi
 
 Odabrani skup podataka je \textit{STL-10} \cite{STL10} čije slike imaju dimenziju 96x96x3, a nastao je po uzoru na podatkovni skup CIFAR-10 koji se obično koristi za vrednovanje modela.
 
-Ekstrahirane značajke, dobivene korištenjem najboljeg modela \textit{Inception v4} s globalnim sažimanjem kanala, su pomoću metode \textit{t-SNE} prikazane u 2D prostoru. Na slici \ref{fg:stl_10_tsne} se vidi da su podaci grupirani u nakupine uz poneka miješanja grupa poput slika jelena i konja. Razlog tome može biti vrlo slična pozadina slike i kut snimanja gdje se značajke jelena (rogovi) ne vide jasno na slici zbog čega ih mreža lako može zamijeniti zbog približno jednake boje i građe.
+Ekstrahirane značajke, dobivene korištenjem najboljeg modela \textit{Inception v4} s globalnim sažimanjem kanala, prikazane su pomoću metode \textit{t-SNE} u 2D prostoru. Na slici \ref{fg:stl_10_tsne} se vidi da su podaci grupirani u nakupine uz poneka miješanja grupa poput slika jelena i konja. Razlog tome može biti vrlo slična pozadina slike i kut snimanja gdje se značajke jelena (rogovi) ne vide jasno na slici zbog čega ih mreža lako može zamijeniti zbog približno jednake boje i građe.
 
 Moguće je dodatno poboljšati performanse predtrenirane mreže za određivanje sličnosti tako da se glavne komponente \textit{PCA} modela biraju samo na značajkama dobivenim iz klasa koje se žele preciznije razlikovati, u ovome slučaju klasa iz \textit{STL-10} podatkovnog skupa.
 
@@ -669,7 +735,7 @@ Daljnja istraživanja, kao i napreci u području dubokog učenja, ostavljaju mno
 		
 	Slike čine veliki udio ukupnog volumena podataka na internetu. Zbog svojeg bogatog sadržaja koje pohranjuju, sve više suvremenih sustava ima potrebu za efikasnim upravljanjem i analizom slika. Stoga je fokus našeg rada na isprobavanju novih metoda iz područja analize slika kako bi se doskočilo novonastalim zahtjevima. Rad problemu pristupa kroz metodologiju dubokog učenja koja je posljednjih godinama privukla puno pažnje akademije i industrije pri radu s podacima bogatih informacijama, poput slika, teksta ili zvuka. Rezultat rada je sustav koji za dani set slika stvara nisko dimenzionalni zapis koji zadržava semantiku slike i pogodan je za usporedbu temeljem poznatih matematičkih metrika sličnosti. Pri testiranju različitih pristupa isprobani su predtrenirani modeli konvolucijskih neuronskih mreža, metode za redukciju dimenzionalnosti i metrike usporedbe. Kao primjer korištenja razvijanog sustava u sklopu ovog rada implementiran je sustav za preporučivanje slika na temelju korisničkih preferenci.
 	
-	\kljucnerijeci{Sustav za preporučivanje, Analiza slika, Duboko učenje, Konvolucijske neuronske mreže, Redukcija dimenzionalnosti, Pretraga velikih skupova podataka}
+	\kljucnerijeci{Sustav za preporučivanje, Duboko učenje, Konvolucijske neuronske mreže, Redukcija dimenzionalnosti, Pretraga velikih skupova podataka}
 \end{sazetak}
 
 \pagebreak
@@ -678,7 +744,7 @@ Daljnja istraživanja, kao i napreci u području dubokog učenja, ostavljaju mno
 \begin{abstract}
 	Images make up a large share of the total volume of data on the Internet. Because of their information rich content there exists a large demand for efficient handling and analysis of this data. Therefore our work focuses on testing novel methods from the field of image analysis in order to tackle the problems described. Due to recent advances in the field of deep learning there is an increasing interest from both the academia and industry in domains with huge datasets, such as images, text or audio. The outcome of this project is a functioning system which for a given set of images generates a low dimensional representation suitable for similarity search using existing mathematical tools. While designing the system we looked into different architectures and pretrained models of convolutional neural networks, methods for dimensionality reduction and similarity metrics. As a proof of concept we implemented an image recommendation system based on user preferences.
 	
-	\keywords{Recommendation systems, Image analysis, Deep learning, Convolutional neural networks, Dimensionality reduction, Information retrieval in big data}
+	\keywords{Recommendation systems, Deep learning, Convolutional neural networks, Dimensionality reduction, Information retrieval in big data}
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
