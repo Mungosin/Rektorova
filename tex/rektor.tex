@@ -48,7 +48,7 @@
 \begin{document}
 
 \author{Toni Vlaić, Viran Ribić}
-\title{Otkrivanje značajki slika pomoću dubokog učenja u svrhu poboljšanja sustava preporuke slika}
+\title{Izvlačenje značajki slika pomoću dubokog učenja u svrhu poboljšanja sustava preporuke slika}
 
 \maketitle
 
@@ -76,15 +76,15 @@ Digitalne slike čine jedinstveni format kojim se može opisati veliki broj razl
 
 Danas slike čine veliki udio podataka na internetu. Dok je egzaktna informacija o postotku slika na internetu intraktabilna, provedene analize iz 2016. godine \cite{img-analysis} predviđale su porast od trilijun slika u narednoj godini. Rast slikovnih podataka povezan je s brojem korisnika pametnih telefona u svijetu, kao i brojem online usluga koje uključuju obradu i razmjenu fotografija. Rastući trendovi korisnika \cite{net-users} i napreci u telekomunikacijskim tehnologijama omogućuju lakšu i bržu distribuciju medijskih datoteka nego ikad prije. 
 
-Volumen i protok podataka u današnjim sustavima učinio je bilo kakvu ručnu obradu slika neadekvatnom, što je potaknulo istraživače na razmatranje novih metoda pri analizi velikih količina podataka. Da bi se podacima moglo upravljati, potrebno je prvo razviti efikasne metode pretrage. Novonastala situacija pronalazi sličnosti s ranim danima interneta dok još nisu formirane adekvatne metode pretraživanja stranica. Izmjena informacija bila je znatno teža zbog nedostatka prikladnih sučelja koja bi običnim korisnicima mogla pružiti jednostavno korištenje. Tek su se pojavom algoritama za indeksiranje otvorile sve mogućnosti izmjene podataka na internetu. Izgradnja adekvatnih algoritama za pretraživanje i ekstrakciju znanja moguće je postići bolje razumijevanje podataka i omogućava njihovu efikasniju upotrebu. 
+Volumen i protok podataka u današnjim sustavima učinio je bilo kakvu ručnu obradu slika neadekvatnom, što je potaknulo istraživače na razmatranje novih metoda pri analizi velikih količina podataka. Da bi se podacima moglo upravljati, potrebno je prvo razviti efikasne metode pretrage. Novonastala situacija pronalazi sličnosti s ranim danima interneta dok još nisu formirane adekvatne metode pretraživanja stranica. Izmjena informacija bila je znatno teža zbog nedostatka prikladnih sučelja koja bi običnim korisnicima mogla pružiti jednostavno korištenje. Tek su se pojavom algoritama za indeksiranje otvorile sve mogućnosti izmjene podataka na internetu. Izgradnjom adekvatnih algoritama za pretraživanje i izvlačenje znanja moguće je postići bolje razumijevanje podataka, što bi omogućilo njihovu učinkovitiju upotrebu. 
 
 Ben Silbermann, osnivač i direktor društvene mreže Pinterest, izjavio je kako će budućnost internet pretraživača biti upravo u efikasnoj interpretaciji slika. Za razliku od današnjih internetskih pretraživača koji se prvenstveno oslanjaju na ključne riječi unutar stranice, takvi bi pretraživači bili sposobni razumjeti semantiku slike i izvaditi ključne koncepte povezane s upitima korisnika \cite{internet-trends}.
 
-Društvene mreže samo su jedan od primjera gdje će razumijevanje semantike slika imati ključnu ulogu u narednim godinama. Potražnja za ekstrakcijom znanja iz slika primjetna je i u marketinškim \cite{electronic-commerce-application}, medicinskim \cite{medical-application} \cite{medical-diagnostics-application}, državnim \cite{smart-city-application}, sigurnosnim \cite{security-application} i forenzičkim \cite{forensics-application} primjenama. 
+Društvene mreže samo su jedan od primjera gdje će razumijevanje semantike slika imati ključnu ulogu u narednim godinama. Potražnja za izvlačenjem znanja iz slika primjetna je i u marketinškim \cite{electronic-commerce-application}, medicinskim \cite{medical-application} \cite{medical-diagnostics-application}, državnim \cite{smart-city-application}, sigurnosnim \cite{security-application} i forenzičkim \cite{forensics-application} primjenama. 
 
 Napredak sklopovlja vratio je u fokus modele neuronskih mreža pošto su nove arhitekture grafičkih kartica bile dovoljno efikasne za ponovno eksperimentiranje s umjetnim neuronskim mrežama. Rezultat novog vala testiranja bile su dublje mreže, sposobne uhvatiti kompleksnije odnose među pikselima slika, čime je označen početak dubokog učenja. Prikupljeni podaci o slikama sada postaju predmet proučavanja pametnih algoritama koji pronalaze nove primjene u akademiji i industriji. 
 
-Ovaj rad proučava postojeće arhitekture i modele dubokog učenja i istražuje njihove primjene u oblikovanju sustava preporuke slika ekstrakcijom njihovih značajki. U nastavku uvodnog poglavlja rada izlažu se opći i specifični ciljevi te programski paketi korišteni u implementaciji. Drugo poglavlje obrađuje modele za sažimanje opisujući arhitekturu dubokih konvolucijskih mreža i predtreniranih modela \textit{VGG} i \textit{Inception v4}. Također, u poglavlje je uključen opis algoritma analize glavnih komponenti koji je korišten za efikasniju reprezentaciju značajki. Slijedi ih poglavlje s rezultatima i raspravom o ispitanim metrikama sličnosti, ponašanju predtreniranih arhitektura i metodama za inspekciju kvalitete modela na zadatku rada. Četvrto poglavlje obrađuje demonstraciju rada sustava na primjeru \textit{web} aplikacije. Opisani su tijek korištenja i informacije o implementaciji. U posljednjem, petom poglavlju, dan je osvrt na ishode rada.
+Ovaj rad proučava postojeće arhitekture i modele dubokog učenja i istražuje njihove primjene u oblikovanju sustava preporuke slika izvlačenjem njihovih značajki. U nastavku uvodnog poglavlja rada izlažu se opći i specifični ciljevi te programski paketi korišteni u implementaciji. Drugo poglavlje obrađuje modele za sažimanje opisujući arhitekturu dubokih konvolucijskih mreža i predtreniranih modela \textit{VGG} i \textit{Inception v4}. Također, u poglavlje je uključen opis algoritma analize glavnih komponenti koji je korišten za efikasniju reprezentaciju značajki. Slijedi ih poglavlje s rezultatima i raspravom o ispitanim metrikama sličnosti, ponašanju predtreniranih arhitektura i metodama za inspekciju kvalitete modela na zadatku rada. Četvrto poglavlje obrađuje demonstraciju rada sustava na primjeru \textit{web} aplikacije. Opisani su tijek korištenja i informacije o implementaciji. U posljednjem, petom poglavlju, dan je osvrt na ishode rada.
  
 
 
@@ -92,7 +92,7 @@ Ovaj rad proučava postojeće arhitekture i modele dubokog učenja i istražuje 
 
 Hipoteza ovog istraživanja bila je da se korištenjem dubokog učenja može razviti sustav koji uspješno stvara nisko dimenzionalne reprezentacije slika proizvoljnih veličina kako bi se iste mogle efikasnije grupirati i pretraživati prema njihovim semantičkim značajkama. Takve reprezentacije moguće je iskoristiti u sustavima za preporučivanje koji se temelje na sadržaju ili kao dodatak sustavima preporuke temeljenim na kolaborativnom filtriranju kako bi se poboljšale njihove performanse.
 
-Cilj ovog istraživanja bio je ostvariti takav duboki model, ispitati različite načine ekstrakcije značajki te ispitati metrike kojima se ekstrahirane značajke mogu uspoređivati. Također, za kraj, potrebno je i razviti prototip jednostavnog sustava za preporučivanje temeljen na sadržaju koji koristi značajke ekstrahirane razvijenim modelom.
+Cilj ovog istraživanja bio je ostvariti takav duboki model, ispitati različite načine izvlačenja značajki te ispitati metrike kojima se značajke mogu uspoređivati. Također, za kraj, potrebno je razviti prototip jednostavnog sustava za preporučivanje temeljen na sadržaju koji koristi značajke dobivene razvijenim modelom.
 
 \section{Programska i hardverska podrška}
 \subsection{Programska podrška}
@@ -104,12 +104,12 @@ JavaScript je programski jezik ključan za programiranje klijentskog dijela apli
 \subsubsection{Python paketi }
 
 \textit{Tensorflow} \cite{tensorflow2015-whitepaper} - radni okvir za strojno učenje. Razvijen i podržavan od Googlea, \textit{Tensorflow} je alat za izgradnju modela strojnog učenja s mnogo dodataka, poput automatske diferencijacije pri popularnim metodama optimizacije i akcelerirano učenje na grafičkim karticama. Velika fleksibilnost i dobra podrška učinili su ovaj alat popularnim izborom u akademiji i industriji. Visoka modularnost i fleksibilnost ostvarene su oblikovanjem modela grafom operacija.
-\textit{Tensorflow} je centralna komponenta projekta pomoću koje se provodi ekstrakcija značajki slike.
+\textit{Tensorflow} je centralna komponenta projekta pomoću koje se provodi izvlačenje značajki slike.
 
 \textit{OpenCV} \cite{itseez2015opencv} - radni okvir za obradu slika. \textit{OpenCV} sadrži veliki skup algoritama za obradu i manipulaciju nad slikama. Ovaj se paket u projektu koristi za predobradu slika koje se kasnije prosljeđuju \textit{Tensorflow} modelu.
 
 
-\textit{NMSLIB} \cite{NMSLIB} - paket za efektivnu pretragu na temelju sličnosti. Paket je oblikovan bez ikakvih pretpostavki o matematičkim svojstvima prostora pretraživanja što je postignuto implementiranjem funkcija za generičke prostore bez metrike. Ovaj sveobuhvatni sustav razmatrao je i dimenzionalnost prostora koji su iznimno veliki te podržava aproksimativne metode pri pretraživanju takvih prostora. U projektu se paket pokazao korisnim pri provođenju eksperimenata nad različitim metodama ekstrakcije. 
+\textit{NMSLIB} \cite{NMSLIB} - paket za efektivnu pretragu na temelju sličnosti. Paket je oblikovan bez ikakvih pretpostavki o matematičkim svojstvima prostora pretraživanja što je postignuto implementiranjem funkcija za generičke prostore bez metrike. Ovaj sveobuhvatni sustav razmatrao je i dimenzionalnost prostora koji su iznimno veliki te podržava aproksimativne metode pri pretraživanju takvih prostora. U projektu se paket pokazao korisnim pri provođenju eksperimenata nad različitim metodama dobivanja značajki. 
 
 
 \textit{t-SNE}\cite{TSNE} - modul paketa \textit{sklearn} za vizualizaciju visoko dimenzionalnih podataka. \textit{sklearn} obuhvaća skup alata za razne zadatke potrebne pri izradi inteligentnih sustava. On sadrži algoritme i metrike za česte zadatke klasifikacije, regresije, klasteriranja kao i redukcije dimenzionalnosti, odabira modela i analize podataka. Jedan od modula uključenih u ovaj set alata je i \textit{t-SNE} modul koji služi za pretvorbu vektorskih podataka visokih dimenzija u zapis pogodan za iscrtavanje na grafu. Postupak odabira željenih dimenzija vrši se minimizacijom Kullback-Leiber divergencije između zajedničke vjerojatnosti sažetka i izvornog podatka.
@@ -252,7 +252,7 @@ Potpuno povezana unaprijedna neuronska mreža je građena od slojeva koji se raz
 
 \section{Analiza glavnih komponenti}
 
-Analiza glavnih komponenti (engl. \textit{Principal component analysis - PCA}) standardni je alat u modernoj analizi podataka - u različitim područjima od neuroznanosti do računalne grafike zbog toga što je jednostavna, neparametarska metoda za ekstrahiranje relevantnih informacija iz podatkovnog skupa \cite{PCA}.
+Analiza glavnih komponenti (engl. \textit{Principal component analysis - PCA}) standardni je alat u modernoj analizi podataka - u različitim područjima od neuroznanosti do računalne grafike zbog toga što je jednostavna, neparametarska metoda za izvlačenje relevantnih informacija iz podatkovnog skupa \cite{PCA}.
 
 Bez ulaženja u matematiku koja se može pronaći u radu \cite{PCA}, \textit{PCA} se može objasniti laičkim terminima kao tehnika koja pronalazi temeljne varijable koje najbolje diferenciraju podatkovni skup (poznatije kao glavne komponente - engl. \textit{principal components}). Glavne komponente skupa su dimenzije po kojima je podatkovni skup najviše raspršen (Slika \ref{fg:pca_start}).
 
@@ -393,7 +393,7 @@ Nakon evaluiranja više konfiguracija mreža, \textit{VGG} tim je pokazao da dub
 
 \textit{Inception} moduli, od kojih je građena mreža (A-C), obrađuju ulaze na sličan način. Zajednička karakteristika im je da izlazne dimenzije podatka ostaju jednake (npr. \textit{Inception-A} na ulazu prima 35x35x384, a na izlazu daje 35x35x384), a razlikuju se po načinu obrade ulaznog podatka, točnije broja konvolucijskih slojeva u granama i njihovih parametara.
 
-Osim \textit{Inception} modula, mreža se sastoji i od \textit{Reduction} blokova koji su, uz ekstrakciju značajki, zaslužni za smanjivanje dimenzionalnosti ulaznog podatka. Kao i \textit{Inception} blokovi razlika između \textit{Reduction-A} bloka i \textit{Reduction-B} bloka je samo u parametrima grana i dizajnu grana, a oba bloka smanjuju širinu i visinu ulaznog podatka za faktor 2 korištenjem slojeva sažimanja ili konvolucija s korakom 2 (Slika \ref{fg:inception_reduction_a}).
+Osim \textit{Inception} modula, mreža se sastoji i od \textit{Reduction} blokova koji su, uz izvlačenje značajki, zaslužni za smanjivanje dimenzionalnosti ulaznog podatka. Kao i \textit{Inception} blokovi razlika između \textit{Reduction-A} bloka i \textit{Reduction-B} bloka je samo u parametrima grana i dizajnu grana, a oba bloka smanjuju širinu i visinu ulaznog podatka za faktor 2 korištenjem slojeva sažimanja ili konvolucija s korakom 2 (Slika \ref{fg:inception_reduction_a}).
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -450,7 +450,7 @@ Nakon ispitivanja rezultata metrika, odabrana je kosinusna udaljenost koja je da
 
 \section{Predtrenirana arhitektura VGG}
 
-\textit{VGG} arhitektura je prva isprobana mreža za ekstrakciju značajki, točnije njezin posljednji sloj konvolucijskog dijela mreže. Težinski koeficijenti mreže preuzeti su iz pobjedničke arhitekture ImageNet natjecanja čiji su filteri već naučeni prepoznavati komplicirane uzorke na ulaznim slikama.
+\textit{VGG} arhitektura je prva isprobana mreža za izvlačenje značajki, točnije njezin posljednji sloj konvolucijskog dijela mreže. Težinski koeficijenti mreže preuzeti su iz pobjedničke arhitekture ImageNet natjecanja čiji su filteri već naučeni prepoznavati komplicirane uzorke na ulaznim slikama.
 
 Ulazna slika u mrežu je dimenzija 224x224x3, a finalni rezultat sloja korištenog sloja je vektor od 25.000 elemenata. Budući da je krajnji cilj ostvariti reprezentaciju slike vektorom manjih dimenzija, što bi omogućilo brže pretraživanje, rezultat konvolucijske mreže se \textit{PCA} modelom dalje reducira na 3000 dimenzija. Za treniranje \textit{PCA} modela nasumično je izabrano 50.000 slika kako bi se dobila što bolja procjena glavnih komponenti.
 
@@ -474,13 +474,13 @@ Rezultati dobiveni na ovaj način za pojedine slike daju očekivane rezultate (S
 \end{center}
 \end{figure}
 
-Dobre rezultate sažimanja, kao i lažne pozitive dobivene korištenjem jednostavnog \textit{VGG} modela, u daljnjim testiranjima koristili su se kao referenca uspješnosti ekstrakcije značajki iz ulazne slike kod kompliciranijih modela.
+Dobre rezultate sažimanja, kao i lažne pozitive dobivene korištenjem jednostavnog \textit{VGG} modela, u daljnjim testiranjima koristili su se kao referenca kvalitete dobivenih značajki iz ulazne slike kod kompliciranijih modela.
 
 \section{Predtrenirana arhitektura Inception v4}
 
 Sljedeća arhitektura sa značajno većim kapacitetom je \textit{Inception v4}. Kao i u slučaju arhitekture \textit{VGG} i za \textit{Inception v4} težinski koeficijenti preuzeti su iz arhitekture naučene na skupu ImageNet.
 
-Zbog dobrih početnih rezultata dobivenih testiranjem arhitekture \textit{VGG} za zadatak dohvaćanja sličnih slika, prvi način ekstrakcije značajki, kao i u arhitekturi \textit{VGG}, odrađen je pomoću posljednjeg sloja konvolucijskog dijela mreže. U ovom slučaju to je vektor od 1536 elemenata dobiven globalnim sažimanjem prosječnom vrijednošću. Dobiveni vektori su se kasnije, korištenjem \textit{PCA} modela, reducirali na 300 elemenata što je dalo loše rezultate unatoč velikom kapacitetu mreže (Slika \ref{fg:inception_zadnji_sloj_auti_greska}).
+Zbog dobrih početnih rezultata dobivenih testiranjem arhitekture \textit{VGG} za zadatak dohvaćanja sličnih slika, prvi način izvlačenja značajki, kao i u arhitekturi \textit{VGG}, odrađen je pomoću posljednjeg sloja konvolucijskog dijela mreže. U ovom slučaju to je vektor od 1536 elemenata dobiven globalnim sažimanjem prosječnom vrijednošću. Dobiveni vektori su se kasnije, korištenjem \textit{PCA} modela, reducirali na 300 elemenata što je dalo loše rezultate unatoč velikom kapacitetu mreže (Slika \ref{fg:inception_zadnji_sloj_auti_greska}).
 
 \begin{figure}[H]
 	\begin{center}
@@ -491,9 +491,9 @@ Zbog dobrih početnih rezultata dobivenih testiranjem arhitekture \textit{VGG} z
 	\end{center}
 \end{figure}
 
-Razlog zašto redukcija predzadnjeg sloja dovodi do ovoliko loših rezultata djelomično se može objasniti time što mreža taj sloj koristi za završnu klasifikaciju i time nema neku semantičku interpretaciju. Budući da je krajnji cilj dobiti vektor koji se sastoji od 300 elemenata gdje intenzitet svakog elementa u vektoru označava pojavljivanje određenog uzorka na ulaznoj slici, intuitivno je značajke ekstrahirati kao maksimalni odziv svakog konvolucijskog sloja.  
+Razlog zašto redukcija predzadnjeg sloja dovodi do ovoliko loših rezultata djelomično se može objasniti time što mreža taj sloj koristi za završnu klasifikaciju i time nema neku semantičku interpretaciju. Budući da je krajnji cilj dobiti vektor koji se sastoji od 300 elemenata gdje intenzitet svakog elementa u vektoru označava pojavljivanje određenog uzorka na ulaznoj slici, intuitivno je značajke slike reprezentirati kao maksimalni odziv svakog konvolucijskog sloja.  
 
-Ekstrakcija značajki vrši se na način da se nad svakim konvolucijskim slojem u \textit{Inception} mreži napravi operacija globalnog sažimanja. Na primjer, ako je izlaz konvolucijskog sloja 12 x 12 x 512 (visina, širina, broj kanala), globalnim sažimanjem svakog od kanala dobit će se vektor 1x1x512. Dobiveni vektori svakog konvolucijskog sloja nakon globalnog sažimanja se izravnaju i konkateniraju u jedan veliki vektor s  \textasciitilde16000 elemenata.  Tako dobiveni elementi se zatim reduciraju na vektore od 300 elemenata korištenjem \textit{PCA} modela. Kako bi rezultati bili što precizniji, korišteni \textit{PCA} model je prethodno istreniran korištenjem 100.000 ekstrahiranih vektora nasumično odabranih slika radi preciznijeg određivanja glavnih komponenti podatkovnog skupa.
+Izvlačenje značajki vrši se na način da se nad svakim konvolucijskim slojem u \textit{Inception} mreži napravi operacija globalnog sažimanja. Na primjer, ako je izlaz konvolucijskog sloja 12 x 12 x 512 (visina, širina, broj kanala), globalnim sažimanjem svakog od kanala dobit će se vektor 1x1x512. Dobiveni vektori svakog konvolucijskog sloja nakon globalnog sažimanja se izravnaju i konkateniraju u jedan veliki vektor s  \textasciitilde16000 elemenata.  Tako dobiveni elementi se zatim reduciraju na vektore od 300 elemenata korištenjem \textit{PCA} modela. Kako bi rezultati bili što precizniji, korišteni \textit{PCA} model je prethodno istreniran korištenjem 100.000 vektora značajki nasumično odabranih slika radi preciznijeg određivanja glavnih komponenti podatkovnog skupa.
 
 Primjer tako dobivenih rezultata može se vidjeti na sljedećim slikama \ref{fg:inception_globalno_sazimanje_auti}, \ref{fg:inception_globalno_sazimanje_ptice}, \ref{fg:inception_globalno_sazimanje_ptice}, a korišteni kod za generiranje kao i dodatne rezultate moguće je vidjeti na \cite{AVSP}.
 
@@ -525,7 +525,7 @@ Primjer tako dobivenih rezultata može se vidjeti na sljedećim slikama \ref{fg:
 	\end{center}
 \end{figure}
 
-Kao što se vidi iz prikazanih slika, moguće je reprezentirati sliku sa svega 300 elemenata što predstavlja višestruku uštedu prostora (\ref{tbl:usteda_prostora}) pri čemu vektor i dalje dobro ekstrahira suštinu slike te slične grupira u bliske nakupine. To svojstvo je posebno vidljivo u sljedećem poglavlju.
+Kao što se vidi iz prikazanih slika, moguće je reprezentirati sliku sa svega 300 elemenata što predstavlja višestruku uštedu prostora (\ref{tbl:usteda_prostora}) pri čemu vektor i dalje dobro opisuje suštinu slike te slične grupira u bliske nakupine. To svojstvo je posebno vidljivo u sljedećem poglavlju.
 
 
 \begin{table}[htb]
@@ -551,7 +551,7 @@ Budući da je korišteni podskup slika Googleovog \textit{OpenImage} \cite{openi
 
 Odabrani skup podataka je \textit{STL-10} \cite{STL10} čije slike imaju dimenziju 96x96x3, a nastao je po uzoru na podatkovni skup CIFAR-10 koji se obično koristi za vrednovanje modela.
 
-Ekstrahirane značajke, dobivene korištenjem najboljeg modela \textit{Inception v4} s globalnim sažimanjem kanala, prikazane su pomoću metode \textit{t-SNE} u 2D prostoru. Na slici \ref{fg:stl_10_tsne} se vidi da su podaci grupirani u nakupine uz poneka miješanja grupa poput slika jelena i konja. Razlog tome može biti vrlo slična pozadina slike i kut snimanja gdje se značajke jelena (rogovi) ne vide jasno na slici zbog čega ih mreža lako može zamijeniti zbog približno jednake boje i građe.
+ Značajke, dobivene korištenjem najboljeg modela \textit{Inception v4} s globalnim sažimanjem kanala, prikazane su pomoću metode \textit{t-SNE} u 2D prostoru. Na slici \ref{fg:stl_10_tsne} se vidi da su podaci grupirani u nakupine uz poneka miješanja grupa poput slika jelena i konja. Razlog tome može biti vrlo slična pozadina slike i kut snimanja gdje se značajke jelena (rogovi) ne vide jasno na slici zbog čega ih mreža lako može zamijeniti zbog približno jednake boje i građe.
 
 Moguće je dodatno poboljšati performanse predtrenirane mreže za određivanje sličnosti tako da se glavne komponente \textit{PCA} modela biraju samo na značajkama dobivenim iz klasa koje se žele preciznije razlikovati, u ovome slučaju klasa iz \textit{STL-10} podatkovnog skupa.
 
@@ -728,7 +728,7 @@ Rezultati su pokazali da je korištenjem dubokih modela moguće značajno reduci
 
 Budući da je u okviru ovog istraživanja korišten veliki i raznoliki skup podataka, kao i duboki modeli koji su trenirani na skupu podataka s drugačijom distribucijom od onoga na kojem su testirani, to ostavlja prostor za dodatne eksperimente za koje dobiveni rezultati određuju donju granicu performansi. Razumno je pretpostaviti da bi se dodatna poboljšanja postigla kada bi se duboki model korišten za redukciju istrenirao na skupu podataka s istom distribucijom kao podaci koji će se koristiti u sustavu preporuke. Tako istrenirani model omogućio bi izbor manje dimenzije reprezentativnog vektora čime bi se ostvarile još bolje performanse sustava u vidu preciznosti i memorijskih/vremenskih zahtjeva pretrage.
 
-Daljnja istraživanja, kao i napreci u području dubokog učenja, ostavljaju mnogo prostora za detaljnije istraživanje dodatnih mogućnosti ekstrahiranja značajki.
+Daljnja istraživanja, kao i napreci u području dubokog učenja, ostavljaju mnogo prostora za detaljnije istraživanje dodatnih mogućnosti izvlačenja značajki.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{sazetak}
